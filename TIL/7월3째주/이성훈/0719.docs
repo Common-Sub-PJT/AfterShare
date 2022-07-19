@@ -1,1 +1,14 @@
+API
 
+팔로잉
+CRUD	설명		요청URL			    요청방식		헤더		바디 		응답코드		응답데이터
+create	팔로잉하기	/mypage/following	POST		            내ID, 대상ID	201(created)		
+
+팔로워
+CRUD	설명		요청URL			      요청방식	바디 	 응답코드  응답데이터
+read	팔로워 수	/mypage/followed_cnt	GET	   내ID     200,204	 팔로워 목록(count), 데이터 없음
+read	팔로워 목록	/mypage/followed_list	GET		내ID	200,204	  팔로워 목록, 데이터 없음
+
+신고
+CRUD	설명		요청URL			요청방식		헤더		바디 		응답코드		응답데이터
+create	신고하기	/mypage/report		POST				  대상ID		201		
