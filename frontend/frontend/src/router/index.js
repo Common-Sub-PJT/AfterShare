@@ -11,17 +11,17 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/account/LoginItem.vue')
+      component: () => import('@/views/account/LoginView.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component:  () => import('@/views/account/SignupItem.vue')
+      component:  () => import('@/views/account/SignupView.vue')
     },
     {
       path: '/logout',
       name: 'logout',
-      component:  () => import('@/views/account/logoutItem.vue')
+      component:  () => import('@/views/account/logoutView.vue')
     },
     {
       path: '/conferencelist',
@@ -45,7 +45,7 @@ const router = createRouter({
     },
 
     // community 말고 articles로 코드 짜는 것 community는 communitypk일 때만 사용
-
+// CRUD
     // {
     //   path: '/community',
     //   name: 'community',
@@ -66,6 +66,7 @@ const router = createRouter({
     //   name: 'communitydetail',
     //   component: () => import('@/views/communitydetail/CommunityDetailView.vue')
     // },
+
     {
       path: '/mypage/:username',
       name: 'mypage',
@@ -85,7 +86,6 @@ const router = createRouter({
     //   component: () => import('@/views/performdetail/PerformDetailView.vue')
     // },
 
-    
     {
       path: '/manage',
       name: 'manage',
