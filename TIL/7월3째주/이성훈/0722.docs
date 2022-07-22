@@ -1,1 +1,6 @@
+자바 기본 타입은 int data1을 DDL로 생성할 경우에는 not null 제약조건을 붙여주는 것이 안전합니다.
+JPA는 이를 고려하여 DDL 생성 기능 사용 시, 자바의 기본 타입에는 not null 제약조건을 추가해줍니다
+그러나 @Column을 사용해버리면, 기본값이 nullable = true이므로 not null 제약조건을 설정하지 않습니다
+따라서 자바 기본 타입에 @Column을 사용한다면, nullable = false로 지정하는 것이 안전합니다.
 
+요약 : @Column 어노테이션 사용하면 nullable=true 가 기본값, 사용 안하면 false가 기본값
