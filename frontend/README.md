@@ -1,3 +1,14 @@
+## Convention
+
+1. Template
+   - 소문자 + 대시 ( lower-case )
+2. 변수명
+   - camelCase
+3. path
+   - lowercase
+4. 나머지 전부
+   - PascalCase
+
 # frontend
 
 This template should help get you started developing with Vue 3 in Vite.

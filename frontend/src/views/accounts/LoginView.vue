@@ -3,16 +3,16 @@
     <h1 class="fw-bold m-3">Login</h1>
     <p>This is Login page</p>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-modal">
       Login Button
     </button>
     <SignupView></SignupView>
     <!-- Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <h5 class="modal-title" id="login-modal-label">Login</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -35,7 +35,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Login</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SignupModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">
                   Signup
                 </button>
               </div>
@@ -64,11 +64,11 @@ export default {
   methods: {
     login(event) {
       event.preventDefault()
-      const LoginData = {
+      const loginData = {
         username: this.username,
         password: this.password,
       }
-      // axios.post('http://127.0.0.1:8000/accounts/login/', LoginData)
+      // axios.post('http://127.0.0.1:8000/accounts/login/', loginData)
       //   .then(response => {
       //     commit('SET_TOKEN', response.data.key)
       //     localStorage.setItem('token', response.data.key)

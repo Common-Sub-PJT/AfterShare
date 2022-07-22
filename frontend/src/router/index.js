@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/logout',
       name: 'Logout',
-      component:  () => import('@/views/accounts/logoutView.vue')
+      component:  () => import('@/views/accounts/LogoutView.vue')
     },
     {
       path: '/conferencelist',
@@ -29,17 +29,17 @@ const router = createRouter({
       component: () => import('@/views/conferencelist/ConferenceListView.vue')
     },
     {
-      path: '/conference/:conferenceId',
+      path: '/conference/:conferenceid',
       name: 'ConferenceDetail',
       component: () => import('@/views/conference/ConferenceDetailView.vue')
     },
     {
       path: '/conferencecreate',
-      name: 'conferenceCreate',
+      name: 'ConferenceCreate',
       component: () => import('@/views/conferencecreate/ConferenceCreateView.vue')
     },
     {
-      path: '/history/:userId',
+      path: '/history/:userid',
       name: 'History',
       component: () => import('@/views/history/HistoryView.vue')
     },
@@ -55,17 +55,17 @@ const router = createRouter({
       component: () => import('@/views/articles/ArticlesCreateView.vue')
     },
     {
-      path: '/articles/:communityId', // 커뮤니티 별 게시물들 불러오는 것.
+      path: '/articles/:communityid', // 커뮤니티 별 게시물들 불러오는 것.
       name: 'CommunityArticles',
       component: () => import('@/views/articles/CommunityArticlesView.vue')
     },
     {
-      path: '/articles/:articlePk/detail',
+      path: '/articles/:articleid/detail',
       name: 'ArticleDetail',
       component: () => import('@/views/articles/ArticlesDetailView.vue')
     },
     {
-      path: '/articles/:articlePk/edit', //delete랑 edit 같이
+      path: '/articles/:articleid/edit', //delete랑 edit 같이
       name: 'ArticleEdit',
       component: () => import('@/views/articles/ArticlesEditView.vue')
     },
@@ -80,12 +80,12 @@ const router = createRouter({
       component: () => import('@/views/perform/PerformView.vue')
     },
     {
-      path: '/perform/:performId',
+      path: '/perform/:performid',
       name: 'PerformDetail',
       component: () => import('@/views/perform/PerformDetailView.vue')
     },
     {
-      path: '/perform/:performId/search',
+      path: '/perform/:performid/search',
       name: 'PerformSearch',
       component: () => import('@/views/perform/PerformSearchView.vue')
     },

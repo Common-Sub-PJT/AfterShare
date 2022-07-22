@@ -1,17 +1,17 @@
 <template>
   <div>
     <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SignupModal">
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">
       Signup
     </button> -->
 
     <!-- Modal -->
-    <div class="modal fade" id="SignupModal" tabindex="-1" aria-labelledby="SignupModalLabel" aria-hidden="true">
+    <div class="modal fade" id="signup-modal" tabindex="-1" aria-labelledby="signup-modal-label" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="SignupModalLabel">Signup</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="signup-modal-label">Signup</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
           </div>
           <div class="modal-body">
             <form class="row" @submit="signup">
@@ -27,7 +27,7 @@
                   <label for="usernickname">Nickname</label>
                   <div>
                     <!-- Nickname form input -->
-                    <input type="text" class="form-control" id="usernickname" v-model="usernickname">
+                    <input type="text" class="form-control" id="usernickname" v-model="userNickname">
                   </div>
                 </div>
                 <div class="mb-3">
@@ -48,7 +48,7 @@
                   <label for="passwordcheck">Password Check</label>
                   <div>
                     <!-- PW Check form input -->
-                    <input type="password" id="passwordcheck" class="form-control" v-model="passwordcheck" />
+                    <input type="password" id="passwordcheck" class="form-control" v-model="passwordCheck" />
                   </div>
                 </div>
               </div>
@@ -72,22 +72,22 @@ export default {
   data() {
     return {
       username: '',
-      usernickname: '',
+      userNickname: '',
       email: '',
       password: '',
-      passwordcheck: '',
+      passwordCheck: '',
     }
   },
   methods: {
     signup(event) {
       event.preventDefault()
-      const SignupData = {
+      const signupData = {
         username: this.username,
-        usernickname: this.usernickname,
+        usernickname: this.userNickname,
         email: this.email,
         password: this.password,
       }
-      // axios.post('http://127.0.0.1:8000/accounts/', SignupData)
+      // axios.post('http://127.0.0.1:8000/accounts/', signupData)
       //   .then(response => {
       //     console.log(response)
       //     this.$router.push({ name: 'Login' })
