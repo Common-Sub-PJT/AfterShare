@@ -1,11 +1,16 @@
 <template>
   <div class="page">
-    <header class="header" style=" margin-top: 0;">
-      <h1>뒤풀이어</h1>
+    <header class="header">
+      <div class="logo">
+        <!-- <img src="" alt="img"> -->
+        <h1>뒤풀이어</h1>
+      </div>
+      <div class="searchbar">
       	<form class="search-form">
-				<input type="search">
-				<input type="submit" value="찾기">
-			</form>
+				  <input type="search">
+				  <input type="submit" value="찾기">
+			  </form>
+      </div>
     </header>
     <section class="primary"><RouterView /></section>
 
@@ -58,19 +63,13 @@
         <li>
           <a href="#">
             <span class="icon"><i class="fas fa-chart-line"></i></span>
-            <span class="item">Reports</span>
+            <span class="item"><RouterLink to="/perform/:performId">Perform</RouterLink></span>
           </a>
         </li>
         <li>
           <a href="#">
             <span class="icon"><i class="fas fa-user-shield"></i></span>
             <span class="item">Admin</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-cog"></i></span>
-            <span class="item">Settings</span>
           </a>
         </li>
       </ul>
@@ -80,11 +79,20 @@
 		</footer>
   </div>
 </template>
-<style>
+
+<style lang="scss" scoped>
+.footer {
+  text-align: center;
+}
+.searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 .header	{
 	display: flex;
 	align-items: center;
-	/* justify-content: space-between; */
+	justify-content: space-between;
 	height: 80px;
 	padding: 0;
   margin: 0;
@@ -101,7 +109,7 @@
 	background: red;
 }
 .sidebar{
-    background: rgb(5, 68, 104);
+    background: #fafafa;
     /* position: fixed; */
     top: 0;
     left: 0;
@@ -112,7 +120,7 @@
 }
 .sidebar .profile {
     margin-bottom: 30px;
-    text-align: center;
+    // text-align: center;
 }
 .sidebar .profile img{
     display: block;
@@ -155,5 +163,12 @@
 	.page {
 		grid-template-columns: 300px 1fr 300px;
 	}
+}
+ul {
+  list-style: none;
+  text-decoration: none;
+}
+li {
+  margin: 1rem;
 }
 </style>
