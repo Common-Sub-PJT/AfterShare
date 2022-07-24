@@ -13,73 +13,82 @@
       </div>
     </header>
     <section class="primary"><RouterView /></section>
-
-    <div class="sidebar secondary secondary-a">
-      <!-- profile -->
-      <Router-link to="/">
-          <!-- <img style="width:15rem; height:auto; padding:0; margin:3;" src="@/assets" alt=""> -->
-          <p>Home</p>
-      </Router-link>
-      <div class="profile">
-          <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="프사">
-          <h3>닉네임</h3>
-          <RouterLink to="/mypage" class="text-decoration-none">
-              <p>마이페이지</p>
-          </RouterLink>
-      </div>
-      <ul>
-        <li>
-          <a href="#" class="active">
-            <span class="icon"><i class="fas fa-home"></i></span>
-            <RouterLink to="/"><span class="item">Home</span></RouterLink>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-desktop"></i></span>
-            <RouterLink to="/login">
-              <span class="item">Login</span>
+    <div class="wrapper">
+      <div class="sidebar secondary secondary-a">
+        <!-- profile -->
+        <div class="profile">
+            <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="프사">
+            <h3>닉네임</h3>
+            <RouterLink to="/mypage" class="text-decoration-none">
+                <p>마이페이지</p>
             </RouterLink>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-user-friends"></i></span>
-            <span class="item"><RouterLink to="/signup">Signup</RouterLink></span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-              <span class="icon"><i class="fas fa-database"></i></span>
-              <span class="item"><RouterLink to="/conferencelist">뒷풀이방</RouterLink></span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
-            <span class="item"><RouterLink to="/history/:userId">history</RouterLink></span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-chart-line"></i></span>
-            <span class="item"><RouterLink to="/perform/:performId">Perform</RouterLink></span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="icon"><i class="fas fa-user-shield"></i></span>
-            <span class="item">Admin</span>
-          </a>
-        </li>
-      </ul>
+        </div>
+        <ul>
+          <li>
+            <div>
+              <RouterLink to="/">
+                <span class="icon"><i class="fas fa-home"></i></span>
+                <span class="item text-decoration-none">Home</span>
+              </RouterLink>
+            </div>
+          </li>
+          <li>
+            <div>
+              <RouterLink to="/login">
+                <span class="icon"><i class="fas fa-desktop"></i></span>
+                <span class="item text-decoration-none">Login</span>
+              </RouterLink>
+            </div>
+          </li>
+          <li>
+            <div>
+              <RouterLink to="/signup">
+                <span class="icon"><i class="fas fa-user-friends"></i></span>
+                <span class="item text-decoration-none">Signup</span>  
+              </RouterLink>
+            </div>
+          </li>
+          <li>
+            <div>
+              <RouterLink to="/conferencelist">
+                <span class="icon"><i class="fas fa-user-friends"></i></span>
+                <span class="item text-decoration-none">뒷풀이방</span>
+              </RouterLink>
+            </div>
+          </li>
+          <li>
+            <div>
+              <RouterLink to="/history/:userId">
+                <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
+                <span class="item text-decoration-none">history</span>
+              </RouterLink>
+            </div>
+          </li>
+          <li>
+            <div>
+              <RouterLink to="/perform/:performId">
+                <span class="icon"><i class="fas fa-chart-line"></i></span>
+                <span class="item text-decoration-none">Perform</span>
+              </RouterLink>
+            </div>
+          </li>
+          <!-- <li>
+            <a href="#">
+              <span class="icon"><i class="fas fa-user-shield"></i></span>
+              <span class="item">Admin</span>
+            </a>
+          </li> -->
+        </ul>
+      </div>
     </div>
 		<footer class="footer">
 			Lorem ipsum dolor sit amet consectetur.
 		</footer>
   </div>
 </template>
+<script>
 
+</script>
 <style lang="scss" scoped>
 .footer {
   text-align: center;
@@ -90,37 +99,43 @@
   justify-content: flex-end;
 }
 .header	{
+  position: fixed;
+  width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	height: 80px;
 	padding: 0;
   margin: 0;
+  background-color: #fafafa;
+}
+header .header{
+  position: fixed;
 }
 .primary {
 	padding: 1rem;
   height: 1500px;
+  top: 80px;
+  margin-top: 80px;
 }
 .secondary {
 	padding: 1rem;
   height: 1500px;
 }
-.secondary-a {
-	background: red;
-}
 .sidebar{
     background: #fafafa;
-    /* position: fixed; */
-    top: 0;
+    position: fixed;
+    top: 80px;
     left: 0;
     width: 225px;
-    height: auto;
+    height: 100%;
     padding: 20px 0;
     transition: all 0.5s ease;
+    // text-align: center;
 }
 .sidebar .profile {
     margin-bottom: 30px;
-    // text-align: center;
+    text-align: center;
 }
 .sidebar .profile img{
     display: block;
@@ -130,12 +145,46 @@
     margin: 0 auto;
 }
 .sidebar .profile h3{
-    color: #ffffff;
+    color: #605b5b;
     margin: 10px 0 5px;
 }
 .sidebar .profile p{
     color: rgb(206, 240, 253);
     font-size: 14px;
+}
+.wrapper .sidebar ul li{
+  list-style:none;
+  padding-left:0px;
+}
+.wrapper .sidebar ul li div{
+  display: block;
+  padding: 0px;
+  border-bottom: 1px solid #10558d;
+  color: rgb(241, 237, 237);
+  font-size: 16px;
+  position: relative;
+}
+.wrapper .sidebar ul li a .icon{
+    color: #dee4ec;
+    width: 30px;
+    display: inline-block;
+}
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active{
+    color: #0c7db1;
+
+    background:white;
+    border-right: 2px solid rgb(5, 68, 104);
+}
+
+.wrapper .sidebar ul li a:hover .icon,
+.wrapper .sidebar ul li a.active .icon{
+    color: #0c7db1;
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before{
+    display: block;
 }
 @media (min-width: 1024px) {
 	.page {
@@ -159,16 +208,10 @@
 		grid-row: 3 / 4;
 	}
 }
-@media (min-width: 1400px) {
+@media (min-width: 800px) {
 	.page {
 		grid-template-columns: 300px 1fr 300px;
 	}
 }
-ul {
-  list-style: none;
-  text-decoration: none;
-}
-li {
-  margin: 1rem;
-}
+
 </style>
