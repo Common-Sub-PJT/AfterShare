@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserInfoFetchReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,21 @@ public class UserServiceImpl implements UserService {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
 		User user = userRepositorySupport.findUserByUserId(userId).get();
 		return user;
+	}
+
+	@Override
+	public void updateUser(String userId, UserInfoFetchReq userInfo) {
+		User updateUser = userRepositorySupport.findUserByUserId(userId).get();
+		updateUser.setName(userInfo.getUserName());
+		updateUser.setEmail(userInfo.getUserEmail());
+		updateUser.setProfile_img(userInfo.getProfileImg());
+		updateUser.setAbout_me(userInfo.getAboutMe());
+		userRepository.save(updateUser);
+	}
+
+	@Override
+	public void deleteUser(String userId) {
+		User deleteUser = userRepositorySupport.findUserByUserId(userId).get();
+		userRepository.deleteById(deleteUser.getId());
 	}
 }
