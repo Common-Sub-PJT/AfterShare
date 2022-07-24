@@ -1,123 +1,73 @@
 <template>
-    <widget type="ticket" class="--flex-column"> 
-   <div class="top --flex-column">
-      <div class="bandname -bold">Ghost Mice</div>
-      <div class="tourname">Home Tour</div>
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/concert.png" alt="" />
-      <div class="deetz --flex-row-j!sb">
-         <div class="event --flex-column">
-            <div class="date">3rd March 2017</div>
-            <div class="location -bold">Bloomington, Indiana</div>
-         </div>
-         <div class="price --flex-column">
-            <div class="label">Price</div>
-            <div class="cost -bold">$30</div>
-         </div>
-      </div>
-   </div>
-   <div class="rip"></div>
-   <div class="bottom --flex-row-j!sb">
-      <div class="barcode"></div>
-      <a class="buy" href="#">BUY TICKET</a>
-   </div>
-</widget>
+    <p>컴포넌트 연결 확인용 텍스트 item</p>
+  <div class="ticket">
+  <div class="ticket__content">
+    <div class="bg__img"><img class="bg__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ93_QLM1OJsDpjscuN1w-SekUokj4Vi9i0eA&usqp=CAU" alt=""></div>
+    <p class="ticket__text">2022/07/22</p>
+    <p>회의한날 넣어주기</p>
+    <p>가슴이웅장해지는웃는남자</p>
+    <p>어쩌구저쩌구정보</p>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
-
+  name: 'HistoryItem',
 }
 </script>
 
-<style>
-body {
-  background-image: -webkit-repeating-linear-gradient(135deg, #8067B7, #EC87C0);
-  background-image: repeating-linear-gradient(-45deg, #8067B7, #EC87C0);
-  min-height: calc(100vh - 40px);
-  margin: 20px;
-  font-family: 'Nunito', sans-serif;
-}
-body widget {
-  -webkit-filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
-          filter: drop-shadow(1px 1px 3px rgba(0, 0, 0, 0.3));
-}
-body widget[type="ticket"] {
-  width: 255px;
-}
-body widget[type="ticket"] .top > div, body widget[type="ticket"] .bottom > div {
-  padding: 0 18px;
-}
-body widget[type="ticket"] .top > div:first-child, body widget[type="ticket"] .bottom > div:first-child {
-  padding-top: 18px;
-}
-body widget[type="ticket"] .top > div:last-child, body widget[type="ticket"] .bottom > div:last-child {
-  padding-bottom: 18px;
-}
-body widget[type="ticket"] .top img, body widget[type="ticket"] .bottom img {
-  padding: 18px 0;
-}
-body widget[type="ticket"] .top, body widget[type="ticket"] .bottom, body widget[type="ticket"] .rip {
-  background-color: #fff;
-}
-body widget[type="ticket"] .top {
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-}
-body widget[type="ticket"] .bottom {
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding: 18px;
-  height: 30px;
-}
-body widget[type="ticket"] .bottom .barcode {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
-  background-repeat: repeat-y;
-  min-width: 58px;
-}
-body widget[type="ticket"] .bottom .buy {
-  display: block;
-  font-size: 12px;
-  font-weight: bold;
-  background-color: #5D9CEC;
-  padding: 0 18px;
-  line-height: 30px;
-  border-radius: 15px;
-  color: #fff;
-  text-decoration: none;
-}
-body widget[type="ticket"] .rip {
-  height: 20px;
-  margin: 0 10px;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAACCAYAAAB7Xa1eAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAAAaSURBVBhXY5g7f97/2XPn/AcCBmSMQ+I/AwB2eyNBlrqzUQAAAABJRU5ErkJggg==);
-  background-size: 4px 2px;
-  background-repeat: repeat-x;
-  background-position: center;
+<style lang="scss">
+
+.ticket {
   position: relative;
-  box-shadow: 0 1px 0 0 #fff, 0 -1px 0 0 #fff;
-}
-body widget[type="ticket"] .rip:before, body widget[type="ticket"] .rip:after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%) rotate(45deg);
-          transform: translate(-50%, -50%) rotate(45deg);
-  border: 5px solid transparent;
-  border-top-color: #fff;
-  border-right-color: #fff;
-  border-radius: 100%;
-}
-body widget[type="ticket"] .rip:before {
-  left: -10px;
-}
-body widget[type="ticket"] .rip:after {
-  -webkit-transform: translate(-50%, -50%) rotate(225deg);
-          transform: translate(-50%, -50%) rotate(225deg);
-  right: -40px;
-}
-body widget .-bold {
-  font-weight: bold;
+  box-sizing: border-box;
+  width: 300px;
+  height: 600px;
+  margin: 150px auto 0;
+  padding: 20px;
+  border-radius: 10px;
+  background: #FBFBFB;
+  box-shadow: 2px 2px 15px 0px #4e4c67;
+  
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    height: 6px;
+    width: 290px;
+  }
+  
+  &:before {
+    top: -5px;
+    background: radial-gradient(circle, transparent, transparent 50%, #FBFBFB 50%, #FBFBFB 100% ) -7px -8px / 16px 16px repeat-x,
+  }
+  
+  &:after {
+    bottom: -5px;
+    background: radial-gradient(circle, transparent, transparent 50%, #FBFBFB 50%, #FBFBFB 100% ) -7px -2px / 16px 16px repeat-x,
+  }
 }
 
+.ticket__content {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border: 6px solid #D8D8D8;
+}
+
+.bg__img {
+  width: 100%;
+}
+
+.ticket__text {
+  width: 400px;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: darkred;
+  transform: translate(-20px, -150px) rotate(-30deg) ;
+}
 </style>

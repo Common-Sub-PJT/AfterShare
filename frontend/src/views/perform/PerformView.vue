@@ -1,5 +1,5 @@
 <template>
-  dngkgkgkk
+
 </template>
 
 <script>

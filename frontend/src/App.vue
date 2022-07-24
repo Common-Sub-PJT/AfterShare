@@ -19,7 +19,7 @@
         <div class="profile">
             <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="프사">
             <h3>닉네임</h3>
-            <RouterLink to="/mypage" class="text-decoration-none">
+            <RouterLink to="/mypage/:username" class="text-decoration-none">
                 <p>마이페이지</p>
             </RouterLink>
         </div>
@@ -82,7 +82,7 @@
       </div>
     </div>
 		<footer class="footer">
-			Lorem ipsum dolor sit amet consectetur.
+			<p>B303 공통프로젝트 뒤풀이어</p>
 		</footer>
   </div>
 </template>
@@ -179,7 +179,7 @@ header .header{
 
 .wrapper .sidebar ul li a:hover .icon,
 .wrapper .sidebar ul li a.active .icon{
-    color: #0c7db1;
+    color: #4e4c67;
 }
 
 .wrapper .sidebar ul li a:hover:before,

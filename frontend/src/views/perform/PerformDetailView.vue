@@ -1,4 +1,5 @@
 <template>
+  <p>perform detail 화면입니다</p>
   <section>
         <div class="container">
             <div class="row">
