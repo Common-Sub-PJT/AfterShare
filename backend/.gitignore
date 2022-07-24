@@ -37,3 +37,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/ssafy-web.log.2022-07-22.0.gz
+/src/main/resources/dist/
