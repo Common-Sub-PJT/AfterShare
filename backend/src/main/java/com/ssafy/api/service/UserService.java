@@ -9,7 +9,7 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUserId(String userId);
-	boolean findByUserId(String userId);
-	boolean findByName(String name);
-	boolean findByEmail(String email);
+	boolean chDplByUserId(String userId);
+	boolean chDplByName(String name);
+	boolean chDplByEmail(String email);
 }

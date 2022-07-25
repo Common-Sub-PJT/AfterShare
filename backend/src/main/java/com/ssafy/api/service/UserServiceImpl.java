@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean findByUserId(String userId) {
+	public boolean chDplByUserId(String userId) {
 		// 유저 정보가 존재하면
 		//isPresent => Optional에서 반환값 없음 != null
 		if(userRepositorySupport.findUserByUserId(userId).isPresent())
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean findByName(String name) {
+	public boolean chDplByName(String name) {
 		// 유저의 닉네임이 존재하면
 		if(userRepositorySupport.findByName(name).isPresent())
 			return true;
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean findByEmail(String email) {
+	public boolean chDplByEmail(String email) {
 		// 유저의 이메일이 존재하면
 		if(userRepositorySupport.findByEmail(email).isPresent())
 			return true;

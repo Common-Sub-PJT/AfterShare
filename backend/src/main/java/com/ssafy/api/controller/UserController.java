@@ -29,7 +29,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/accounts")
 public class UserController {
 	
 	@Autowired
@@ -55,8 +55,8 @@ public class UserController {
 
 	
 	//중복검사
-	//url을 다르게 해줘야 함 : 다 같은 getmapping이기 때문에
-
+	//url을 다르게 해줘야 함 : 다 같은 getmapping이라 PathVariable 구분 불가하기 때문
+	//같은 url에서 하려면 RequestParam으로 바꿔줘야할 듯
 	//아이디 중복 검사
 	@GetMapping("chDplUserId/{userId}")
 	@ApiOperation(value = "회원가입 시 아이디 중복검사", notes = "회원 가입 시 아이디 중복검사를 실행한다")
@@ -65,8 +65,8 @@ public class UserController {
 			@ApiResponse(code = 401, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> chDplUserId(@PathVariable String userId) {
-		if (userService.findByUserId(userId)) {
+	public ResponseEntity<? extends BaseResponseBody> chDplByUserId(@PathVariable String userId) {
+		if (userService.chDplByUserId(userId)) {
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "False"));
 		} else {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "True"));
@@ -81,8 +81,8 @@ public class UserController {
 			@ApiResponse(code = 401, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> chDplName(@PathVariable String name) {
-		if (userService.findByName(name)) {
+	public ResponseEntity<? extends BaseResponseBody> chDplByName(@PathVariable String name) {
+		if (userService.chDplByName(name)) {
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "False"));
 		} else {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "True"));
@@ -98,8 +98,8 @@ public class UserController {
 			@ApiResponse(code = 401, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> chDplEmail(@PathVariable String email) {
-		if (userService.findByEmail(email)) {
+	public ResponseEntity<? extends BaseResponseBody> chDplByEmail(@PathVariable String email) {
+		if (userService.chDplByEmail(email)) {
 			return ResponseEntity.status(409).body(BaseResponseBody.of(409, "False"));
 		} else {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "True"));
