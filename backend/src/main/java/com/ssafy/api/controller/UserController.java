@@ -61,6 +61,7 @@ public class UserController {
 	@GetMapping("chDplUserId/{userId}")
 	@ApiOperation(value = "회원가입 시 아이디 중복검사", notes = "회원 가입 시 아이디 중복검사를 실행한다")
 	@ApiResponses({
+			//
 			@ApiResponse(code = 200, message = "존재하는 유저 아님 - 사용 가능"),
 			@ApiResponse(code = 401, message = "이미 존재하는 유저"),
 			@ApiResponse(code = 500, message = "서버 오류")
