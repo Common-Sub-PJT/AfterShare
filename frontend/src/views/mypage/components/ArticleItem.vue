@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="text-center">내 댓글</h3>
+    <h3 class="text-center">내가 쓴 리뷰</h3>
     <div>
       <ul>
         <li>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'CommentItem',
+  name: 'ArticleItem',
 }
 </script>
 
