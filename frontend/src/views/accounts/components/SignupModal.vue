@@ -1,11 +1,3 @@
-
-
-
-
-<!-- 필요없는 vue -->
-
-
-
 <template>
   <div>
     <!-- Button trigger modal -->
@@ -61,7 +53,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary">SignUp</button>
+                <button type="submit" class="btn btn-primary">SignUp</button>
               </div>
             </form>
           </div>
@@ -72,6 +64,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
   name: 'SignupView',
@@ -95,6 +88,7 @@ export default {
         email: this.email,
         password: this.password,
       }
+      console.log(signupData)
       // axios.post('http://127.0.0.1:8000/accounts/', signupData)
       //   .then(response => {
       //     console.log(response)

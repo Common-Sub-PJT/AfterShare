@@ -1,9 +1,3 @@
-
-
-<!-- 필요없는 vue -->
-
-
-
 <template>
   <div>
     <button type="button" class="btn btn-secondary" @click="logout">
@@ -15,7 +9,7 @@
 <script>
 
 export default {
-  name: 'LogoutView',
+  name: 'LogoutButton',
   components: {
   },
   methods: {
