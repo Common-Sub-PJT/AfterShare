@@ -1,30 +1,27 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserInfoFetchReq;
-import org.kurento.commons.testing.SystemCompatibilityTests;
+import com.ssafy.api.response.FollowerRes;
+import com.ssafy.api.response.FollowingRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
-import com.ssafy.db.repository.UserRepositorySupport;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -79,7 +76,7 @@ public class UserController {
 		System.out.println("getUserInfo");
 		User user = userDetails.getUser();
 
-		System.out.println(user);
+		System.out.println("user: "+user);
 
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
@@ -118,6 +115,15 @@ public class UserController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
 	}
-	//--------------------------------------------
 
+	//유저 팔로워 목록
+	@GetMapping("follower/{userId}")
+	@ApiOperation(value = "팔로워 리스트 가져오기", notes = "팔로워 리스트를 가져온다.")
+	public ResponseEntity<List<FollowerRes>> getUserFollowList(@PathVariable("userId") String userId) {
+		System.out.println("getUserFollowerList");
+		List<FollowerRes> res = userService.getFollowerListByUserId(userId);
+		return ResponseEntity.status(200).body(res);
+	}
+
+	//---------------------------------------------------------------------
 }

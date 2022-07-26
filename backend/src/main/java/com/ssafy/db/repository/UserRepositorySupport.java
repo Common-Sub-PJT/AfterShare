@@ -1,9 +1,11 @@
 package com.ssafy.db.repository;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.db.entity.QUser;
-import com.ssafy.db.entity.User;
+import com.ssafy.api.response.FollowerRes;
+import com.ssafy.db.entity.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,20 @@ public class UserRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QUser qUser = QUser.user;
 
+    QFollower qFollower = QFollower.follower;
+
     public Optional<User> findUserByUserId(String userId) {
         User user = jpaQueryFactory.select(qUser).from(qUser)
                 .where(qUser.userId.eq(userId)).fetchOne();
-        if(user == null) return Optional.empty();
+        if (user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
+
+    public List<Follower> findAllByUserId(String userId) {
+        List<Follower> followers = jpaQueryFactory.select(qFollower).from(qFollower)
+                .where(qUser.userId.eq(userId)).fetch();
+        if (followers == null) return null;
+        return followers;
+    }
 }
+
