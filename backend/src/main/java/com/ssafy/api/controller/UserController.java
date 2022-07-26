@@ -117,11 +117,22 @@ public class UserController {
 	}
 
 	//유저 팔로워 목록
-	@GetMapping("follower/{userId}")
+	@GetMapping("/follower/{userId}")
 	@ApiOperation(value = "팔로워 리스트 가져오기", notes = "팔로워 리스트를 가져온다.")
 	public ResponseEntity<List<FollowerRes>> getUserFollowList(@PathVariable("userId") String userId) {
 		System.out.println("getUserFollowerList");
 		List<FollowerRes> res = userService.getFollowerListByUserId(userId);
+		System.out.println("서비스 들어갓다나옴");
+		return ResponseEntity.status(200).body(res);
+	}
+
+	//유저 팔로잉 목록
+	@GetMapping("/following/{userId}")
+	@ApiOperation(value = "팔로잉 리스트 가져오기", notes = "팔로잉 리스트를 가져온다.")
+	public ResponseEntity<List<FollowingRes>> getUserFollowingList(@PathVariable("userId") String userId) {
+		System.out.println("getUserFollowingList");
+		List<FollowingRes> res = userService.getFollowingListByUserId(userId);
+		System.out.println("서비스 들어갓다나옴");
 		return ResponseEntity.status(200).body(res);
 	}
 

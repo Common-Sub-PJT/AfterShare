@@ -12,11 +12,11 @@ import lombok.Setter;
 @ApiModel("FollowingResponse")
 public class FollowingRes {
     @ApiModelProperty(name ="Following ID")
-    String follower_id;
+    String following_id;
 
     public static FollowingRes of(Following following){
         FollowingRes res = new FollowingRes();
-        res.setFollower_id(following.getFollowing_id());
+        res.setFollowing_id(following.getFollowing_id());
         return res;
     }
 }

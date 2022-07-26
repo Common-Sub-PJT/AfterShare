@@ -2,7 +2,9 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.response.FollowerRes;
+import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.Follower;
+import com.ssafy.db.entity.Following;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,12 +49,24 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<FollowerRes> getFollowerListByUserId(String userId) {
-		List<Follower> followerList = userRepositorySupport.findAllByUserId(userId);
+		List<Follower> followerList = userRepositorySupport.findFollowerListByUserId(userId);
 		System.out.println("userID : "+ userId);
 		List<FollowerRes> res = new ArrayList<>();
 
 		for (Follower follower : followerList) {
 			res.add(FollowerRes.of(follower));
+		}
+		return res;
+	}
+
+	@Override
+	public List<FollowingRes> getFollowingListByUserId(String userId) {
+		List<Following> followingList = userRepositorySupport.findFollowingListByUserId(userId);
+		System.out.println("userID : "+ userId);
+		List<FollowingRes> res = new ArrayList<>();
+
+		for (Following following : followingList) {
+			res.add(FollowingRes.of(following));
 		}
 		return res;
 	}

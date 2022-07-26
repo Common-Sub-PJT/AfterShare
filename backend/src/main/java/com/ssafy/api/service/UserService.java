@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.FollowerRes;
+import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
 
 	//송희 0725
 	List<FollowerRes> getFollowerListByUserId(String userId);
-	//Following getFollowingByUserId(String userId);
+	List<FollowingRes> getFollowingListByUserId(String userId);
 
 	//송희
 	void updateUser(String userId, UserInfoFetchReq userInfo);

@@ -63,7 +63,4 @@ public class User extends BaseEntity {
     이해가 안되면 https://ttl-blog.tistory.com/129 여기서 확인
      */
 
-    @OneToMany(mappedBy = "user")
-    private List<Follower> followers = new ArrayList<>();
-
 }
