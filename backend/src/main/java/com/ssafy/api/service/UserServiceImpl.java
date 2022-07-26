@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	//----------------------------------조다연 회원관련 시작
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
@@ -70,6 +71,6 @@ public class UserServiceImpl implements UserService {
 			return true;
 		else return false;
 	}
-
+	//----------------------------------조다연 회원관련 끝
 
 }
