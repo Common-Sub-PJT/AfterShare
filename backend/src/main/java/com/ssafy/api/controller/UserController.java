@@ -29,7 +29,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/users")
 public class UserController {
 	
 	@Autowired
@@ -58,7 +58,7 @@ public class UserController {
 	//url을 다르게 해줘야 함 : 다 같은 getmapping이라 PathVariable 구분 불가하기 때문
 	//같은 url에서 하려면 RequestParam으로 바꿔줘야할 듯
 	//아이디 중복 검사
-	@GetMapping("chDplUserId/{userId}")
+	@GetMapping("/check-userid/{userId}")
 	@ApiOperation(value = "회원가입 시 아이디 중복검사", notes = "회원 가입 시 아이디 중복검사를 실행한다")
 	@ApiResponses({
 			//
@@ -75,7 +75,7 @@ public class UserController {
 	}
 
 	//닉네임 중복 검사
-	@GetMapping("chDplName/{name}")
+	@GetMapping("/check-name/{name}")
 	@ApiOperation(value = "회원가입 시 닉네임 중복검사", notes = "회원 가입 시 닉네임 중복검사를 실행한다")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "존재하는 유저 아님 - 사용 가능"),
@@ -92,7 +92,7 @@ public class UserController {
 
 	//이메일 중복 검사
 	//check Duplicate email
-	@GetMapping("/chDplEmail/{email}")
+	@GetMapping("/check-email/{email}")
 	@ApiOperation(value = "회원가입 시 이메일 중복검사", notes = "회원 가입 시 이메일 중복검사를 실행한다")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "존재하는 유저 아님 - 사용 가능"),
