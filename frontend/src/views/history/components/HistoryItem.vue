@@ -1,9 +1,9 @@
 <template>
     <p>컴포넌트 연결 확인용 텍스트 item</p>
   <div class="ticket">
-  <div class="ticket__content">
-    <div class="bg__img"><img class="bg__img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ93_QLM1OJsDpjscuN1w-SekUokj4Vi9i0eA&usqp=CAU" alt=""></div>
-    <p class="ticket__text">2022/07/22</p>
+  <div class="ticket__content" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ93_QLM1OJsDpjscuN1w-SekUokj4Vi9i0eA&usqp=CAU')">
+    <div class="bg__img"><img class="bg__img" src="" alt=""></div>
+    <!-- <p class="ticket__text">2022/07/22</p> -->
     <p>회의한날 넣어주기</p>
     <p>가슴이웅장해지는웃는남자</p>
     <p>어쩌구저쩌구정보</p>
@@ -51,6 +51,7 @@ export default {
 }
 
 .ticket__content {
+  // background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ93_QLM1OJsDpjscuN1w-SekUokj4Vi9i0eA&usqp=CAU);
   box-sizing: border-box;
   height: 100%;
   width: 100%;
