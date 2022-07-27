@@ -1,9 +1,11 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.*;
+
+import java.util.List;
 import com.ssafy.db.entity.QUser;
 import com.ssafy.db.entity.User;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,34 @@ public class UserRepositorySupport {
     private JPAQueryFactory jpaQueryFactory;
     QUser qUser = QUser.user;
 
+    QFollower qFollower = QFollower.follower;
+    QFollowing qFollowing = QFollowing.following;
+
     public Optional<User> findUserByUserId(String userId) {
         User user = jpaQueryFactory.select(qUser).from(qUser)
                 .where(qUser.userId.eq(userId)).fetchOne();
-        if(user == null) return Optional.empty();
+        if (user == null) return Optional.empty();
         return Optional.ofNullable(user);
+    }
+
+    public List<Follower> findFollowerListByUserId(String userId) {
+        System.out.println("findFollowerListByUserId");
+        List<Follower> followers = jpaQueryFactory.select(qFollower).from(qFollower)
+                .where(qFollower.userId.eq(userId)).fetch();
+        if (followers == null) {
+            System.out.println("findFollowerListByUserId::::null");
+            return null;
+        }
+        System.out.println("followers : "+ followers);
+        return followers;
+    }
+
+    public List<Following> findFollowingListByUserId(String userId) {
+        System.out.println("findFollowingListByUserId");
+        List<Following> followings = jpaQueryFactory.select(qFollowing).from(qFollowing)
+                .where(qFollowing.userId.eq(userId)).fetch();
+        if (followings == null) return null;
+        return followings;
     }
 
     public Optional<User> findByName(String name) {

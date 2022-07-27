@@ -17,10 +17,22 @@ import lombok.Setter;
 public class UserRes{
 	@ApiModelProperty(name="User ID")
 	String userId;
-	
+	// 송희 0725
+	@ApiModelProperty(name="name")
+	String name;
+	@ApiModelProperty(name="email")
+	String email;
+	@ApiModelProperty(name="profile_img")
+	String profile_img;
+
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
 		res.setUserId(user.getUserId());
+		res.setName(user.getName());
+		res.setEmail(user.getEmail());
+		res.setProfile_img(user.getProfile_img());
 		return res;
 	}
+	//--------
 }
+
