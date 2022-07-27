@@ -48,34 +48,34 @@
 </template>
 
 <script>
-import SignupView from '@/views/accounts/SignupView.vue'
+// import SignupView from '@/views/accounts/SignupView.vue'
 
-export default {
-  name: 'LoginView',
-  components: {
-    SignupView,
-  },
-  data() {
-    return {
-      username: '',
-      password: '',
-    }
-  },
-  methods: {
-    login(event) {
-      event.preventDefault()
-      const loginData = {
-        username: this.username,
-        password: this.password,
-      }
-      // axios.post('http://127.0.0.1:8000/accounts/login/', loginData)
-      //   .then(response => {
-      //     commit('SET_TOKEN', response.data.key)
-      //     localStorage.setItem('token', response.data.key)
-      //   })
-    }
-  }
-}
+// export default {
+//   name: 'LoginView',
+//   components: {
+//     SignupView,
+//   },
+//   data() {
+//     return {
+//       username: '',
+//       password: '',
+//     }
+//   },
+//   methods: {
+//     login(event) {
+//       event.preventDefault()
+//       const loginData = {
+//         username: this.username,
+//         password: this.password,
+//       }
+//       // axios.post('http://127.0.0.1:8000/accounts/login/', loginData)
+//       //   .then(response => {
+//       //     commit('SET_TOKEN', response.data.key)
+//       //     localStorage.setItem('token', response.data.key)
+//       //   })
+//     }
+//   }
+// }
 </script>
 
 <style>
