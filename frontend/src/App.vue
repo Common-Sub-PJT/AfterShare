@@ -89,7 +89,7 @@
 </template>
 <script>
 </script>
-<style scoped>
+<style lang="scss" scoped>
 body {
   background-color: #fbfbfb;
 }
