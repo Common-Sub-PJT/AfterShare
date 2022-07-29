@@ -1,0 +1,14 @@
+/caches/
+/daemon/
+/frontend/
+/frontend/node_modules/
+/jdks/
+/native/
+/wrapper/
+/backend/src/main/resources/dist/
+/backend/ssafy-web.log.2022-07-24.0.gz
+/backend/ssafy-web.log.2022-07-22.0.gz
+/.idea/
+/backend/ssafy-web.log.2022-07-25.0.gz
+/backend/ssafy-web.log.2022-07-27.0.gz
+/backend/ssafy-web.log.2022-07-28.0.gz
