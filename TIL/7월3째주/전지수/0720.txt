@@ -1,0 +1,11 @@
+0721
+
+swagger 작성
+-커뮤니티방 url 작성
+
+피그마, ERD 수정
+-ui 수정
+-기능 세부사항 변경
+
+vue3 pinia
+-store 경로 변경
