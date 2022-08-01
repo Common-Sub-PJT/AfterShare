@@ -9,7 +9,7 @@ import lombok.Setter;
 @ApiModel("PerformInfoResponse")
 public class PerformInfoRes {
     //--------공연 상세정보 항목
-    //공연시설ID -> 상세정보 아래에 지도를 위해서 필요함
+    //공연시설ID -> 상세정보 아래에 위치, 지도를 위해서 필요함
     String mt10id;
     //공연명
     String prfnm;
@@ -41,7 +41,7 @@ public class PerformInfoRes {
     String prfstate;
     //오픈런
     String openrun;
-    //소개이미지목록 -> styurl태그 애덜 ,로 구분해서 합쳐서 넣어주기
+    //소개이미지목록 -> styurls의 자식태그를 , 넣어 합쳐서 넣어주기
     String styurls;
     //공연시간
     String dtguidance;
@@ -66,11 +66,9 @@ public class PerformInfoRes {
                                     String pcseguidance, String poster,
                                     String sty, String genrenm,
                                     String prfstate, String openrun,
-//                                    String styurls,
-                                    String dtguidance,
-                                    String telno, String relateurl,
-                                    String adres, String la, String lo) {
+                                    String dtguidance) {
         PerformInfoRes res = new PerformInfoRes();
+
         //--------공연 상세정보 항목
         res.setMt10id(mt10id);
         res.setPrfnm(prfnm);
@@ -88,14 +86,26 @@ public class PerformInfoRes {
         res.setGenrenm(genrenm);
         res.setPrfstate(prfstate);
         res.setOpenrun(openrun);
-//        res.setStyurls(styurls);
         res.setDtguidance(dtguidance);
+
+        return res;
+    }
+
+    public static PerformInfoRes of(PerformInfoRes res, String styurls) {
+        res.setStyurls(styurls);
+
+        return res;
+    }
+
+    public static PerformInfoRes of(PerformInfoRes res, String telno, String relateurl,
+                                    String adres, String la, String lo) {
         //--------공연시설 상세정보 항목
         res.setTelno(telno);
         res.setRelateurl(relateurl);
         res.setAdres(adres);
         res.setLa(la);
         res.setLo(lo);
+
         return res;
     }
 }
