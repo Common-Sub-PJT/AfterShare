@@ -22,16 +22,16 @@ import java.util.List;
 @RequestMapping("/api/performs")
 public class PerformController {
 
+    //------------조다연 시작-----------------
     @Autowired
     PerformService performService;
     
     @GetMapping("")
     @ApiOperation(value = "공연 목록 조회 API 요청", notes = "전체 공연 목록을 가져온다. ")
     public ResponseEntity<List<PerformRes>> getPerformAllList() {
-        System.out.println("getPerformAllList");
         //api 호출 -> xml 파싱 -> PerformRes 객체에 담아주기
         List<PerformRes> res = performService.getPerformAllList();
-        System.out.println("getPerformAllList 서비스 들어갔다가 나왔다 ~~");
+
         return ResponseEntity.status(200).body(res);
     }
 
@@ -39,10 +39,10 @@ public class PerformController {
     @ApiOperation(value = "공연 상세정보 조회 API 요청", notes = "선택된 공연에 대한 상세 정보를 가져온다. ")
     public ResponseEntity<PerformInfoRes> getPerformInfo(
             @PathVariable("mt20id") String mt20id) {
-        System.out.println("getPerformInfo");
         //api 호출 -> xml 파싱 -> PerformInfoRes 객체에 담아주기
         PerformInfoRes res = performService.getPerformInfo(mt20id);
-        System.out.println("getPerformInfo 서비스 들어갔다가 나왔다 ~~");
+
         return ResponseEntity.status(200).body(res);
     }
+    //------------조다연 끝-----------------
 }

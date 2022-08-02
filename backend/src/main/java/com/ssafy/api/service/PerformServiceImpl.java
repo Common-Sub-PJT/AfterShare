@@ -15,9 +15,14 @@ import java.util.List;
 
 @Service("performService")
 public class PerformServiceImpl implements PerformService {
+    //-------------조다연 시작-------------
+    //-------------공연 전체 목록
     @Override
     public List<PerformRes> getPerformAllList() {
+        //공연 전체 목록 결과값 담을 List
         List<PerformRes> list = new ArrayList<>();
+        // 공연 데이터 필수값 stdate, eddate 구하기 (3개월)
+        List<String> startEndDate = getDataPeriod();
 
         //나중에 다른 곳에 빼두기~
         String serviceKey = "0706bcb651424a1aacad7bb9f3564895";
@@ -26,8 +31,10 @@ public class PerformServiceImpl implements PerformService {
             //원래의 주소
             //http://www.kopis.or.kr/openApi/restful/pblprfr?service={서비스키}&stdate=20160101&eddate=20160630&rows=10&cpage=1
             String path = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=";
-            String stdate = "&stdate=20220628";
-            String eddate = "&eddate=00220828";
+            String stdate =startEndDate.get(1);
+            String eddate=startEndDate.get(0);
+//            String stdate = "&stdate=20220628";
+//            String eddate = "&eddate=00220828";
             String cpage = "&cpage=1";
             String rows = "&rows=999";
 
@@ -39,7 +46,6 @@ public class PerformServiceImpl implements PerformService {
 
             // 파싱할 tag = db
             NodeList nList = doc.getElementsByTagName("db");
-            System.out.println(nList.getLength());
 
             for(int temp = 0; temp < nList.getLength(); temp++){
                 Node nNode = nList.item(temp);
@@ -63,6 +69,7 @@ public class PerformServiceImpl implements PerformService {
         return list;
     }
 
+    //-------------공연 상세정보(상세+시설상세)
     @Override
     public PerformInfoRes getPerformInfo(String mt20id) {
 
@@ -80,6 +87,7 @@ public class PerformServiceImpl implements PerformService {
         return res;
     }
 
+    //공연 상세정보 API
     private PerformInfoRes getPerformDetail(PerformInfoRes res, String serviceKey, String mt20id) {
         try{
             //ex) http://www.kopis.or.kr/openApi/restful/pblprfr/PF132236?service=0706bcb651424a1aacad7bb9f3564895
@@ -134,6 +142,7 @@ public class PerformServiceImpl implements PerformService {
         return res;
     }
 
+    //공연시설상세정보 API
     private PerformInfoRes getPerformPlc(PerformInfoRes res, String serviceKey, String mt10id) {
         try{
             //요청메세지 주소 형식
@@ -178,4 +187,5 @@ public class PerformServiceImpl implements PerformService {
 
         return result;
     }
+    //-------------조다연 끝----------------
 }
