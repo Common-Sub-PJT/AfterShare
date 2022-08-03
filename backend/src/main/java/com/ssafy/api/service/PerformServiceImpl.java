@@ -242,7 +242,7 @@ public class PerformServiceImpl implements PerformService{
 
     // 구군 코드로 구군 이름을 가져오는 메소드
     public int searchGugun(PerformGetReq searchInfo){
-        int gugun=performRepositorySupport.findByGugunName(searchInfo.getGugunname());
+        int gugun=performRepositorySupport.findByGugunName(searchInfo.getSidoname(), searchInfo.getGugunname());
         return gugun;
     }
     //---------차송희 끝------------------------------
