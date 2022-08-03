@@ -40,9 +40,12 @@ public class PerformRepositorySupport {
     }
 
     // 구군 이름으로 구군 코드 찾기
-    public int findByGugunName(String gugunName){
+    public int findByGugunName(String sidoname, String gugunname){
+        Sido sido = jpaQueryFactory.select(qSido).from(qSido)
+                .where(qSido.sidoname.eq(sidoname)).fetchOne();
+        int sidocode = sido.getSigngucode();
         Gugun gugun = jpaQueryFactory.select(qGugun).from(qGugun)
-                .where(qGugun.gugunname.eq(gugunName)).fetchOne();
+                .where(qGugun.signgucodesub.like(sidocode+"__"),qGugun.gugunname.eq(gugunname)).fetchOne();
         if(gugun ==null) return 0;
         return gugun.getSigngucodesub();
     }
