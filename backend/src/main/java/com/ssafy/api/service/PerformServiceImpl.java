@@ -285,6 +285,15 @@ public class PerformServiceImpl implements PerformService{
                             +"&rows="+rows
                             +"&shprfnm="+shprfnm
                             +"&shcate="+shcate;
+                }else if(guguncode==0){//시도만 검색할 경우
+                    url = "https://www.kopis.or.kr/openApi/restful/pblprfr?service=" +service_key
+                            +"&stdate="+stdate
+                            +"&eddate="+eddate
+                            +"&cpage="+cpage
+                            +"&rows="+rows
+                            +"&signgucode="+sidocode
+                            +"&shprfnm="+shprfnm
+                            +"&shcate="+shcate;
                 }else{
                     url = "https://www.kopis.or.kr/openApi/restful/pblprfr?service=" +service_key
                             +"&stdate="+stdate
