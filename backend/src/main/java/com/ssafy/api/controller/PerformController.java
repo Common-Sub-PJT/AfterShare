@@ -77,11 +77,14 @@ public class PerformController {
             @RequestBody @ApiParam(value = "검색 정보", required = true) PerformGetReq searchInfo){
 
         System.out.println("===============searchPerform===============");
-        //시도이름으로 시도코드찾기
-        int sidocode = performService.searchSido(searchInfo);
-        //구군이름으로 구군코드찾기
-        int guguncode = performService.searchGugun(searchInfo);
-        //시도코드 , 구군코드, 검색 단어로 공연
+        //시도이름으로 시도코드찾기, //구군이름으로 구군코드찾기
+        int sidocode = 0;
+        int guguncode =0;
+        if(!searchInfo.getSidoname().equals("")){
+            System.out.println("===들어온거니..?");
+            sidocode = performService.searchSido(searchInfo);
+            guguncode = performService.searchGugun(searchInfo);
+        }  //시도코드 , 구군코드, 검색 단어로 공연
         List<PerformRes> res = performService.searchPerform(sidocode, guguncode, searchInfo);
         return ResponseEntity.status(200).body(res);
     }
