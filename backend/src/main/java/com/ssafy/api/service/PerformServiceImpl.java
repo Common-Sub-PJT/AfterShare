@@ -73,7 +73,8 @@ public class PerformServiceImpl implements PerformService{
                         getTagValue("prfpdfrom", eElement),
                         getTagValue("prfpdto", eElement),
                         getTagValue("poster", eElement),
-                        getTagValue("fcltynm", eElement));
+                        getTagValue("fcltynm", eElement),
+                        getTagValue("mt20id", eElement));
                 //list에 res 객체 추가
                 list.add(res);
             }
@@ -336,7 +337,8 @@ public class PerformServiceImpl implements PerformService{
                                 getTagValue("prfpdfrom", eElement),
                                 getTagValue("prfpdto", eElement),
                                 getTagValue("poster", eElement),
-                                getTagValue("fcltynm", eElement)));
+                                getTagValue("fcltynm", eElement),
+                                getTagValue("mt20id", eElement)));
 
 
                     }	// if end
