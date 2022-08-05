@@ -20,11 +20,13 @@ public class PerformRes {
     String poster;
     //공연 시설명
     String fcltynm;
+    //공연 ID
+    String mt20id;
 
     //생성자
     public static PerformRes of(String prfnm, String genrenm,
                                 String prfpdfrom, String prfpdto,
-                                String poster, String fcltynm) {
+                                String poster, String fcltynm, String mt20id) {
         PerformRes res = new PerformRes();
         res.setPrfnm(prfnm);
         res.setGenrenm(genrenm);
@@ -32,6 +34,7 @@ public class PerformRes {
         res.setPrfpdto(prfpdto);
         res.setPoster(poster);
         res.setFcltynm(fcltynm);
+        res.setMt20id(mt20id);
         return res;
     }
 }
