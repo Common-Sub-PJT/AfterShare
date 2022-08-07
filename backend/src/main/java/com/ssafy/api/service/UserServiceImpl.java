@@ -102,8 +102,8 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void updateUser(String userId, UserInfoFetchReq userInfo) {
-		User updateUser = userRepositorySupport.findUserByUserId(userId).get();
+	public void updateUser(User user, UserInfoFetchReq userInfo) {
+		User updateUser = userRepositorySupport.findUserByUserId(user.getUserId()).get();
 		updateUser.setName(userInfo.getUserName());
 		updateUser.setEmail(userInfo.getUserEmail());
 		updateUser.setProfile_img(userInfo.getProfileImg());

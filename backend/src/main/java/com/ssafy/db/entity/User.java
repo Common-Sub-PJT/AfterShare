@@ -2,11 +2,15 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
+
+import javax.persistence.*;
+
+import com.ssafy.api.service.CommunityServiceImpl;
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -60,4 +64,8 @@ public class User extends BaseEntity {
     연관관계 설정 (db연관관계 -> 객체 연관관계 코드로 표현하는곳)
     이해가 안되면 https://ttl-blog.tistory.com/129 여기서 확인
      */
+//    @OneToMany(mappedBy = "user")
+//    private List<Community> communities = new ArrayList<>();
+
+
 }

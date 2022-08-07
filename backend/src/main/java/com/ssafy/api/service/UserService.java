@@ -23,7 +23,7 @@ public interface UserService {
 	List<FollowerRes> getFollowerListByUserId(String userId);
 	List<FollowingRes> getFollowingListByUserId(String userId);
 
-	void updateUser(String userId, UserInfoFetchReq userInfo);
+	void updateUser(User user, UserInfoFetchReq userInfo);
 	void deleteUser(String userId);
 	//----------------------------------차송희 마이페이지 끝
 

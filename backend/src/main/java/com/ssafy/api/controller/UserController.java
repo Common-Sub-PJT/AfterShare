@@ -64,9 +64,11 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> updateUser(
 			@PathVariable("userId") String userId,
-			@RequestBody @ApiParam(value = "유저 정보", required = true) UserInfoFetchReq userInfo) {
-
-		userService.updateUser(userId, userInfo);
+			@RequestBody @ApiParam(value = "유저 정보", required = true) UserInfoFetchReq userInfo,
+			@ApiIgnore Authentication authentication) {
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		User user = userDetails.getUser();
+		userService.updateUser(user, userInfo);
 		// 유저 이메일 중복 체크 필요
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
