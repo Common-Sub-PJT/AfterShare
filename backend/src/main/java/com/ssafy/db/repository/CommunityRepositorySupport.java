@@ -24,13 +24,13 @@ public class CommunityRepositorySupport{
 
     public List<Community> findCommunityListByGenre(int genre, int category) {
         List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                .where(qCommunity.article_genre.eq(genre),qCommunity.article_category.eq(category)).fetch();
+                .where(qCommunity.article_genre.eq(genre),qCommunity.article_category.eq(category)).orderBy(qCommunity.recommend.desc()).fetch();
         if(communities==null) return null;
         return communities;
     }
 
     public List<Community> findAllCommunityList() {
-        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).fetch();
+        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).orderBy(qCommunity.recommend.desc()).fetch();
         if(communities == null) return null;
         return communities;
     }

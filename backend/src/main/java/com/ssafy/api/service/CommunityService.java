@@ -26,4 +26,8 @@ public interface CommunityService {
     Comment updateComment(String comment, long comment_id);
 
     void deleteComment(long comment_id);
+
+    Community recommendArticle(long article_id);
+
+    Community updateViewCnt(long article_id, Community community);
 }
