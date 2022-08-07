@@ -1,147 +1,218 @@
 <template>
-  <header>
-    <!-- Sidebar -->
-    <nav
-        id="sidebarMenu"
-        class="collapse d-lg-block sidebar collapse bg-white"
-        >
-      <div class="position-sticky">
-        <div class="list-group list-group-flush mx-3 mt-4">
-          <router-link to="/mypage/:userId"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <div class="profile">
-              <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="프사">
-              <h5>닉네임</h5>
-              <button class="btn btn-secondary">My Page</button>
-            </div>
-          </router-link>
-          <router-link to="/conferencelist"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>뒷풀이방</span>
-          </router-link>
-          <router-link to="/login"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>Login</span>
-          </router-link>
-          <router-link to="/signup"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>Signup</span>
-          </router-link>
-          <router-link to="/perform/:performId"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>Perform</span>
-          </router-link>
-          <router-link to="/history/:userId"
-            class="list-group-item list-group-item-action py-2 ripple"
-            >
-            <i class="fas fa-chart-area fa-fw me-3"></i
-              ><span>History</span>
-          </router-link>
-        </div>
-      </div>
-    </nav>
-    <nav
-        id="main-navbar"
-        class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
-        >
-      <!-- Container wrapper -->
-      <div class="container-fluid">
-        <!-- Toggle button -->
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#sidebarMenu"
-                aria-controls="sidebarMenu"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-                >
-          <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Brand -->
-        <router-link class="navbar-brand" to="/">
-          <img
-              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
-              height="30"
-              alt=""
-              loading="lazy"
-              class="m-2"
-              />
-        </router-link>
-      </div>
-    </nav>
-  </header>
-  <main style="margin-top: 58px; height: auto;">
-    <div class="container pt-4">
-      <RouterView/>
+  <div id="app">
+    <header class="header">
+      <router-link class="logo" to="/">
+        <img style="width:auto; height:48px; padding-left:12px; padding-top:13px; margin-right: 40px;" src="@/assets/Logo.png" alt="">
+      </router-link>
+      <input class="menu-btn" type="checkbox" id="menu-btn" />
+      <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+      <!-- <div v-if="isLogin.isLoggedIn" class="log">{{isLogin.currentUser.name}}</div> -->
+      <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()]" class="log main-btn">Logout</button>
+      <button v-else @click="ShowLoginModal" class="log main-btn">Login</button>
+      <ul class="menu">
+        <li><router-link to="/conferencelist" id="r-tag">뒤풀이방</router-link></li>
+        <li><router-link to="/articles" id="r-tag">Community</router-link></li>
+        <li><router-link to="/perform" id="r-tag">공연찾기</router-link></li>
+      </ul>
+    </header>
+    <div id="main">
+      <router-view></router-view>
     </div>
-  </main>
+  </div>
+  <login-view v-show="isLoginViewVisible" @loginClose="CloseLoginModal" @showSignup="ShowSignupModal"></login-view>
+  <signup-view v-show="isSignupViewVisible" @signupClose="CloseSignupModal" @showLogin="ShowLoginModal"></signup-view>
 </template>
+
 <script>
+import LoginView from '@/views/accounts/LoginView.vue'
+import SignupView from '@/views/accounts/SignupView.vue'
+import { useAccounts } from "@/stores/accounts";
+
+export default{
+  name:'App',
+  components: {
+    LoginView,
+    SignupView
+  },
+  data(){
+    return {
+      isLoginViewVisible: false,
+      isSignupViewVisible: false,
+    }
+  },
+  setup(){
+    const isLogin = useAccounts()
+    return {
+      isLogin
+    }
+  },
+  methods: {
+    ShowLoginModal() {
+      this.isLoginViewVisible = true;
+    },
+    CloseLoginModal() {
+      this.isLoginViewVisible = false;
+    },
+    ShowSignupModal() {
+      this.isSignupViewVisible = true;
+    },
+    CloseSignupModal() {
+      this.isSignupViewVisible = false;
+    },
+  }
+}
 </script>
-<style lang="scss" scoped>
-body {
-  background-color: #fbfbfb;
-}
-@media (min-width: 991.98px) {
-  main {
-    padding-left: 240px;
-  }
-}
+<style scoped>
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap'); */
 
-/* Sidebar */
-.sidebar {
-  position: fixed;
+#r-tag {
+  color: #fff;
+}
+.log {
+  float: right;
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 15px;
+  width: 100px;
+  padding: 0;
+  margin-top: 12px;
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+  transition: 0.4s;
+  height: 40px;
+}
+.log {
+  color: #1B3C33;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid ;
+}
+button:hover {
+  color: white;
+  box-shadow: 0 0 20px #fff;
+  background-color: #1B3C33;
+}
+.header {
+  background-color: #1B3C33;
+  box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
+  position: sticky;
   top: 0;
-  bottom: 0;
-  left: 0;
-  padding: 58px 0 0; /* Height of navbar */
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-  width: 240px;
-  z-index: 600;
+  width: 100%;
+  height: 64px;
+  z-index: 3;
 }
 
-@media (max-width: 991.98px) {
-  .sidebar {
-    width: 100%;
-  }
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #1B3C33;
 }
-.sidebar .active {
-  border-radius: 5px;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+.header li #r-tag {
+  display: block;
+  padding: 20px 20px;
+  text-decoration: none;
+}
+.header li #r-tag:hover,
+.header .menu-btn:hover {
+  background-color: #fff;
+  color: #1B3C33;
+}
+.header .logo {
+  display: block;
+  float: left;
+  padding: 0px;
 }
 
-.sidebar-sticky {
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+}
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  padding: 28px 20px;
   position: relative;
+  user-select: none;
+}
+.header .menu-icon .navicon {
+  background: #fff;
+  display: block;
+  height: 2px;
+  position: relative;
+  transition: background .2s ease-out;
+  width: 18px;
+}
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: #fff;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+.header .menu-icon .navicon:before {
+  top: 5px;
+}
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
-  height: calc(100vh - 48px);
-  padding-top: 0.5rem;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
-.profile {
-    margin-bottom: 30px;
-    text-align: center;
+
+
+@media (min-width: 820px) {
+  button{
+    float: right;
+  }
+  .header li {
+    float: left;
+  }
+  .header li #r-tag {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: left;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
 }
-.profile img{
-    display: block;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    margin: 0 auto;
+#main {
+  width: 1024px;
+  min-height: 1200px;
+  margin: auto;
 }
-.profile h3{
-    color: #605b5b;
-    margin: 10px 0 5px;
-}
+
 </style>
