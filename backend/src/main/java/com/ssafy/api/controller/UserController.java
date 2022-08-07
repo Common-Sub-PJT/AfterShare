@@ -1,9 +1,12 @@
 package com.ssafy.api.controller;
 import com.ssafy.api.request.UserInfoFetchReq;
+import com.ssafy.api.request.UserPasswordFetchReq;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.api.request.UserRegisterPostReq;
@@ -18,6 +21,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -32,9 +37,7 @@ public class UserController {
 	UserService userService;
 
 
-
-
-	//송희 0724 --------------------------------
+	//차송희 마이페이지 시작 --------------------------------
 	@GetMapping("/profile")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
 	//유저 정보조회 - jwt
@@ -89,6 +92,23 @@ public class UserController {
 		userService.deleteUser(userId);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
+	}
+
+	@PatchMapping("/change-password")
+	@ApiOperation(value = "비밀번호 변경", notes = "비밀번호를 변경한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+			@ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+			@ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+	})
+	public ResponseEntity<? extends BaseResponseBody> updatePassword(
+			@ApiIgnore Authentication authentication,
+			@RequestBody @ApiParam(value = "변경할 비밀번호", required = true) UserPasswordFetchReq userPasswordUpdateReq) {
+
+		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
+		User user = userDetails.getUser();
+		userService.updatePassword(user, userPasswordUpdateReq);
+		return ResponseEntity.ok(BaseResponseBody.of(200, "비밀번호 변경 완료"));
 	}
 
 	//유저 팔로워 목록
