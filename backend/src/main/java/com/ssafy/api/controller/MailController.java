@@ -34,32 +34,32 @@ public class MailController {
 
     //인증매일 재전송
     // 인증 메일 재전송
-    @GetMapping("/send")
-    @ApiOperation(value = "인증 메일 전송하기", notes = "jwt 토큰을 통해 이메일로 인증 메일을 전송한다.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
-            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
-            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
-    })
-    public ResponseEntity<? extends BaseResponseBody> send(
-            @ApiIgnore Authentication authentication) throws Exception {
-
-        // 유저 정보 가져오기
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();;
-        User user = userDetails.getUser();
-
-        // 새 key 생성
-        String authKey = new AuthKey().getKey(50);
-        user.setAuthKey(authKey);
-
-        // 메일 전송
-        // mailService.sendConfirmMail(user, authKey);
-
-        // 변경된 key 저장
-        userRepository.save(user);
-
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-    }
+//    @GetMapping("/send")
+//    @ApiOperation(value = "인증 메일 전송하기", notes = "jwt 토큰을 통해 이메일로 인증 메일을 전송한다.")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+//            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+//            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+//    })
+//    public ResponseEntity<? extends BaseResponseBody> send(
+//            @ApiIgnore Authentication authentication) throws Exception {
+//
+//        // 유저 정보 가져오기
+//        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();;
+//        User user = userDetails.getUser();
+//
+//        // 새 key 생성
+//        String authKey = new AuthKey().getKey(50);
+//        user.setAuthKey(authKey);
+//
+//        // 메일 전송
+//        // mailService.sendConfirmMail(user, authKey);
+//
+//        // 변경된 key 저장
+//        userRepository.save(user);
+//
+//        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+//    }
 
     // 메일 인증
 //    @GetMapping("/valid")

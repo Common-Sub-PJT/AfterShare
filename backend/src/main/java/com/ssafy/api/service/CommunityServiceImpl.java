@@ -136,5 +136,30 @@ public class CommunityServiceImpl implements CommunityService{
         updateCommunity.setView_cnt(currnetViewCnt+1);
         return communityRepository.save(updateCommunity);
     }
+
+    @Override
+    public List<CommunityRes> getArticleListByUserId(String userId) {
+        List<Community> communityList = communityRepositorySupport.findCommunityListByUserId(userId);
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu: communityList){
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
+    }
+
+    @Override
+    public List<String> getCommentListByUserId(String userId) {
+        List<Comment> commentList = commentRepositorySupport.findCommentListByUserId(userId);
+        List<String> res = new ArrayList<>();
+        for(Comment comment: commentList){
+            res.add(comment.getComment_content());
+        }
+        return res;
+    }
     //차송희 커뮤니티 끝-------------------------------------------
 }

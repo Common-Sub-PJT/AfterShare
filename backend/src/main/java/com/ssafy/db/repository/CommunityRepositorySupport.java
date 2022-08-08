@@ -42,4 +42,11 @@ public class CommunityRepositorySupport{
         if(res==null) return null;
         return res;
     }
+
+    public List<Community> findCommunityListByUserId(String userId) {
+        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
+                .where(qCommunity.user.userId.eq(userId)).orderBy(qCommunity.recommend.desc()).fetch();
+        if(communities==null) return null;
+        return communities;
+    }
 }

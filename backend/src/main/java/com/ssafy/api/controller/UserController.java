@@ -1,8 +1,11 @@
 package com.ssafy.api.controller;
 import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.request.UserPasswordFetchReq;
+import com.ssafy.api.response.CommunityRes;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
+import com.ssafy.api.service.CommunityService;
+import com.ssafy.db.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +38,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	CommunityService communityService;
 
 
 	//차송희 마이페이지 시작 --------------------------------
@@ -128,6 +134,30 @@ public class UserController {
 		System.out.println("getUserFollowingList");
 		List<FollowingRes> res = userService.getFollowingListByUserId(userId);
 		System.out.println("서비스 들어갓다나옴");
+		return ResponseEntity.status(200).body(res);
+	}
+
+	//내가 쓴 게시글
+	@GetMapping("/{userId}/my-articles")
+	@ApiOperation(value = "내가 쓴 글 리스트 가져오기", notes = "내가 쓴 글 리스트를 가져온다.")
+	public ResponseEntity<List<CommunityRes>> getMyArticles(
+			@PathVariable String userId,
+			@ApiIgnore Authentication authentication
+	){
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		List<CommunityRes> res = communityService.getArticleListByUserId(userId);
+		return ResponseEntity.status(200).body(res);
+	}
+
+	//내가 쓴 댓글
+	@GetMapping("/{userId}/my-comments")
+	@ApiOperation(value = "내가 쓴 댓글 리스트 가져오기", notes = "내가 쓴 댓글 리스트를 가져온다.")
+	public ResponseEntity<List<String>> getMyComments(
+			@PathVariable String userId,
+			@ApiIgnore Authentication authentication
+	){
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		List<String> res = communityService.getCommentListByUserId(userId);
 		return ResponseEntity.status(200).body(res);
 	}
 

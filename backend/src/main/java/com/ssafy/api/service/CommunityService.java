@@ -30,4 +30,8 @@ public interface CommunityService {
     Community recommendArticle(long article_id);
 
     Community updateViewCnt(long article_id, Community community);
+
+    List<CommunityRes> getArticleListByUserId(String userId);
+
+    List<String> getCommentListByUserId(String userId);
 }
