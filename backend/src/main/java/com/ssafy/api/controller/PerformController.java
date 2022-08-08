@@ -48,7 +48,8 @@ public class PerformController {
     //공연 API 검색 (시도, 구군, 검색단어, 현재페이지, 페이지당 목록수)
 
     //---------차송희 시작------------------------------
-    @GetMapping("/guguns")
+    //get to post
+    @PostMapping("/guguns")
     @ApiOperation(value = "구군 이름 검색", notes = "시도, 구군, 검색단어, 현재페이지, 페이지당 목록수를 통한 api검색")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -65,8 +66,8 @@ public class PerformController {
         List<Gugun> gugunList = performService.searchGugunList(sidocode);
         return ResponseEntity.status(200).body(gugunList);
     }
-
-    @GetMapping("/search")
+    //get to post
+    @PostMapping("/search")
     @ApiOperation(value = "공연 정보 검색", notes = "시도, 구군, 검색단어, 현재페이지, 페이지당 목록수를 통한 api검색")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),

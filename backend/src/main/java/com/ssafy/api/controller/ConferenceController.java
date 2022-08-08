@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,8 @@ public class ConferenceController {
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/search")
+    //get to post
+    @PostMapping("/search")
     @ApiOperation(value = "화상회의 검색", notes = "선택된 조건에 대한 화상회의 목록을 가져온다. ")
     public ResponseEntity<List<ConferenceRes>> searchConference(
             @RequestBody @ApiParam(value = "검색 정보", required = true) ConferenceGetReq searchInfo) {
