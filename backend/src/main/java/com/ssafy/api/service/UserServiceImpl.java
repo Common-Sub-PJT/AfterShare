@@ -3,6 +3,7 @@ import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.request.UserPasswordFetchReq;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
+import com.ssafy.common.error.exception.custom.UserNotFoundException;
 import com.ssafy.db.entity.Follower;
 import com.ssafy.db.entity.Following;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
 import java.util.ArrayList;
 import java.util.List;
-import com.ssafy.common.exception.enums.ExceptionEnum;
-import com.ssafy.common.exception.response.ApiException;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -138,7 +137,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updatePassword(User user, UserPasswordFetchReq req) {
 		if (!passwordEncoder.matches(req.getCurrent_password(), user.getPassword())) {
-			throw new ApiException(ExceptionEnum.UNAUTHORIZED_USER_PASSWORD);
+			throw new UserNotFoundException(user.getEmail());
 		}
 		user.setPassword(passwordEncoder.encode(req.getNew_password()));
 		userRepository.save(user);
