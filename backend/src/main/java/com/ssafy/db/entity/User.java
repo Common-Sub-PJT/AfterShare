@@ -60,6 +60,10 @@ public class User extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    private String authKey;
+
+    private Boolean authStatus;
+
     /*
     연관관계 설정 (db연관관계 -> 객체 연관관계 코드로 표현하는곳)
     이해가 안되면 https://ttl-blog.tistory.com/129 여기서 확인

@@ -13,8 +13,11 @@ import com.ssafy.db.repository.CommunityRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ssafy.db.entity.QCommunity.community;
 
 @Service("CommunityService")
 public class CommunityServiceImpl implements CommunityService{
@@ -115,6 +118,63 @@ public class CommunityServiceImpl implements CommunityService{
     public void deleteComment(long comment_id) {
         Comment deleteComment = commentRepositorySupport.findCommentByCommentId(comment_id);
         commentRepository.deleteById(comment_id);
+    }
+    @Override
+    @Transactional
+    public Community recommendArticle(long article_id) {
+        Community recommendCommunity = communityRepositorySupport.findArticleByArticleId(article_id);
+        int currentRecommend = recommendCommunity.getRecommend();
+        recommendCommunity.setRecommend(currentRecommend+1);
+        return communityRepository.save(recommendCommunity);
+    }
+
+    @Override
+    @Transactional
+    public Community updateViewCnt(long article_id, Community community){
+        Community updateCommunity = communityRepositorySupport.findArticleByArticleId(article_id);
+        int currnetViewCnt = updateCommunity.getView_cnt();
+        updateCommunity.setView_cnt(currnetViewCnt+1);
+        return communityRepository.save(updateCommunity);
+    }
+
+    @Override
+    public List<CommunityRes> getArticleListByUserId(String userId) {
+        List<Community> communityList = communityRepositorySupport.findCommunityListByUserId(userId);
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu: communityList){
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
+    }
+
+    @Override
+    public List<String> getCommentListByUserId(String userId) {
+        List<Comment> commentList = commentRepositorySupport.findCommentListByUserId(userId);
+        List<String> res = new ArrayList<>();
+        for(Comment comment: commentList){
+            res.add(comment.getComment_content());
+        }
+        return res;
+    }
+
+    @Override
+    public List<CommunityRes> getPopularArticleList() {
+        List<Community> communityList = communityRepositorySupport.findArticleByRecommend();
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu: communityList){
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
     }
     //차송희 커뮤니티 끝-------------------------------------------
 }
