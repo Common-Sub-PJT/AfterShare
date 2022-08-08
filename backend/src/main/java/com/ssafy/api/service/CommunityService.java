@@ -34,4 +34,6 @@ public interface CommunityService {
     List<CommunityRes> getArticleListByUserId(String userId);
 
     List<String> getCommentListByUserId(String userId);
+
+    List<CommunityRes> getPopularArticleList();
 }

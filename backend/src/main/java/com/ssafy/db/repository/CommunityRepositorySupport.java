@@ -49,4 +49,10 @@ public class CommunityRepositorySupport{
         if(communities==null) return null;
         return communities;
     }
+
+    public List<Community> findArticleByRecommend() {
+        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).orderBy(qCommunity.recommend.desc()).limit(5).fetch();
+        if(communities==null) return null;
+        return communities;
+    }
 }

@@ -16,6 +16,8 @@ import java.util.List;
 
 public interface ConferenceService {
 
+    List<ConferenceRes> getRecentConferenceList();
+
     List<ConferenceRes> getConferenceAllList();
 
     List<ConferenceRes> searchConference(ConferenceGetReq searchInfo);

@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.PerformGetReq;
+import com.ssafy.api.response.PerformCarouselRes;
 import com.ssafy.api.response.PerformInfoRes;
 import com.ssafy.api.response.PerformRes;
 import com.ssafy.db.entity.Gugun;
@@ -17,6 +18,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -348,6 +351,54 @@ public class PerformServiceImpl implements PerformService{
         }	// try~catch end
         return res;
     }	// searchPerform end
+
+    //예매상황판 전체/장르필터링
+    @Override
+    public List<PerformCarouselRes> getCarouselList(String catecode) {
+        // 공연 결과값을 담을 LIST
+        List<PerformCarouselRes> res = new ArrayList<>();
+        try{
+            // parsing할 url 지정
+            String service_key = "52392218e86844f5a555bb533fb6150d";
+            String url ="";
+
+            // 현재 날짜 구하기
+            LocalDate now = LocalDate.now();
+            // 포맷 정의
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            // 포맷 적용
+            String today = now.format(formatter);
+
+            //https://kopis.or.kr/openApi/restful/boxoffice?service=52392218e86844f5a555bb533fb6150d&ststype=month&date=20220808
+            url = "http://kopis.or.kr/openApi/restful/boxoffice?service="+service_key+"&ststype=month&date="+today+"&catecode="+catecode;
+
+            System.out.println("url: "+url);
+            DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+            Document doc = dBuilder.parse(url);
+
+            // root tag
+            doc.getDocumentElement().normalize();
+            //System.out.println("최상위 태그 :" + doc.getDocumentElement().getNodeName());
+
+            // 파싱할 tag
+            NodeList nList = doc.getElementsByTagName("boxof");
+
+            for(int temp = 0; temp < 5; temp++){
+                Node nNode = nList.item(temp);
+                if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                    Element eElement = (Element) nNode;
+                    res.add(PerformCarouselRes.of(
+                            getTagValue("mt20id", eElement),
+                            getTagValue("poster", eElement),
+                            Integer.parseInt(getTagValue("rnum", eElement))));
+                }	// if end
+            }	// for end
+        } catch (Exception e){
+            e.printStackTrace();
+        }	// try~catch end
+        return res;
+    }
     //---------차송희 끝------------------------------
 
     //---------차송희 시작------------------------------

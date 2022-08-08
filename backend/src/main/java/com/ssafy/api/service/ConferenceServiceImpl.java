@@ -21,6 +21,16 @@ public class ConferenceServiceImpl implements ConferenceService{
     ConferenceRepositorySupport conferenceRepositorySupport;
 
     @Override
+    public List<ConferenceRes> getRecentConferenceList() {
+        List<Conference> conferenceList = conferenceRepositorySupport.findRecentConferenceList();
+        List<ConferenceRes> res = new ArrayList<>();
+        for(Conference conference: conferenceList){
+            res.add(ConferenceRes.of(conference));
+        }
+        return res;
+    }
+
+    @Override
     public List<ConferenceRes> getConferenceAllList() {
         List<Conference> conferenceList = conferenceRepository.findAll();
 

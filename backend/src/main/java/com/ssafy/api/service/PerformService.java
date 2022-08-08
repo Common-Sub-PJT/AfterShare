@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 
 import com.ssafy.api.request.PerformGetReq;
+import com.ssafy.api.response.PerformCarouselRes;
 import com.ssafy.api.response.PerformInfoRes;
 import com.ssafy.api.response.PerformRes;
 import com.ssafy.db.entity.Gugun;
@@ -32,5 +33,7 @@ public interface PerformService {
 
     //시도코드, 구군코드, 검색단어로 공연목록 찾기
     List<PerformRes> searchPerform(int sidocode, int guguncode, PerformGetReq searchInfo);
+
+    List<PerformCarouselRes> getCarouselList(String catecode);
     //-------끝----------------------------
 }

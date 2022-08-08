@@ -88,4 +88,13 @@ public class ConferenceRepositorySupport {
     private BooleanExpression sidoEq(String sido) {
         return StringUtils.hasText(sido) ? qConference.sido.eq(sido) : null ;
     }
+    //차송희 시작---------------------------------
+    public List<Conference> findRecentConferenceList() {
+        List<Conference> conferences = jpaQueryFactory.select(qConference).from(qConference)
+                .orderBy(qConference.call_start_time.desc())
+                .limit(4)
+                .fetch();
+        return conferences;
+    }
+    //차송희 끝------------------------------------
 }

@@ -161,5 +161,20 @@ public class CommunityServiceImpl implements CommunityService{
         }
         return res;
     }
+
+    @Override
+    public List<CommunityRes> getPopularArticleList() {
+        List<Community> communityList = communityRepositorySupport.findArticleByRecommend();
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu: communityList){
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
+    }
     //차송희 커뮤니티 끝-------------------------------------------
 }
