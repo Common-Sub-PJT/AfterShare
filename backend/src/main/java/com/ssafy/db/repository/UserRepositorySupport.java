@@ -32,19 +32,15 @@ public class UserRepositorySupport {
     }
 
     public List<Follower> findFollowerListByUserId(String userId) {
-        System.out.println("findFollowerListByUserId");
         List<Follower> followers = jpaQueryFactory.select(qFollower).from(qFollower)
                 .where(qFollower.userId.eq(userId)).fetch();
         if (followers == null) {
-            System.out.println("findFollowerListByUserId::::null");
             return null;
         }
-        System.out.println("followers : "+ followers);
         return followers;
     }
 
     public List<Following> findFollowingListByUserId(String userId) {
-        System.out.println("findFollowingListByUserId");
         List<Following> followings = jpaQueryFactory.select(qFollowing).from(qFollowing)
                 .where(qFollowing.userId.eq(userId)).fetch();
         if (followings == null) return null;

@@ -78,9 +78,7 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public Community getArticleByArticleId(long article_id) {
-        System.out.println("article_id : "+article_id);
         Community res = communityRepositorySupport.findArticleByArticleId(article_id);
-        System.out.println("res : "+res);
         return res;
     }
 

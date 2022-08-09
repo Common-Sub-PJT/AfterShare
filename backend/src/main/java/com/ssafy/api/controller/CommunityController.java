@@ -1,9 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.CommunityRegistPostReq;
-import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.response.CommunityRes;
-import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.CommunityService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -50,8 +48,6 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        System.out.println("====user==="+user);
-//        long userSerial = user.getId();
         Community community = communityService.createArticle(user, communityRegisterInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }

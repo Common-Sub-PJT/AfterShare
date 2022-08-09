@@ -81,7 +81,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<FollowerRes> getFollowerListByUserId(String userId) {
 		List<Follower> followerList = userRepositorySupport.findFollowerListByUserId(userId);
-		System.out.println("userID : "+ userId);
 		List<FollowerRes> res = new ArrayList<>();
 
 		for (Follower follower : followerList) {
@@ -93,7 +92,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<FollowingRes> getFollowingListByUserId(String userId) {
 		List<Following> followingList = userRepositorySupport.findFollowingListByUserId(userId);
-		System.out.println("userID : "+ userId);
 		List<FollowingRes> res = new ArrayList<>();
 
 		for (Following following : followingList) {

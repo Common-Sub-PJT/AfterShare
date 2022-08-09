@@ -29,7 +29,6 @@ public class ConferenceRepositorySupport {
                 .fetch();
 
         if(conferences == null) {
-            System.out.println("findBySidoSigungu::::null");
             return null;
         }
 
@@ -48,7 +47,6 @@ public class ConferenceRepositorySupport {
                 .fetch();
 
         if(conferences == null) {
-            System.out.println("findByKeywordContaining::::null");
             return null;
         }
 
@@ -74,7 +72,6 @@ public class ConferenceRepositorySupport {
 
     private BooleanExpression genrenmEq(String genrenm) {
         if(genrenm.equals("ALL")){
-            System.out.println("전체지롱");
             return null;
         } else {
             return qConference.genrenm.eq(genrenm);

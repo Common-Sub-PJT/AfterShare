@@ -47,6 +47,6 @@ public class Community {
     @JoinColumn(name="fk_user_user_serial", referencedColumnName = "userSerial", unique = true)
     private User user;
 
-    @OneToMany(mappedBy = "community", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL})
     private Set<Comment> comments = new HashSet<>();
 }

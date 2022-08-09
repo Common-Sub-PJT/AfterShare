@@ -57,8 +57,6 @@ public class PerformServiceImpl implements PerformService{
 
             String url = path + serviceKey + stdate + eddate + cpage + rows ;
 
-            System.out.println("url: "+url);
-
             DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
             Document doc = dBuilder.parse(url);
@@ -266,9 +264,6 @@ public class PerformServiceImpl implements PerformService{
         if(searchWord.contains(" ")){
             searchWord = removeBlank(searchInfo.getSearch_word());
         }
-        System.out.println("========searchword: "+searchWord);
-        System.out.println("========searchInfo: "+searchInfo.getSearch_word()+" "+searchInfo.getGenre());
-
         try{
                 // parsing할 url 지정
                 String service_key = "52392218e86844f5a555bb533fb6150d";
@@ -309,7 +304,6 @@ public class PerformServiceImpl implements PerformService{
                             +"&shprfnm="+shprfnm
                             +"&shcate="+shcate;
                 }
-                System.out.println("url: "+url);
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
                 Document doc = dBuilder.parse(url);
@@ -372,7 +366,7 @@ public class PerformServiceImpl implements PerformService{
             //https://kopis.or.kr/openApi/restful/boxoffice?service=52392218e86844f5a555bb533fb6150d&ststype=month&date=20220808
             url = "http://kopis.or.kr/openApi/restful/boxoffice?service="+service_key+"&ststype=month&date="+today+"&catecode="+catecode;
 
-            System.out.println("url: "+url);
+            //System.out.println("url: "+url);
             DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
             Document doc = dBuilder.parse(url);
@@ -417,9 +411,6 @@ public class PerformServiceImpl implements PerformService{
         //오늘날짜로부터 3개월전
         cal.add(Calendar.MONTH, -3);
         String ThreeMonthAgo = df.format(cal.getTime());
-
-        System.out.println("현재 날짜: "+Today);
-        System.out.println("3개월 전: "+ThreeMonthAgo);
 
         startEnd.add(ThreeMonthAgo);
         return startEnd;

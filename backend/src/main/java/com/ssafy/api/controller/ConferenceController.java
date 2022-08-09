@@ -2,9 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.response.ConferenceRes;
-import com.ssafy.api.response.PerformRes;
 import com.ssafy.api.service.ConferenceService;
-import com.ssafy.db.entity.Conference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
