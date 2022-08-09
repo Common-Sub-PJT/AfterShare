@@ -69,6 +69,17 @@ public class CommunityController {
         return ResponseEntity.status(200).body(res);
     }
 
+    @GetMapping("/{article_genre}/{article_category}/{searchcategory}/{searchword}")
+    @ApiOperation(value = "장르/카테고리별 게시글 목록 조회", notes = "장르/카테고리별 게시글 목록을 조회한다.")
+    public ResponseEntity<List<CommunityRes>> getArticleList(
+            @PathVariable int article_genre,
+            @PathVariable int article_category,
+            @PathVariable String searchcategory,
+            @PathVariable String searchword) {
+        List<CommunityRes> res = communityService.getArticleListSearch(article_genre,article_category, searchcategory, searchword);
+        return ResponseEntity.status(200).body(res);
+    }
+
     @GetMapping("/{article_id}")
     @ApiOperation(value = "게시글 상세보기", notes="게시글 상세조회를 실행한다.")
     @ApiResponses({

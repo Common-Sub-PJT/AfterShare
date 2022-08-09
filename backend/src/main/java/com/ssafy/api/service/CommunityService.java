@@ -13,6 +13,8 @@ public interface CommunityService {
 
     List<CommunityRes> getArticleListByGenre(int genre, int category);
 
+    List<CommunityRes> getArticleListSearch(int genre, int category, String searchcategory, String searchword);
+
     List<CommunityRes> getAllArticleList();
 
     Community getArticleByArticleId(long article_id);

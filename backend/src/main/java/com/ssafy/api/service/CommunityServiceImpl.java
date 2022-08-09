@@ -60,6 +60,21 @@ public class CommunityServiceImpl implements CommunityService{
         return res;
     }
 
+    @Override
+    public List<CommunityRes> getArticleListSearch(int genre, int category, String searchcategory, String searchword) {
+        List<Community> communityList = communityRepositorySupport.findCommunityListSearch(genre, category, searchcategory, searchword);
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu : communityList){
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
+    }
+
+
     //전체 글 목록 가져오기
     @Override
     public List<CommunityRes> getAllArticleList() {
