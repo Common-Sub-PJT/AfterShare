@@ -19,6 +19,9 @@ import java.util.List;
 
 import static com.ssafy.db.entity.QCommunity.community;
 
+/**
+ *	커뮤니티 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ */
 @Service("CommunityService")
 public class CommunityServiceImpl implements CommunityService{
     //차송희 커뮤니티 시작-------------------------------------------

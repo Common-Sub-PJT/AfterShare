@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ *	메일 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ */
 @Service("MailService")
 public class MailServiceImpl implements MailService{
     @Autowired

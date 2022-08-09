@@ -8,6 +8,7 @@ import com.ssafy.db.entity.QUserReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -50,5 +51,15 @@ public class AdminRepositorySupport {
                 .fetch();
 
         return userReports;
+    }
+
+    public LocalDateTime findByUserId(String userId) {
+        LocalDateTime latest_report_day = jpaQueryFactory.select(qUserReport.latest_report_day.max())
+                .from(qUserReport)
+                .where(qUserReport.user_id.eq(userId))
+                .groupBy(qUserReport.user_id)
+                .fetchOne();
+
+        return latest_report_day;
     }
 }

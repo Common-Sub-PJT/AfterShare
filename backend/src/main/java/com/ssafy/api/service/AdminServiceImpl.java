@@ -13,9 +13,13 @@ import com.ssafy.db.repository.UserRepositorySupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *	관리자 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ */
 @Service("AdminService")
 public class AdminServiceImpl implements AdminService{
 
@@ -82,5 +86,12 @@ public class AdminServiceImpl implements AdminService{
         }
 
         return res;
+    }
+
+    @Override
+    public LocalDateTime getLatestReportDay(String userId) {
+        LocalDateTime latest_report_day = adminRepositorySupport.findByUserId(userId);
+
+        return latest_report_day;
     }
 }
