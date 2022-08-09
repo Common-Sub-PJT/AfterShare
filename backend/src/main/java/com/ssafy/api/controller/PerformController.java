@@ -4,7 +4,6 @@ import com.ssafy.api.request.PerformGetReq;
 import com.ssafy.api.response.PerformInfoRes;
 import com.ssafy.api.response.PerformRes;
 import com.ssafy.api.service.PerformService;
-import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Gugun;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,8 @@ public class PerformController {
     //공연 API 검색 (시도, 구군, 검색단어, 현재페이지, 페이지당 목록수)
 
     //---------차송희 시작------------------------------
-    @GetMapping("/guguns")
+    //get to post
+    @PostMapping("/guguns")
     @ApiOperation(value = "구군 이름 검색", notes = "시도, 구군, 검색단어, 현재페이지, 페이지당 목록수를 통한 api검색")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -65,8 +65,8 @@ public class PerformController {
         List<Gugun> gugunList = performService.searchGugunList(sidocode);
         return ResponseEntity.status(200).body(gugunList);
     }
-
-    @GetMapping("/search")
+    //get to post
+    @PostMapping("/search")
     @ApiOperation(value = "공연 정보 검색", notes = "시도, 구군, 검색단어, 현재페이지, 페이지당 목록수를 통한 api검색")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -75,13 +75,10 @@ public class PerformController {
     })
     public ResponseEntity<List<PerformRes>> searchPerform(
             @RequestBody @ApiParam(value = "검색 정보", required = true) PerformGetReq searchInfo){
-
-        System.out.println("===============searchPerform===============");
         //시도이름으로 시도코드찾기, //구군이름으로 구군코드찾기
         int sidocode = 0;
         int guguncode =0;
         if(!searchInfo.getSidoname().equals("")){
-            System.out.println("===들어온거니..?");
             sidocode = performService.searchSido(searchInfo);
             guguncode = performService.searchGugun(searchInfo);
         }  //시도코드 , 구군코드, 검색 단어로 공연

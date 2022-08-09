@@ -19,6 +19,9 @@ import java.util.List;
 
 import static com.ssafy.db.entity.QCommunity.community;
 
+/**
+ *	커뮤니티 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ */
 @Service("CommunityService")
 public class CommunityServiceImpl implements CommunityService{
     //차송희 커뮤니티 시작-------------------------------------------
@@ -60,6 +63,21 @@ public class CommunityServiceImpl implements CommunityService{
         return res;
     }
 
+    @Override
+    public List<CommunityRes> getArticleListSearch(int genre, int category, String searchcategory, String searchword) {
+        List<Community> communityList = communityRepositorySupport.findCommunityListSearch(genre, category, searchcategory, searchword);
+        List<CommunityRes> res = new ArrayList<>();
+        for(Community commu : communityList){
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
+        }
+        return res;
+    }
+
+
     //전체 글 목록 가져오기
     @Override
     public List<CommunityRes> getAllArticleList() {
@@ -78,9 +96,7 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public Community getArticleByArticleId(long article_id) {
-        System.out.println("article_id : "+article_id);
         Community res = communityRepositorySupport.findArticleByArticleId(article_id);
-        System.out.println("res : "+res);
         return res;
     }
 

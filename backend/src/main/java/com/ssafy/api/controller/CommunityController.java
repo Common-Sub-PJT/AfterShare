@@ -1,9 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.CommunityRegistPostReq;
-import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.response.CommunityRes;
-import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.CommunityService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -50,8 +48,6 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        System.out.println("====user==="+user);
-//        long userSerial = user.getId();
         Community community = communityService.createArticle(user, communityRegisterInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -70,6 +66,17 @@ public class CommunityController {
             @PathVariable int article_genre,
             @PathVariable int article_category) {
         List<CommunityRes> res = communityService.getArticleListByGenre(article_genre,article_category);
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/{article_genre}/{article_category}/{searchcategory}/{searchword}")
+    @ApiOperation(value = "장르/카테고리별 게시글 목록 조회", notes = "장르/카테고리별 게시글 목록을 조회한다.")
+    public ResponseEntity<List<CommunityRes>> getArticleList(
+            @PathVariable int article_genre,
+            @PathVariable int article_category,
+            @PathVariable String searchcategory,
+            @PathVariable String searchword) {
+        List<CommunityRes> res = communityService.getArticleListSearch(article_genre,article_category, searchcategory, searchword);
         return ResponseEntity.status(200).body(res);
     }
 

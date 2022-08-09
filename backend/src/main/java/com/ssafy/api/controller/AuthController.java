@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,11 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
@@ -31,6 +37,9 @@ import io.swagger.annotations.ApiResponse;
 public class AuthController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    AdminService adminService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -52,9 +61,29 @@ public class AuthController {
         String password = loginInfo.getPassword();
 
         User user = userService.getUserByUserId(userId);
+
         // 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
         if(passwordEncoder.matches(password, user.getPassword())) {
-            // 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
+            //계정 정지 당한 유저라면
+            if(user.is_ban()) {
+                //마지막 신고 날짜
+                LocalDateTime latest_report_day = adminService.getLatestReportDay(user.getUserId());
+
+                //현재 날짜
+                LocalDateTime now = LocalDateTime.now();
+
+                //현재 날짜와 마지막 신고 날짜의 차이가 한 달이 넘으면 정지 자동 해제
+                if(ChronoUnit.MONTHS.between(latest_report_day, now) >= 1) {
+                    adminService.updateIs_ban(user, user.getName());
+
+                    // 유효한 패스워드가 맞고 계정이 정지 해제된 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
+                    return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
+                } else {
+                    // 계정이 정지 되어 있는 경우, 로그인 실패로 응답.
+                    return ResponseEntity.status(402).body(UserLoginPostRes.of(402, "Stopped Account", null));
+                }
+            }
+            // 유효한 패스워드가 맞고 계정이 정지되지 않은 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
             return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
         }
         // 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.

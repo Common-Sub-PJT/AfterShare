@@ -5,6 +5,7 @@ import com.ssafy.api.response.CommunityRes;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
 import com.ssafy.api.service.CommunityService;
+import com.ssafy.common.error.ErrorResponse;
 import com.ssafy.db.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,20 +47,18 @@ public class UserController {
 	//차송희 마이페이지 시작 --------------------------------
 	@GetMapping("/profile")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.")
-	//유저 정보조회 - jwt
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "내 정보 조회 성공", response = User.class),
+			@ApiResponse(code = 401, message = "토큰 만료 or 토큰 없음 or 토큰 오류 -> 권한 인증 오류", response = ErrorResponse.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ErrorResponse.class)
+	})
 	public ResponseEntity<UserRes> getUserInfo(@ApiIgnore Authentication authentication) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-		//String userId = userDetails.getUsername();
-		//User user = userService.getUserByUserId(userId);
-		System.out.println("getUserInfo");
 		User user = userDetails.getUser();
-
-		System.out.println("user: "+user);
-
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
@@ -87,9 +86,11 @@ public class UserController {
 	@DeleteMapping("/{userId}")
 	@ApiOperation(value = "유저 정보 삭제", notes = "유저 정보를 삭제 후 응답한다")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "유저 정보 삭제(탈퇴) 성공"),
-			@ApiResponse(code = 401, message = "유저 정보 삭제(탈퇴) 실패"),
-			@ApiResponse(code = 500, message = "서버 오류")
+			@ApiResponse(code = 200, message = "회원 탈퇴 성공"),
+			@ApiResponse(code = 400, message = "input 오류", response = ErrorResponse.class),
+			@ApiResponse(code = 401, message = "토큰 만료 or 토큰 없음 or 토큰 오류 -> 권한 인증 오류", response = ErrorResponse.class),
+			@ApiResponse(code = 404, message = "회원 탈퇴할 정보가 없습니다.", response = ErrorResponse.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ErrorResponse.class)
 	})
 	public ResponseEntity<? extends BaseResponseBody> deleteUser(
 			@PathVariable("userId") String userId
@@ -121,9 +122,7 @@ public class UserController {
 	@GetMapping("/follower/{userId}")
 	@ApiOperation(value = "팔로워 리스트 가져오기", notes = "팔로워 리스트를 가져온다.")
 	public ResponseEntity<List<FollowerRes>> getUserFollowList(@PathVariable("userId") String userId) {
-		System.out.println("getUserFollowerList");
 		List<FollowerRes> res = userService.getFollowerListByUserId(userId);
-		System.out.println("서비스 들어갓다나옴");
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -131,9 +130,7 @@ public class UserController {
 	@GetMapping("/following/{userId}")
 	@ApiOperation(value = "팔로잉 리스트 가져오기", notes = "팔로잉 리스트를 가져온다.")
 	public ResponseEntity<List<FollowingRes>> getUserFollowingList(@PathVariable("userId") String userId) {
-		System.out.println("getUserFollowingList");
 		List<FollowingRes> res = userService.getFollowingListByUserId(userId);
-		System.out.println("서비스 들어갓다나옴");
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -166,10 +163,10 @@ public class UserController {
 	@PostMapping("")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
+			@ApiResponse(code = 200, message = "회원가입 성공"),
+			@ApiResponse(code = 400, message = "input 오류", response = ErrorResponse.class),
+			@ApiResponse(code = 409, message = "이메일 중복 에러(회원가입 불가)", response = ErrorResponse.class),
+			@ApiResponse(code = 500, message = "서버 에러 or 이메일 전송 에러", response = ErrorResponse.class)
 	})
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
@@ -205,9 +202,10 @@ public class UserController {
 	@GetMapping("/check-name/{name}")
 	@ApiOperation(value = "회원가입 시 닉네임 중복검사", notes = "회원 가입 시 닉네임 중복검사를 실행한다")
 	@ApiResponses({
-			@ApiResponse(code = 200, message = "존재하는 유저 아님 - 사용 가능"),
-			@ApiResponse(code = 401, message = "이미 존재하는 유저"),
-			@ApiResponse(code = 500, message = "서버 오류")
+			@ApiResponse(code = 200, message = "닉네임 중복 아님"),
+			@ApiResponse(code = 400, message = "input 오류", response = ErrorResponse.class),
+			@ApiResponse(code = 409, message = "닉네임 중복", response = ErrorResponse.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ErrorResponse.class)
 	})
 	public ResponseEntity<? extends BaseResponseBody> chDplByName(@PathVariable String name) {
 		if (userService.chDplByName(name)) {

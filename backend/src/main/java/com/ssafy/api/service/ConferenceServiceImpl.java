@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *	화상회의 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
+ */
 @Service("ConferenceService")
 public class ConferenceServiceImpl implements ConferenceService{
 
