@@ -7,7 +7,6 @@ import java.util.List;
 import com.ssafy.db.entity.QUser;
 import com.ssafy.db.entity.User;
 
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +64,4 @@ public class UserRepositorySupport {
         if(user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
-
 }
