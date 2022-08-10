@@ -38,7 +38,7 @@ public class CommunityController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> alticleRegister(
+    public ResponseEntity<? extends BaseResponseBody> Register(
             @RequestBody @ApiParam(value = "글 작성 정보", required = true) CommunityRegistPostReq communityRegisterInfo
             ,@ApiIgnore Authentication authentication) {
 
@@ -48,84 +48,84 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        Community community = communityService.createArticle(user, communityRegisterInfo);
+        Community community = communityService.create(user, communityRegisterInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
 
     @GetMapping("/all")
     @ApiOperation(value = "전체 게시글 목록 조회", notes = "전체 게시글 목록을 조회한다.")
-    public ResponseEntity<List<CommunityRes>> getAllArticleList(){
-        List<CommunityRes> res = communityService.getAllArticleList();
+    public ResponseEntity<List<CommunityRes>> getAllList(){
+        List<CommunityRes> res = communityService.getAllList();
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/{article_genre}/{article_category}")
+    @GetMapping("/{_genre}/{_category}")
     @ApiOperation(value = "장르/카테고리별 게시글 목록 조회", notes = "장르/카테고리별 게시글 목록을 조회한다.")
-    public ResponseEntity<List<CommunityRes>> getArticleList(
-            @PathVariable int article_genre,
-            @PathVariable int article_category) {
-        List<CommunityRes> res = communityService.getArticleListByGenre(article_genre,article_category);
+    public ResponseEntity<List<CommunityRes>> getList(
+            @PathVariable int _genre,
+            @PathVariable int _category) {
+        List<CommunityRes> res = communityService.getListByGenre(_genre,_category);
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/{article_genre}/{article_category}/{searchcategory}/{searchword}")
+    @GetMapping("/{_genre}/{_category}/{searchcategory}/{searchword}")
     @ApiOperation(value = "장르/카테고리별 게시글 목록 조회", notes = "장르/카테고리별 게시글 목록을 조회한다.")
-    public ResponseEntity<List<CommunityRes>> getArticleList(
-            @PathVariable int article_genre,
-            @PathVariable int article_category,
+    public ResponseEntity<List<CommunityRes>> getList(
+            @PathVariable int _genre,
+            @PathVariable int _category,
             @PathVariable String searchcategory,
             @PathVariable String searchword) {
-        List<CommunityRes> res = communityService.getArticleListSearch(article_genre,article_category, searchcategory, searchword);
+        List<CommunityRes> res = communityService.getListSearch(_genre,_category, searchcategory, searchword);
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/{article_id}")
+    @GetMapping("/{_id}")
     @ApiOperation(value = "게시글 상세보기", notes="게시글 상세조회를 실행한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = " 사용 가능"),
             @ApiResponse(code = 401, message = ""),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<Community> getArticleDetails(@PathVariable long article_id){
-        Community community = communityService.getArticleByArticleId(article_id);
+    public ResponseEntity<Community> getDetails(@PathVariable long _id){
+        Community community = communityService.getById(_id);
 
         return ResponseEntity.status(200).body(community);
     }
 
-    @PatchMapping("/{article_id}")
+    @PatchMapping("/{_id}")
     @ApiOperation(value = "게시글 상세 수정", notes="게시글 상세를 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = " 사용 가능"),
             @ApiResponse(code = 401, message = ""),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> updateArticleDetails(
-            @PathVariable long article_id,
-            @RequestBody @ApiParam(value = "글 내용") CommunityRegistPostReq articleInfo,
+    public ResponseEntity<? extends BaseResponseBody> updateDetails(
+            @PathVariable long _id,
+            @RequestBody @ApiParam(value = "글 내용") CommunityRegistPostReq Info,
             @ApiIgnore Authentication authentication){
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-        communityService.updateArticle(article_id, articleInfo);
+        communityService.update(_id, Info);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @DeleteMapping("/{article_id}")
+    @DeleteMapping("/{_id}")
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제 후 응답한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "게시글 삭제 성공"),
             @ApiResponse(code = 401, message = "게시글 삭제 실패"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> deleteAlticle(
-            @PathVariable("article_id") long article_id
+    public ResponseEntity<? extends BaseResponseBody> delete(
+            @PathVariable("_id") long _id
     ) {
 
-        communityService.deleteAlticle(article_id);
+        communityService.deletearticle(_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
     }
 
-    @PostMapping("/{article_id}/like")
+    @PostMapping("/{_id}/like")
     @ApiOperation(value = "게시글 좋아요", notes = "게시글 좋아요")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -133,8 +133,8 @@ public class CommunityController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> recommendAlticle(
-            @PathVariable("article_id") long article_id
+    public ResponseEntity<? extends BaseResponseBody> recommendarticle(
+            @PathVariable("_id") long _id
             ,@ApiIgnore Authentication authentication) {
         /**
          * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
@@ -142,12 +142,12 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        Community community = communityService.getArticleByArticleId(article_id);
-        communityService.recommendArticle(article_id);
+        Community community = communityService.getById(_id);
+        communityService.recommend(_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @PostMapping("/{article_id}/count")
+    @PostMapping("/{_id}/count")
     @ApiOperation(value = "게시글 조회수", notes = "게시글 조회수 증가")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -155,17 +155,17 @@ public class CommunityController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> articleViewCnt(
-            @PathVariable("article_id") long article_id
+    public ResponseEntity<? extends BaseResponseBody> ViewCnt(
+            @PathVariable("_id") long _id
             ,@ApiIgnore Authentication authentication
     ){
-        Community commu = communityService.getArticleByArticleId(article_id);
-        communityService.updateViewCnt(article_id,commu);
+        Community commu = communityService.getById(_id);
+        communityService.updateViewCnt(_id,commu);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
     //------------------댓글 CRUD---------------------------------------------------------
-    @PostMapping("/{article_id}/comments")
+    @PostMapping("/{_id}/comments")
     @ApiOperation(value = "댓글 작성", notes = "댓글 작성")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -176,19 +176,19 @@ public class CommunityController {
     public ResponseEntity<? extends BaseResponseBody> commentRegister(
             @RequestParam @ApiParam(value = "댓글 정보", required = true) String comment
             ,@ApiIgnore Authentication authentication
-            ,@PathVariable long article_id) {
+            ,@PathVariable long _id) {
         /**
          * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
          * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        Community community = communityService.getArticleByArticleId(article_id);
+        Community community = communityService.getById(_id);
         Comment comments = communityService.createComment(user, comment, community);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @PatchMapping("/{article_id}/comments/{comment_id}")
+    @PatchMapping("/{_id}/comments/{comment_id}")
     @ApiOperation(value = "댓글 수정", notes="댓글을 수정한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = " 사용 가능"),
@@ -196,7 +196,7 @@ public class CommunityController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> updateComments(
-            @PathVariable long article_id,
+            @PathVariable long _id,
             @PathVariable long comment_id,
             @RequestParam @ApiParam(value = "댓글 정보", required = true) String comment,
             @ApiIgnore Authentication authentication
@@ -204,7 +204,7 @@ public class CommunityController {
         Comment comments = communityService.updateComment(comment, comment_id);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
-    @DeleteMapping("/{article_id}/comments/{comment_id}")
+    @DeleteMapping("/{_id}/comments/{comment_id}")
     @ApiOperation(value = "댓글 삭제", notes="댓글을 삭제한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = " 사용 가능"),

@@ -45,10 +45,10 @@ public class MainController {
 
     @GetMapping("/communities/ranking")
     @ApiOperation(value = "커뮤니티 인기글 5개 추천수기준", notes = "추천수 기준 인기글 5개를 불러온다.")
-    public ResponseEntity<List<CommunityRes>> getPopularArticleList(
+    public ResponseEntity<List<CommunityRes>> getPopularList(
     ) {
         List<CommunityRes> res = new ArrayList<>();
-        res = communityService.getPopularArticleList();
+        res = communityService.getPopularList();
 
         return ResponseEntity.status(200).body(res);
     }
