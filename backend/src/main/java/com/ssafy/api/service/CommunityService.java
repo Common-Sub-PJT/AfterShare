@@ -9,19 +9,19 @@ import com.ssafy.db.entity.User;
 import java.util.List;
 
 public interface CommunityService {
-    Community create(User userInfo, CommunityRegistPostReq communityRegisterInfo);
+    Community createArticle(User userInfo, CommunityRegistPostReq communityRegisterInfo);
 
-    List<CommunityRes> getListByGenre(int genre, int category);
+    List<CommunityRes> getArticleListByGenre(int genre, int category);
 
-    List<CommunityRes> getListSearch(int genre, int category, String searchcategory, String searchword);
+    List<CommunityRes> getArticleListSearch(int genre, int category, String searchcategory, String searchword);
 
-    List<CommunityRes> getAllList();
+    List<CommunityRes> getAllArticleList();
 
-    Community getById(long _id);
+    Community getArticleByArticleId(long article_id);
 
-    void update(long _id, CommunityRegistPostReq Info);
+    void updateArticle(long article_id, CommunityRegistPostReq articleInfo);
 
-    void deletearticle(long _id);
+    void deleteAlticle(long article_id);
 
     Comment createComment(User user, String comment, Community community) ;
 
@@ -29,13 +29,13 @@ public interface CommunityService {
 
     void deleteComment(long comment_id);
 
-    Community recommend(long _id);
+    Community recommendArticle(long article_id);
 
-    Community updateViewCnt(long _id, Community community);
+    Community updateViewCnt(long article_id, Community community);
 
-    List<CommunityRes> getListByUserId(String userId);
+    List<CommunityRes> getArticleListByUserId(String userId);
 
     List<String> getCommentListByUserId(String userId);
 
-    List<CommunityRes> getPopularList();
+    List<CommunityRes> getPopularArticleList();
 }

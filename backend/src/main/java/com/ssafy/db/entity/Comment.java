@@ -31,7 +31,7 @@ public class Comment {
 
     //FK : 게시판 시리얼
     @ManyToOne
-    @JoinColumn(name="fk_community_article_id", referencedColumnName = "article_id")
+    @JoinColumn(name="fk_community_alticle_id", referencedColumnName = "article_id")
     private Community community;
 
 }

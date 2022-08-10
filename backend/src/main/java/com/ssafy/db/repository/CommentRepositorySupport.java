@@ -19,9 +19,9 @@ public class CommentRepositorySupport {
 
     QComment qComment = QComment.comment;
 
-    public long countCommentById(long _id){
+    public long countCommentByArticleId(long article_id){
         long comments = jpaQueryFactory.select(qComment).from(qComment)
-                .where(qComment.community.article_id.eq(_id)).fetchCount();
+                .where(qComment.community.article_id.eq(article_id)).fetchCount();
         return comments;
     }
 

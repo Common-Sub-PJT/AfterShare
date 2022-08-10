@@ -39,34 +39,40 @@ public class CommunityServiceImpl implements CommunityService{
 
 
     @Override
-    public Community create(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
+    public Community createArticle(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
         Community community = new Community();
-        community.setArticle_genre(communityRegisterInfo.getArticle_genre());
-        community.setArticle_category(communityRegisterInfo.getArticle_category());
-        community.setArticle_title(communityRegisterInfo.getArticle_title());
-        community.setArticle_content(communityRegisterInfo.getArticle_content());
+        community.setArticle_genre(communityRegisterInfo.getAlticle_genre());
+        community.setArticle_category(communityRegisterInfo.getAlticle_category());
+        community.setArticle_title(communityRegisterInfo.getAlticle_title());
+        community.setArticle_content(communityRegisterInfo.getAlticle_content());
         community.setUser(userInfo);
         return communityRepository.save(community);
     }
     //장르별 글 목록 가져오기
     @Override
-    public List<CommunityRes> getListByGenre(int genre, int category) {
+    public List<CommunityRes> getArticleListByGenre(int genre, int category) {
         List<Community> communityList = communityRepositorySupport.findCommunityListByGenre(genre, category);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu : communityList){
-            res.add(CommunityRes.of(commu,
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
     }
 
     @Override
-    public List<CommunityRes> getListSearch(int genre, int category, String searchcategory, String searchword) {
+    public List<CommunityRes> getArticleListSearch(int genre, int category, String searchcategory, String searchword) {
         List<Community> communityList = communityRepositorySupport.findCommunityListSearch(genre, category, searchcategory, searchword);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu : communityList){
-            res.add(CommunityRes.of(commu,
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
     }
@@ -74,34 +80,38 @@ public class CommunityServiceImpl implements CommunityService{
 
     //전체 글 목록 가져오기
     @Override
-    public List<CommunityRes> getAllList() {
+    public List<CommunityRes> getAllArticleList() {
         List<Community> communityList = communityRepositorySupport.findAllCommunityList();
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
     }
 
     @Override
-    public Community getById(long article_id) {
-        Community res = communityRepositorySupport.findById(article_id);
+    public Community getArticleByArticleId(long article_id) {
+        Community res = communityRepositorySupport.findArticleByArticleId(article_id);
         return res;
     }
 
     @Override
-    public void update(long article_id, CommunityRegistPostReq Info) {
-        Community update = communityRepositorySupport.findById(article_id);
-        update.setArticle_title(Info.getArticle_title());
-        update.setArticle_content(Info.getArticle_content());
-        communityRepository.save(update);
+    public void updateArticle(long article_id, CommunityRegistPostReq articleInfo) {
+        Community updateArticle = communityRepositorySupport.findArticleByArticleId(article_id);
+        updateArticle.setArticle_title(articleInfo.getAlticle_title());
+        updateArticle.setArticle_content(articleInfo.getAlticle_content());
+        communityRepository.save(updateArticle);
     }
 
     @Override
-    public void deletearticle(long article_id) {
-        Community delete = communityRepositorySupport.findById(article_id);
-        communityRepository.deleteById(delete.getArticle_id());
+    public void deleteAlticle(long article_id) {
+        Community deleteArticle = communityRepositorySupport.findArticleByArticleId(article_id);
+        communityRepository.deleteById(deleteArticle.getArticle_id());
     }
     //----------------------댓글 CRUD-------------------------------------------------------
     @Override
@@ -127,8 +137,8 @@ public class CommunityServiceImpl implements CommunityService{
     }
     @Override
     @Transactional
-    public Community recommend(long article_id) {
-        Community recommendCommunity = communityRepositorySupport.findById(article_id);
+    public Community recommendArticle(long article_id) {
+        Community recommendCommunity = communityRepositorySupport.findArticleByArticleId(article_id);
         int currentRecommend = recommendCommunity.getRecommend();
         recommendCommunity.setRecommend(currentRecommend+1);
         return communityRepository.save(recommendCommunity);
@@ -137,19 +147,23 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     @Transactional
     public Community updateViewCnt(long article_id, Community community){
-        Community updateCommunity = communityRepositorySupport.findById(article_id);
+        Community updateCommunity = communityRepositorySupport.findArticleByArticleId(article_id);
         int currnetViewCnt = updateCommunity.getView_cnt();
         updateCommunity.setView_cnt(currnetViewCnt+1);
         return communityRepository.save(updateCommunity);
     }
 
     @Override
-    public List<CommunityRes> getListByUserId(String userId) {
+    public List<CommunityRes> getArticleListByUserId(String userId) {
         List<Community> communityList = communityRepositorySupport.findCommunityListByUserId(userId);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
     }
@@ -165,12 +179,16 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public List<CommunityRes> getPopularList() {
-        List<Community> communityList = communityRepositorySupport.findByRecommend();
+    public List<CommunityRes> getPopularArticleList() {
+        List<Community> communityList = communityRepositorySupport.findArticleByRecommend();
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
+                    commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
     }

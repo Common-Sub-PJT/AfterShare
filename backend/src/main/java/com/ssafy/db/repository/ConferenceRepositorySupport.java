@@ -66,6 +66,7 @@ public class ConferenceRepositorySupport {
         } else if (type == 1) { //방제목
             return qConference.title.like("%" + keyword + "%");
         }
+
         return null;
     }
 
@@ -93,18 +94,4 @@ public class ConferenceRepositorySupport {
         return conferences;
     }
     //차송희 끝------------------------------------
-
-    public Conference findConferenceFollowListByUserId(String followingUserId) {
-        Conference conferences = jpaQueryFactory.select(qConference).from(qConference)
-                .where(qConference.owner_id.eq(followingUserId))
-                .fetchOne();
-        return conferences;
-    }
-
-    public Conference findByConferenceId(long conference_id) {
-        Conference conference = jpaQueryFactory.select(qConference).from(qConference)
-                .where(qConference.conference_id.eq(conference_id))
-                .fetchOne();
-        return conference;
-    }
 }

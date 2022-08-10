@@ -3,6 +3,7 @@ package com.ssafy.api.response;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -59,4 +60,6 @@ public class CommunityRes {
         res.setRegtime(regtime);
         return res;
     }
+
+
 }

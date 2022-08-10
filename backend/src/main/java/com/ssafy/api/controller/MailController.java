@@ -1,5 +1,4 @@
 package com.ssafy.api.controller;
-
 import com.ssafy.api.service.MailService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -13,10 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-
-/**
- * 메일 관련 API 요청 처리를 위한 컨트롤러 정의.
- */
 
 @Api(value = "메일 API", tags = {"Mail"})
 @RestController
@@ -43,6 +38,7 @@ public class MailController {
     })
     public ResponseEntity<? extends BaseResponseBody> findPwd(
             @ApiIgnore Authentication authentication) throws Exception {
+
         // 유저 정보 가져오기
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
