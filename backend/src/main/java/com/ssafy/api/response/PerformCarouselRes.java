@@ -17,9 +17,11 @@ public class PerformCarouselRes {
 
     public static PerformCarouselRes of(String mt20id, String poster, int rnum) {
         PerformCarouselRes res = new PerformCarouselRes();
+
         res.setMt20id(mt20id);
         res.setPoster(poster);
         res.setRnum(rnum);
+
         return res;
     }
 }

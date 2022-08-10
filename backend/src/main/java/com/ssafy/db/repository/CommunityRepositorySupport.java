@@ -35,9 +35,9 @@ public class CommunityRepositorySupport{
         return communities;
     }
 
-    public Community findArticleByArticleId(long article_id) {
+    public Community findById(long _id) {
         Community res = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                .where(qCommunity.article_id.eq(article_id)).fetchOne();
+                .where(qCommunity.article_id.eq(_id)).fetchOne();
         if(res==null) return null;
         return res;
     }
@@ -49,7 +49,7 @@ public class CommunityRepositorySupport{
         return communities;
     }
 
-    public List<Community> findArticleByRecommend() {
+    public List<Community> findByRecommend() {
         List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).orderBy(qCommunity.recommend.desc()).limit(5).fetch();
         if(communities==null) return null;
         return communities;

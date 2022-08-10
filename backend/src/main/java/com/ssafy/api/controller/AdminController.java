@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * 관리자 페이지 API 요청 처리를 위한 컨트롤러 정의.
  */
+
 @Api(value = "관리자 API", tags = {"Admin"})
 @RestController
 @RequestMapping("/api/admin")
