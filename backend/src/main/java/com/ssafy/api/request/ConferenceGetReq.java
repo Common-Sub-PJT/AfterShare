@@ -32,7 +32,7 @@ public class ConferenceGetReq {
     String sigungu;
 
     //  default:ALL / 공통
-    @ApiModelProperty(name="장르코드", example = "AAAB")
+    @ApiModelProperty(name="장르명", example = "뮤지컬")
     String genrenm;
 
 }

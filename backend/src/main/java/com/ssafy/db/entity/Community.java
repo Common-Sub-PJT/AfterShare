@@ -44,7 +44,7 @@ public class Community {
 
     //FK : 유저 시리얼
     @ManyToOne
-    @JoinColumn(name="fk_user_user_serial", referencedColumnName = "userSerial", unique = true)
+    @JoinColumn(name="fk_user_user_serial", referencedColumnName = "userSerial")
     private User user;
 
     @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL})
