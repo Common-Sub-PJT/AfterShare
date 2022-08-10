@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * 메인페이지 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
+
 @Api(value = "메인 API", tags = {"Main"})
 @RestController
 @RequestMapping("/api/main")
@@ -35,8 +36,7 @@ public class MainController {
     @GetMapping("/performs/ranking")
     @ApiOperation(value = "공연 예매상황판 API 요청", notes = "공연 예매상황판을 가져온다. ")
     public ResponseEntity<List<PerformCarouselRes>> getCarouselList(
-            @RequestParam String catecode
-    ) {
+            @RequestParam String catecode) {
         //api 호출 -> xml 파싱 -> PerformCarouselRes 객체에 담아주기
         List<PerformCarouselRes> res = performService.getCarouselList(catecode);
 
@@ -45,8 +45,7 @@ public class MainController {
 
     @GetMapping("/communities/ranking")
     @ApiOperation(value = "커뮤니티 인기글 5개 추천수기준", notes = "추천수 기준 인기글 5개를 불러온다.")
-    public ResponseEntity<List<CommunityRes>> getPopularList(
-    ) {
+    public ResponseEntity<List<CommunityRes>> getPopularList() {
         List<CommunityRes> res = new ArrayList<>();
         res = communityService.getPopularList();
 
@@ -55,8 +54,7 @@ public class MainController {
 
     @GetMapping("/conferences/ranking")
     @ApiOperation(value = "화상회의방 최근기준 4개", notes = "화상회의방 최근생성기준 4개를 불러온다.")
-    public ResponseEntity<List<ConferenceRes>> getRecentConferenceList(
-    ) {
+    public ResponseEntity<List<ConferenceRes>> getRecentConferenceList() {
         List<ConferenceRes> res = new ArrayList<>();
         res = conferenceService.getRecentConferenceList();
         return ResponseEntity.status(200).body(res);

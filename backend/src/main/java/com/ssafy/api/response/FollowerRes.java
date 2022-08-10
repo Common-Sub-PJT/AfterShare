@@ -13,9 +13,11 @@ public class FollowerRes {
     @ApiModelProperty(name ="Follower ID")
     String follower_id;
 
-    public static FollowerRes of(Follower follower){
+    public static FollowerRes of(Follower follower) {
         FollowerRes res = new FollowerRes();
+
         res.setFollower_id(follower.getFollower_id());
+
         return res;
     }
 }

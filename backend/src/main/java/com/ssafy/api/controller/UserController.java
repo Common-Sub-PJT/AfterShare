@@ -32,6 +32,7 @@ import java.util.List;
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
+
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @RequestMapping("/api/users")
@@ -59,6 +60,7 @@ public class UserController {
 		 */
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		User user = userDetails.getUser();
+
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
@@ -77,9 +79,9 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		User user = userDetails.getUser();
 		userService.updateUser(user, userInfo);
+
 		// 유저 이메일 중복 체크 필요
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-
 	}
 
 	//유저 정보삭제
@@ -92,13 +94,10 @@ public class UserController {
 			@ApiResponse(code = 404, message = "회원 탈퇴할 정보가 없습니다.", response = ErrorResponse.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ErrorResponse.class)
 	})
-	public ResponseEntity<? extends BaseResponseBody> deleteUser(
-			@PathVariable("userId") String userId
-	) {
-
+	public ResponseEntity<? extends BaseResponseBody> deleteUser(@PathVariable("userId") String userId) {
 		userService.deleteUser(userId);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 
 	@PatchMapping("/change-password")
@@ -111,10 +110,11 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> updatePassword(
 			@ApiIgnore Authentication authentication,
 			@RequestBody @ApiParam(value = "변경할 비밀번호", required = true) UserPasswordFetchReq userPasswordUpdateReq) {
-
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		User user = userDetails.getUser();
+
 		userService.updatePassword(user, userPasswordUpdateReq);
+
 		return ResponseEntity.ok(BaseResponseBody.of(200, "비밀번호 변경 완료"));
 	}
 
@@ -123,6 +123,7 @@ public class UserController {
 	@ApiOperation(value = "팔로워 리스트 가져오기", notes = "팔로워 리스트를 가져온다.")
 	public ResponseEntity<List<FollowerRes>> getUserFollowList(@PathVariable("userId") String userId) {
 		List<FollowerRes> res = userService.getFollowerListByUserId(userId);
+
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -131,6 +132,7 @@ public class UserController {
 	@ApiOperation(value = "팔로잉 리스트 가져오기", notes = "팔로잉 리스트를 가져온다.")
 	public ResponseEntity<List<FollowingRes>> getUserFollowingList(@PathVariable("userId") String userId) {
 		List<FollowingRes> res = userService.getFollowingListByUserId(userId);
+
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -139,10 +141,10 @@ public class UserController {
 	@ApiOperation(value = "내가 쓴 글 리스트 가져오기", notes = "내가 쓴 글 리스트를 가져온다.")
 	public ResponseEntity<List<CommunityRes>> getMys(
 			@PathVariable String userId,
-			@ApiIgnore Authentication authentication
-	){
+			@ApiIgnore Authentication authentication) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		List<CommunityRes> res = communityService.getListByUserId(userId);
+
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -151,10 +153,10 @@ public class UserController {
 	@ApiOperation(value = "내가 쓴 댓글 리스트 가져오기", notes = "내가 쓴 댓글 리스트를 가져온다.")
 	public ResponseEntity<List<String>> getMyComments(
 			@PathVariable String userId,
-			@ApiIgnore Authentication authentication
-	){
+			@ApiIgnore Authentication authentication) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		List<String> res = communityService.getCommentListByUserId(userId);
+
 		return ResponseEntity.status(200).body(res);
 	}
 
@@ -170,7 +172,6 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		User user = userService.createUser(registerInfo);
 

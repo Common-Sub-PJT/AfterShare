@@ -50,6 +50,7 @@ public class MailServiceImpl implements MailService{
 //        sendMail.setTo(user.getEmail());
 //        sendMail.send();
 //    }
+
     @Override
     public void sendFindPwdMail(User user) throws Exception {
         // password 생성
