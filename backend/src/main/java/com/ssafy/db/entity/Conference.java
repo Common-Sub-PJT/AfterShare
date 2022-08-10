@@ -81,6 +81,11 @@ public class Conference {
     )
     private String genrenm;
 
+    @Column(
+            length = 30
+    )
+    private String perform_day;
+
     @ManyToOne
     @JoinColumn(name = "fk_user_user_serial")
     private User user;
