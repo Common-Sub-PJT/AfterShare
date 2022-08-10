@@ -82,22 +82,22 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public Community getById(long _id) {
-        Community res = communityRepositorySupport.findById(_id);
+    public Community getById(long article_id) {
+        Community res = communityRepositorySupport.findById(article_id);
         return res;
     }
 
     @Override
-    public void update(long _id, CommunityRegistPostReq Info) {
-        Community update = communityRepositorySupport.findById(_id);
+    public void update(long article_id, CommunityRegistPostReq Info) {
+        Community update = communityRepositorySupport.findById(article_id);
         update.setArticle_title(Info.getArticle_title());
         update.setArticle_content(Info.getArticle_content());
         communityRepository.save(update);
     }
 
     @Override
-    public void deletearticle(long _id) {
-        Community delete = communityRepositorySupport.findById(_id);
+    public void deletearticle(long article_id) {
+        Community delete = communityRepositorySupport.findById(article_id);
         communityRepository.deleteById(delete.getArticle_id());
     }
     //----------------------댓글 CRUD-------------------------------------------------------
@@ -124,8 +124,8 @@ public class CommunityServiceImpl implements CommunityService{
     }
     @Override
     @Transactional
-    public Community recommend(long _id) {
-        Community recommendCommunity = communityRepositorySupport.findById(_id);
+    public Community recommend(long article_id) {
+        Community recommendCommunity = communityRepositorySupport.findById(article_id);
         int currentRecommend = recommendCommunity.getRecommend();
         recommendCommunity.setRecommend(currentRecommend+1);
         return communityRepository.save(recommendCommunity);
@@ -133,8 +133,8 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     @Transactional
-    public Community updateViewCnt(long _id, Community community){
-        Community updateCommunity = communityRepositorySupport.findById(_id);
+    public Community updateViewCnt(long article_id, Community community){
+        Community updateCommunity = communityRepositorySupport.findById(article_id);
         int currnetViewCnt = updateCommunity.getView_cnt();
         updateCommunity.setView_cnt(currnetViewCnt+1);
         return communityRepository.save(updateCommunity);
