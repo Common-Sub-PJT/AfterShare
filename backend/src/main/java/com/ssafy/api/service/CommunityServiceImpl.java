@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.CommunityRegistPostReq;
 import com.ssafy.api.response.CommunityRes;
+import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
 import com.ssafy.db.entity.User;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ssafy.db.entity.QCommunity.community;
 
 /**
  *	커뮤니티 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -51,7 +54,10 @@ public class CommunityServiceImpl implements CommunityService{
         List<Community> communityList = communityRepositorySupport.findCommunityListByGenre(genre, category);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu : communityList){
-            res.add(CommunityRes.of(commu,
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
                     commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
@@ -62,7 +68,10 @@ public class CommunityServiceImpl implements CommunityService{
         List<Community> communityList = communityRepositorySupport.findCommunityListSearch(genre, category, searchcategory, searchword);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu : communityList){
-            res.add(CommunityRes.of(commu,
+            res.add(CommunityRes.of(commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
                     commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
@@ -75,7 +84,11 @@ public class CommunityServiceImpl implements CommunityService{
         List<Community> communityList = communityRepositorySupport.findAllCommunityList();
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
                     commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
@@ -145,7 +158,11 @@ public class CommunityServiceImpl implements CommunityService{
         List<Community> communityList = communityRepositorySupport.findCommunityListByUserId(userId);
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
                     commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
@@ -166,7 +183,11 @@ public class CommunityServiceImpl implements CommunityService{
         List<Community> communityList = communityRepositorySupport.findArticleByRecommend();
         List<CommunityRes> res = new ArrayList<>();
         for(Community commu: communityList){
-            res.add(CommunityRes.of(commu,
+            res.add(CommunityRes.of(
+                    commu.getArticle_title(),
+                    commu.getUser().getUserId(),
+                    commu.getView_cnt(),
+                    commu.getRecommend(),
                     commentRepositorySupport.countCommentByArticleId(commu.getArticle_id())));
         }
         return res;
