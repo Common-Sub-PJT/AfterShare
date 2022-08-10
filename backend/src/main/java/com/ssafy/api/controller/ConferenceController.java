@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.request.ConferenceRegistPostReq;
+import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
 import com.ssafy.api.response.FollowingRes;
 import com.ssafy.api.service.ConferenceService;
@@ -95,6 +96,16 @@ public class ConferenceController {
         List<FollowingRes> followingUser = userService.getFollowingListByUserId(user.getUserId());
 
         List<ConferenceRes> res = conferenceService.getConferenceFollowList(followingUser);
+
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/{conference_id}")
+    @ApiOperation(value = "화상회의 상세 정보 조회", notes = "입장한 화상회의에 대한 상세 정보를 가져온다. ")
+    public ResponseEntity<ConferenceInfoRes> getConferenceInfo(
+            @PathVariable("conference_id") long conference_id) {
+
+        ConferenceInfoRes res = conferenceService.getConferenceInfo(conference_id);
 
         return ResponseEntity.status(200).body(res);
     }

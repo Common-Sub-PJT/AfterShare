@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.request.ConferenceRegistPostReq;
+import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
 import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.Conference;
@@ -114,7 +115,13 @@ public class ConferenceServiceImpl implements ConferenceService{
         return res;
     }
 
+    @Override
+    public ConferenceInfoRes getConferenceInfo(long conference_id) {
+        Conference conference = conferenceRepositorySupport.findByConferenceId(conference_id);
 
+        ConferenceInfoRes res = ConferenceInfoRes.of(conference);
 
+        return res;
+    }
 }
 

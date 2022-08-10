@@ -1,8 +1,8 @@
 package com.ssafy.api.service;
 
-
 import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.request.ConferenceRegistPostReq;
+import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
 import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.Conference;
@@ -28,4 +28,5 @@ public interface ConferenceService {
 
     List<ConferenceRes> getConferenceFollowList(List<FollowingRes> followingUser);
 
+    ConferenceInfoRes getConferenceInfo(long conference_id);
 }

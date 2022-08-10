@@ -3,8 +3,6 @@ package com.ssafy.db.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.api.request.ConferenceGetReq;
-import com.ssafy.api.response.ConferenceRes;
-import com.ssafy.api.response.FollowingRes;
 import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.QConference;
 import com.ssafy.db.entity.QFollowing;
@@ -70,7 +68,6 @@ public class ConferenceRepositorySupport {
         } else if (type == 1) { //방제목
             return qConference.title.like("%" + keyword + "%");
         }
-
         return null;
     }
 
@@ -104,5 +101,12 @@ public class ConferenceRepositorySupport {
                 .where(qConference.owner_id.eq(followingUserId))
                 .fetchOne();
         return conferences;
+    }
+
+    public Conference findByConferenceId(long conference_id) {
+        Conference conference = jpaQueryFactory.select(qConference).from(qConference)
+                .where(qConference.conference_id.eq(conference_id))
+                .fetchOne();
+        return conference;
     }
 }
