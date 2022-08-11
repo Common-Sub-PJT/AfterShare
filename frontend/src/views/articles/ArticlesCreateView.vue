@@ -1,28 +1,9 @@
 
-
-
-
-<!-- 드랍다운 만들어야하는데 고민중 -->
-
-
-
-
-
 <template class="row">
+  <ArticleNavComponent></ArticleNavComponent>
   <div class="col-10 offset-1 col-md-8 offset-md-2 col-xxl-6 offset-xxl-3">
     <form @submit="createArticle">
       <div class="row mb-3">
-        <!-- <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </div> -->
         <label for="title" class="col-form-label">Title</label>
         <input type="text" class="form-control" id="title" v-model="title">
       </div>
@@ -37,6 +18,11 @@
 
 <script>
 import axios from 'axios'
+import secosi from "@/api/secosi";
+import { mapState } from 'pinia'
+import { useAccounts } from "@/stores/accounts"
+import { useCommunities } from '@/stores/community'
+import ArticleNavComponent from '@/views/articles/components/ArticleNavComponent.vue'
 
 export default {
   data() {
@@ -50,23 +36,39 @@ export default {
     createArticle(event) {
       event.preventDefault()
       const formData = {
-        'title': this.title,
-        'content': this.content,
+        'article_genre': this.articleGenre,
+        'article_category': this.articleCategory,
+        'article_title': this.title,
+        'article_content': this.content,
       }
-
       console.log(formData)
-      // const config = {
-      //   headers: {
-      //     Authorization: `Token ${localStorage.getItem('token')}`
-      //   }
-      // }
-
-      // axios.post('http://127.0.0.1:8000/community/create/', formData, config)
-      //   .then(response => {
-      //     console.log(response)
-      //   })
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+      
+      axios.post(secosi.communities.community(), formData, config)
+        .then(res => {
+          this.$router.push({name:'ArticleDetail', params: {articleid: res.data}})
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
   },
+  components: {
+    ArticleNavComponent,
+  },
+  created() {
+    if (!this.isLoggedIn) {
+      this.$router.push({ name: 'Articles' })
+    }
+  },
+  computed: {
+    ...mapState(useAccounts, ['isLoggedIn']),
+    ...mapState(useCommunities, ['articleGenre', 'articleCategory']),
+  }
 };
 </script>
 

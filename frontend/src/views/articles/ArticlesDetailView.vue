@@ -1,8 +1,9 @@
 <template>
   <div class="row">
     <div>
-      <h1>제목 받아올 것</h1>
-      <p>내용 받아올 것</p>
+    <ArticleNavComponent></ArticleNavComponent>
+      <h1>{{ this.title }}</h1>
+      <p>{{ this.content }}</p>
 
       <!-- 작성자일 경우, 게시글 수정 및 삭제 권한 부여 -->
       <!-- <div v-if="isAuthor">
@@ -24,38 +25,41 @@
 </template>
 
 <script>
+import axios from 'axios'
+import secosi from "@/api/secosi";
+import { mapState } from 'pinia'
+import { useAccounts } from "@/stores/accounts";
+import ArticleNavComponent from '@/views/articles/components/ArticleNavComponent.vue'
 import CommentForm from '@/views/articles/components/CommentForm.vue'
 import CommentList from '@/views/articles/components/CommentList.vue'
 
 export default {
   data() {
     return {
+      title: '',
+      content: '',
       articleId: '',
     }
   },
   components: {
+    ArticleNavComponent,
     CommentForm,
     CommentList,
   },
   computed: {
-    // 작성자 여부 확인
-    // isAuthor() {
-    //   return 현재 유저 == 게시글 작성자
-    // },
+    ...mapState(useAccounts, ['currentUser'])
   },
   methods: {
   },
   created() {
-    // GET 요청 전송 => 응답값따라 data 채워넣고 template에 띄울것
-    // const config = {
-    //   headers: {
-    //     Authorization: `Token ${localStorage.getItem("token")}`,
-    //   },
-    // }
-    // axios.get(`http://127.0.0.1:8000/accounts/${articleId}/`, config)
-    //   .then(response => {
-    //     console.log(response)
-    //   })
+    this.articleId = this.$route.params.articleid
+    axios.get(secosi.communities.articleDetail(this.articleId))
+      .then(res => {
+        this.title = res.data.article_title
+        this.content = res.data.article_content
+        console.log(res.data)
+        console.log(this.currentUser)
+      })
   }
 };
 </script>
