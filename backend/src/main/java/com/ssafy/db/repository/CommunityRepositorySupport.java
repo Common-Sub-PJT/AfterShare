@@ -24,27 +24,27 @@ public class CommunityRepositorySupport{
 
     public List<Community> findCommunityListByGenre(int genre, int category) {
         List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                    .where(qCommunity.article_genre.eq(genre),qCommunity.article_category.eq(category)).orderBy(qCommunity.recommend.desc()).fetch();
+                    .where(qCommunity.article_genre.eq(genre),qCommunity.article_category.eq(category)).orderBy(qCommunity.regtime.desc()).fetch();
         if(communities==null) return null;
         return communities;
     }
 
     public List<Community> findAllCommunityList() {
-        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).orderBy(qCommunity.recommend.desc()).fetch();
+        List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity).orderBy(qCommunity.regtime.desc()).fetch();
         if(communities == null) return null;
         return communities;
     }
 
-    public Community findById(long _id) {
+    public Community findByArticleId(long article_id) {
         Community res = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                .where(qCommunity.article_id.eq(_id)).fetchOne();
+                .where(qCommunity.article_id.eq(article_id)).fetchOne();
         if(res==null) return null;
         return res;
     }
 
     public List<Community> findCommunityListByUserId(String userId) {
         List<Community> communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                .where(qCommunity.user.userId.eq(userId)).orderBy(qCommunity.recommend.desc()).fetch();
+                .where(qCommunity.user.userId.eq(userId)).orderBy(qCommunity.regtime.desc()).fetch();
         if(communities==null) return null;
         return communities;
     }

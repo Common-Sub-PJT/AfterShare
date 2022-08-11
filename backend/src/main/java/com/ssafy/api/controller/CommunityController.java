@@ -93,7 +93,7 @@ public class CommunityController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<Community> getDetails(@PathVariable long article_id) {
-        Community community = communityService.getById(article_id);
+        Community community = communityService.getArticleByArticleId(article_id);
 
         return ResponseEntity.status(200).body(community);
     }
@@ -147,7 +147,7 @@ public class CommunityController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
 
-        Community community = communityService.getById(article_id);
+        Community community = communityService.getArticleByArticleId(article_id);
         communityService.recommend(article_id);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -164,7 +164,7 @@ public class CommunityController {
     public ResponseEntity<? extends BaseResponseBody> ViewCnt(
             @PathVariable("article_id") long article_id,
             @ApiIgnore Authentication authentication) {
-        Community commu = communityService.getById(article_id);
+        Community commu = communityService.getArticleByArticleId(article_id);
         communityService.updateViewCnt(article_id,commu);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -190,10 +190,23 @@ public class CommunityController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
 
-        Community community = communityService.getById(article_id);
+        Community community = communityService.getArticleByArticleId(article_id);
         Comment comments = communityService.createComment(user, comment, community);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @GetMapping("/{article_id}/comments")
+    @ApiOperation(value = "게시글 번호당 댓글 보기", notes="게시글 번호당 댓글 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = " 사용 가능"),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<List<Comment>> getCommentListByArticleId(@PathVariable long article_id) {
+        List<Comment> comments = communityService.getCommentListByArticleId(article_id);
+
+        return ResponseEntity.status(200).body(comments);
     }
 
     @PatchMapping("/{article_id}/comments/{comment_id}")
