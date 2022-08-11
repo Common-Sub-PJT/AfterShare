@@ -37,4 +37,10 @@ public class CommentRepositorySupport {
         if(comments==null) return null;
         return comments;
     }
+
+    public List<Comment> findCommentListByArticleId(long article_id) {
+        List<Comment> comments = jpaQueryFactory.select(qComment).from(qComment)
+                .where(qComment.community.article_id.eq(article_id)).fetch();
+        return comments;
+    }
 }

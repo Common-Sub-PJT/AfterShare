@@ -36,7 +36,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 
     @Override
-    public Community create(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
+    public Community createArticle(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
         Community community = new Community();
         community.setArticle_genre(communityRegisterInfo.getArticle_genre());
         community.setArticle_category(communityRegisterInfo.getArticle_category());
@@ -97,14 +97,14 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public Community getById(long article_id) {
-        Community res = communityRepositorySupport.findById(article_id);
+    public Community getArticleByArticleId(long article_id) {
+        Community res = communityRepositorySupport.findByArticleId(article_id);
         return res;
     }
 
     @Override
     public void update(long article_id, CommunityRegistPostReq Info) {
-        Community update = communityRepositorySupport.findById(article_id);
+        Community update = communityRepositorySupport.findByArticleId(article_id);
         update.setArticle_title(Info.getArticle_title());
         update.setArticle_content(Info.getArticle_content());
         communityRepository.save(update);
@@ -112,7 +112,7 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public void deletearticle(long article_id) {
-        Community delete = communityRepositorySupport.findById(article_id);
+        Community delete = communityRepositorySupport.findByArticleId(article_id);
         communityRepository.deleteById(delete.getArticle_id());
     }
     //----------------------댓글 CRUD-------------------------------------------------------
@@ -140,7 +140,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     @Transactional
     public Community recommend(long article_id) {
-        Community recommendCommunity = communityRepositorySupport.findById(article_id);
+        Community recommendCommunity = communityRepositorySupport.findByArticleId(article_id);
         int currentRecommend = recommendCommunity.getRecommend();
         recommendCommunity.setRecommend(currentRecommend+1);
         return communityRepository.save(recommendCommunity);
@@ -149,7 +149,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     @Transactional
     public Community updateViewCnt(long article_id, Community community){
-        Community updateCommunity = communityRepositorySupport.findById(article_id);
+        Community updateCommunity = communityRepositorySupport.findByArticleId(article_id);
         int currnetViewCnt = updateCommunity.getView_cnt();
         updateCommunity.setView_cnt(currnetViewCnt+1);
         return communityRepository.save(updateCommunity);
@@ -195,6 +195,12 @@ public class CommunityServiceImpl implements CommunityService{
                     commentRepositorySupport.countCommentById(commu.getArticle_id())));
         }
         return res;
+    }
+
+    @Override
+    public List<Comment> getCommentListByArticleId(long article_id) {
+        List<Comment> commentList = commentRepositorySupport.findCommentListByArticleId(article_id);
+        return commentList;
     }
     //차송희 커뮤니티 끝-------------------------------------------
 }
