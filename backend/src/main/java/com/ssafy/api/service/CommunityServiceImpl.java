@@ -36,7 +36,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 
     @Override
-    public Community create(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
+    public Community createArticle(User userInfo, CommunityRegistPostReq communityRegisterInfo) {
         Community community = new Community();
         community.setArticle_genre(communityRegisterInfo.getArticle_genre());
         community.setArticle_category(communityRegisterInfo.getArticle_category());

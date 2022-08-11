@@ -38,7 +38,7 @@ public class CommunityController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<? extends BaseResponseBody> Register(
+    public long Register(
             @RequestBody @ApiParam(value = "글 작성 정보", required = true) CommunityRegistPostReq communityRegisterInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -49,9 +49,9 @@ public class CommunityController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
 
-        Community community = communityService.create(user, communityRegisterInfo);
+        Community community = communityService.createArticle(user, communityRegisterInfo);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        return community.getArticle_id();
     }
 
 

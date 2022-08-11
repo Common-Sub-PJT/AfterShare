@@ -9,7 +9,7 @@ import com.ssafy.db.entity.User;
 import java.util.List;
 
 public interface CommunityService {
-    Community create(User userInfo, CommunityRegistPostReq communityRegisterInfo);
+    Community createArticle(User userInfo, CommunityRegistPostReq communityRegisterInfo);
 
     List<CommunityRes> getListByGenre(int genre, int category);
 
