@@ -7,10 +7,12 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "jquery": "^3.6.0",
     "pinia": "^2.0.16",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
+    "v3-infinite-loading": "^1.2.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2"
   },

@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.PerformGetReq;
+import com.ssafy.api.response.PerformCarouselRes;
 import com.ssafy.api.response.PerformInfoRes;
 import com.ssafy.api.response.PerformRes;
 import com.ssafy.db.entity.Gugun;
@@ -17,17 +18,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 
 /**
  *	공연 API 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
 @Service("PerformService")
 public class PerformServiceImpl implements PerformService{
+
+    @Autowired(required = false)
+    PerformRepository performRepository;
+
+    @Autowired
+    PerformRepositorySupport performRepositorySupport;
 
     //-------------조다연 시작-------------
     //-------------공연 전체 목록
@@ -36,7 +44,7 @@ public class PerformServiceImpl implements PerformService{
         //공연 전체 목록 결과값 담을 List
         List<PerformRes> list = new ArrayList<>();
         // 공연 데이터 필수값 stdate, eddate 구하기 (3개월)
-//        List<String> startEndDate = getDataPeriod();
+        List<String> startEndDate = getDataPeriod();
 
         //나중에 다른 곳에 빼두기~
         String serviceKey = "0706bcb651424a1aacad7bb9f3564895";
@@ -45,16 +53,14 @@ public class PerformServiceImpl implements PerformService{
             //원래의 주소
             //http://www.kopis.or.kr/openApi/restful/pblprfr?service={서비스키}&stdate=20220628&eddate=20220828&rows=10&cpage=1
             String path = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=";
-//            String stdate =startEndDate.get(1);
-//            String eddate=startEndDate.get(0);
-            String stdate = "&stdate=20220628";
-            String eddate = "&eddate=20220828";
+            String stdate ="&stdate="+startEndDate.get(1);
+            String eddate="&eddate="+startEndDate.get(0);
             String cpage = "&cpage=1";
             String rows = "&rows=999";
 
             String url = path + serviceKey + stdate + eddate + cpage + rows ;
 
-            System.out.println("url: "+url);
+            System.out.println("==========="+url);
 
             DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -62,7 +68,8 @@ public class PerformServiceImpl implements PerformService{
 
             // 파싱할 tag = db
             NodeList nList = doc.getElementsByTagName("db");
-            // System.out.println("===========nList.getLength():"+nList.getLength());
+
+            System.out.println("몇개일가용"+nList.getLength());
             for(int temp = 0; temp < nList.getLength(); temp++){
                 Node nNode = nList.item(temp);
                 Element eElement = (Element) nNode;
@@ -191,9 +198,6 @@ public class PerformServiceImpl implements PerformService{
         return res;
     }
 
-
-
-    // tag값의 정보를 가져오는 함수 --> 송과 겹칠 듯 확인하고 merge 하기
     public static String getTagValue(String tag, Element eElement) {
 
         //결과를 저장할 result 변수 선언
@@ -211,22 +215,6 @@ public class PerformServiceImpl implements PerformService{
     //-------------조다연 끝----------------
 
     // ----------차송희 공연 API 파싱, 검색-----------------------------
-    @Autowired(required = false)
-    PerformRepository performRepository;
-
-    @Autowired
-    PerformRepositorySupport performRepositorySupport;
-
-
-    //---------차송희 시작------------------------------
-    // tag값의 정보를 가져오는 메소드
-//    private static String getTagValue(String tag, Element eElement) {
-//        NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-//        Node nValue = (Node) nlList.item(0);
-//        if(nValue == null)
-//            return null;
-//        return nValue.getNodeValue();
-//    }
     // 시도 이름으로 시도 코드를 가져오는 메소드
     public int searchSido(PerformGetReq searchInfo){
         int sido=performRepositorySupport.findBySidoName(searchInfo.getSidoname());
@@ -246,9 +234,7 @@ public class PerformServiceImpl implements PerformService{
         int gugun=performRepositorySupport.findByGugunName(searchInfo.getSidoname(), searchInfo.getGugunname());
         return gugun;
     }
-    //---------차송희 끝------------------------------
 
-    //---------차송희 시작------------------------------
     //api xml to json 파싱
     @Override
     public List<PerformRes> searchPerform(int sidocode, int guguncode, PerformGetReq searchInfo) {
@@ -263,9 +249,6 @@ public class PerformServiceImpl implements PerformService{
         if(searchWord.contains(" ")){
             searchWord = removeBlank(searchInfo.getSearch_word());
         }
-        System.out.println("========searchword: "+searchWord);
-        System.out.println("========searchInfo: "+searchInfo.getSearch_word()+" "+searchInfo.getGenre());
-
         try{
                 // parsing할 url 지정
                 String service_key = "52392218e86844f5a555bb533fb6150d";
@@ -306,31 +289,19 @@ public class PerformServiceImpl implements PerformService{
                             +"&shprfnm="+shprfnm
                             +"&shcate="+shcate;
                 }
-                System.out.println("url: "+url);
                 DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
                 Document doc = dBuilder.parse(url);
 
-                // root tag
-                doc.getDocumentElement().normalize();
-                //System.out.println("최상위 태그 :" + doc.getDocumentElement().getNodeName());
-
                 // 파싱할 tag
                 NodeList nList = doc.getElementsByTagName("db");
-                //System.out.println("파싱할 리스트 수 : "+ nList.getLength());
 
                 for(int temp = 0; temp < nList.getLength(); temp++){
                     Node nNode = nList.item(temp);
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
 
                         Element eElement = (Element) nNode;
-//                        System.out.println("######################");
-//                        System.out.println("공연명  : " + getTagValue("prfnm", eElement));
-//                        System.out.println("시작날짜  : " + getTagValue("prfpdfrom", eElement));
-//                        System.out.println("종료날짜 : " + getTagValue("prfpdto", eElement));
-//                        System.out.println("시설명 : " + getTagValue("fcltynm", eElement));
-//                        System.out.println("포스터 경로: " + getTagValue("poster", eElement));
-//                        System.out.println("장르명  : " + getTagValue("genrenm", eElement));
+
                         res.add(PerformRes.of(
                                 getTagValue("prfnm", eElement),
                                 getTagValue("genrenm", eElement),
@@ -348,9 +319,50 @@ public class PerformServiceImpl implements PerformService{
         }	// try~catch end
         return res;
     }	// searchPerform end
-    //---------차송희 끝------------------------------
 
-    //---------차송희 시작------------------------------
+    //예매상황판 전체/장르필터링
+    @Override
+    public List<PerformCarouselRes> getCarouselList(String catecode) {
+        // 공연 결과값을 담을 LIST
+        List<PerformCarouselRes> res = new ArrayList<>();
+        try{
+            // parsing할 url 지정
+            String service_key = "52392218e86844f5a555bb533fb6150d";
+            String url ="";
+
+            // 현재 날짜 구하기
+            LocalDate now = LocalDate.now();
+            // 포맷 정의
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            // 포맷 적용
+            String today = now.format(formatter);
+
+            //https://kopis.or.kr/openApi/restful/boxoffice?service=52392218e86844f5a555bb533fb6150d&ststype=month&date=20220808
+            url = "http://kopis.or.kr/openApi/restful/boxoffice?service="+service_key+"&ststype=month&date="+today+"&catecode="+catecode;
+
+            DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+            Document doc = dBuilder.parse(url);
+
+            // 파싱할 tag
+            NodeList nList = doc.getElementsByTagName("boxof");
+
+            for(int temp = 0; temp < 5; temp++){
+                Node nNode = nList.item(temp);
+                if(nNode.getNodeType() == Node.ELEMENT_NODE){
+                    Element eElement = (Element) nNode;
+                    res.add(PerformCarouselRes.of(
+                            getTagValue("mt20id", eElement),
+                            getTagValue("poster", eElement),
+                            Integer.parseInt(getTagValue("rnum", eElement))));
+                }	// if end
+            }	// for end
+        } catch (Exception e){
+            e.printStackTrace();
+        }	// try~catch end
+        return res;
+    }
+
     //현재날짜로부터 3개월전 날짜 가져오는 함수 + format (공연api필수값 시작날짜, 끝날짜)
     private List<String> getDataPeriod() {
         List<String> startEnd = new ArrayList<>();
@@ -367,15 +379,10 @@ public class PerformServiceImpl implements PerformService{
         cal.add(Calendar.MONTH, -3);
         String ThreeMonthAgo = df.format(cal.getTime());
 
-        System.out.println("현재 날짜: "+Today);
-        System.out.println("3개월 전: "+ThreeMonthAgo);
-
         startEnd.add(ThreeMonthAgo);
         return startEnd;
     }
-    //---------차송희 끝------------------------------
 
-    //---------차송희 시작------------------------------
     // 사용자가 검색한 단어의 공백 제거
     private String removeBlank(String search_word) {
         char[] searchWordTmp = search_word.toCharArray();

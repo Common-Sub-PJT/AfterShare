@@ -1,7 +1,9 @@
 package com.ssafy.api.service;
 import com.ssafy.api.request.UserInfoFetchReq;
+import com.ssafy.api.request.UserPasswordFetchReq;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
+import com.ssafy.common.error.exception.custom.UserNotFoundException;
 import com.ssafy.db.entity.Follower;
 import com.ssafy.db.entity.Following;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +81,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<FollowerRes> getFollowerListByUserId(String userId) {
 		List<Follower> followerList = userRepositorySupport.findFollowerListByUserId(userId);
-		System.out.println("userID : "+ userId);
 		List<FollowerRes> res = new ArrayList<>();
 
 		for (Follower follower : followerList) {
@@ -91,7 +92,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<FollowingRes> getFollowingListByUserId(String userId) {
 		List<Following> followingList = userRepositorySupport.findFollowingListByUserId(userId);
-		System.out.println("userID : "+ userId);
 		List<FollowingRes> res = new ArrayList<>();
 
 		for (Following following : followingList) {
@@ -102,8 +102,8 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void updateUser(String userId, UserInfoFetchReq userInfo) {
-		User updateUser = userRepositorySupport.findUserByUserId(userId).get();
+	public void updateUser(User user, UserInfoFetchReq userInfo) {
+		User updateUser = userRepositorySupport.findUserByUserId(user.getUserId()).get();
 		updateUser.setName(userInfo.getUserName());
 		updateUser.setEmail(userInfo.getUserEmail());
 		updateUser.setProfile_img(userInfo.getProfileImg());
@@ -115,6 +115,31 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(String userId) {
 		User deleteUser = userRepositorySupport.findUserByUserId(userId).get();
 		userRepository.deleteById(deleteUser.getId());
+	}
+
+	@Override
+	public String updateAuthStatus(String email, String authKey) {
+		User user = userRepositorySupport.findByEmail(email).get();
+
+		if (user.getAuthKey().equals(authKey)) {
+			user.setAuthStatus(true);
+			userRepository.save(user);
+
+			return "SUCCESS";
+
+		} else {
+			return "FAILED";
+		}
+	}
+
+	@Override
+	public void updatePassword(User user, UserPasswordFetchReq req) {
+		if (!passwordEncoder.matches(req.getCurrent_password(), user.getPassword())) {
+			throw new UserNotFoundException(user.getEmail());
+		}
+		user.setPassword(passwordEncoder.encode(req.getNew_password()));
+		userRepository.save(user);
+		return;
 	}
 	//-----------차송희 마이페이지 끝
 

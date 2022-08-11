@@ -28,6 +28,7 @@ public class PerformRes {
                                 String prfpdfrom, String prfpdto,
                                 String poster, String fcltynm, String mt20id) {
         PerformRes res = new PerformRes();
+
         res.setPrfnm(prfnm);
         res.setGenrenm(genrenm);
         res.setPrfpdfrom(prfpdfrom);
@@ -35,6 +36,7 @@ public class PerformRes {
         res.setPoster(poster);
         res.setFcltynm(fcltynm);
         res.setMt20id(mt20id);
+
         return res;
     }
 }

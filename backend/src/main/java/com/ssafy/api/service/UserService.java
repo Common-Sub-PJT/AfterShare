@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 import com.ssafy.api.request.UserInfoFetchReq;
+import com.ssafy.api.request.UserPasswordFetchReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.FollowerRes;
 import com.ssafy.api.response.FollowingRes;
@@ -23,8 +24,11 @@ public interface UserService {
 	List<FollowerRes> getFollowerListByUserId(String userId);
 	List<FollowingRes> getFollowingListByUserId(String userId);
 
-	void updateUser(String userId, UserInfoFetchReq userInfo);
+	void updateUser(User user, UserInfoFetchReq userInfo);
 	void deleteUser(String userId);
+	String updateAuthStatus(String email, String authKey);
+
+	void updatePassword(User user, UserPasswordFetchReq userPasswordUpdateReq);
 	//----------------------------------차송희 마이페이지 끝
 
 

@@ -2,11 +2,14 @@ package com.ssafy.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
+
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -55,6 +58,28 @@ public class User extends BaseEntity {
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    private String authKey;
+
+    private Boolean authStatus;
+
+    private boolean is_staff;
+
+    private boolean is_ban;
+
+    private int report_cnt;
+
+//    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+//    private List<UserReport> userreports = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+//    private List<Conference> conferences = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+//    private List<Community> communities = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+//    private List<Comment> comments = new ArrayList<>();
 
     /*
     연관관계 설정 (db연관관계 -> 객체 연관관계 코드로 표현하는곳)

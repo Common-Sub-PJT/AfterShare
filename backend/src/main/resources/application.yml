@@ -1,0 +1,9 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: ""
+    password: ""
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true

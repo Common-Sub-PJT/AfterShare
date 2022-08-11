@@ -139,7 +139,7 @@ dependencies {
     implementation('commons-io:commons-io:2.6')
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-lang3:3.9")
-
+    implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("com.querydsl:querydsl-jpa:${querydslVer}")
     implementation("com.querydsl:querydsl-apt:${querydslVer}")
 
