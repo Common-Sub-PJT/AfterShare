@@ -5,8 +5,7 @@ import com.ssafy.api.request.ConferenceRegistPostReq;
 import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
 import com.ssafy.api.response.FollowingRes;
-import com.ssafy.db.entity.Conference;
-import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.*;
 
 import java.util.List;
 
@@ -29,4 +28,10 @@ public interface ConferenceService {
     List<ConferenceRes> getConferenceFollowList(List<FollowingRes> followingUser);
 
     ConferenceInfoRes getConferenceInfo(long conference_id);
+
+    Following following(String following_id, String userId);
+
+    Follower follower(String userId, String follower_id);
+
+    UserReport report(User user, String reportUserId, String reportContent);
 }
