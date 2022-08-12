@@ -66,6 +66,8 @@ public class Conference {
     )
     private String sigungu;
 
+    private int person_now;
+
     private int person_limit;
 
     @Column(
