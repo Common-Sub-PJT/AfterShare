@@ -65,7 +65,7 @@ public class ConferenceController {
 
     @PostMapping("/chat")
     @ApiOperation(value = "화상회의 방 생성", notes = "<strong>회의실 생성 정보</strong>를 입력받아 화상회의 방을 생성한다. ")
-    public ResponseEntity<? extends BaseResponseBody> searchConference(
+    public ResponseEntity<Long> createConference(
             @RequestBody @ApiParam(value = "화상회의 생성 정보", required = true) ConferenceRegistPostReq conferenceInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -79,7 +79,7 @@ public class ConferenceController {
         //임의로 리턴된 Conference 인스턴스. 현재 코드는 방 생성 성공 여부만 판단하기 때문에 굳이 Insert 된 정보를 응답하지 않음.
         Conference conference = conferenceService.createConference(user, conferenceInfo);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        return ResponseEntity.status(200).body(conference.getConference_id());
     }
 
     @GetMapping("/follow")

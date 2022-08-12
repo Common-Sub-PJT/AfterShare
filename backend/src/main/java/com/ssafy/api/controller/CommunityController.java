@@ -38,7 +38,7 @@ public class CommunityController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public long Register(
+    public ResponseEntity<Long> Register(
             @RequestBody @ApiParam(value = "글 작성 정보", required = true) CommunityRegistPostReq communityRegisterInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -51,7 +51,7 @@ public class CommunityController {
 
         Community community = communityService.createArticle(user, communityRegisterInfo);
 
-        return community.getArticle_id();
+        return ResponseEntity.status(200).body(community.getArticle_id());
     }
 
 
