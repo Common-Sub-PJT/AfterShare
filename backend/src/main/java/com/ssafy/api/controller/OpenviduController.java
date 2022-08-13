@@ -25,6 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class OpenviduController {
 
     @Autowired
+    ConferenceRepository conferenceRepository;
+    @Autowired
     ConferenceRepositorySupport conferenceRepositorySupport;
     // OpenVidu object as entrypoint of the SDK
     private OpenVidu openVidu;
@@ -126,7 +128,6 @@ public class OpenviduController {
 //        }
 //    }
 
-
     @ApiOperation(value = "session 토큰 가져오기", notes = "세션 id의 정보에 따라 토큰을 가져온다.")//body{tokenName:'aaa'}
     @PostMapping("/get-token")
     public ResponseEntity<OpenviduPostRes> getToken(@RequestBody @ApiParam(value="token가져오기", required = true) OpenviduPostReq openviduPostReq) {
@@ -161,10 +162,13 @@ public class OpenviduController {
 
                     // Update our collection storing the new token
                     this.mapSessionNamesTokens.get(sessionName).put(token, role);
+                    
+                    //참가를 했으면 화상회의방 person_now 값을 size로 update 해주기
+                    conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
 
                     // Prepare the response with the token
                     // Return the response to the client
-                    return ResponseEntity.ok(OpenviduPostRes.of(200, "Success", token, this.mapSessionNamesTokens.get(sessionName).size()));
+                    return ResponseEntity.ok(OpenviduPostRes.of(200, "Success", token));
 
                 } catch (OpenViduJavaClientException e1) {
                     // If internal error generate an error message and return it to client
@@ -193,10 +197,13 @@ public class OpenviduController {
             this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
             this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
+            //참가를 했으면 화상회의방 person_now 값을 size로 update 해주기
+            conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
+
             // Prepare the response with the sessionId and the token
             System.out.println(token);
             // Return the response to the client
-            return ResponseEntity.ok(OpenviduPostRes.of(200, "Success",token ,1));
+            return ResponseEntity.ok(OpenviduPostRes.of(200, "Success",token));
 
         } catch (Exception e) {
             // If error generate an error message and return it to client
@@ -211,8 +218,10 @@ public class OpenviduController {
         System.out.println("Removing user | {sessionName, token}=" + openviduRemoveUserReq.toString());
 
         // Retrieve the params from BODY
-        String sessionName = openviduRemoveUserReq.getSessionName();
+        String sessionName= ""+openviduRemoveUserReq.getSessionName()+"";
         String token = openviduRemoveUserReq.getToken();
+
+        Conference conference = conferenceRepositorySupport.findByConferenceId(openviduRemoveUserReq.getSessionName());
 
         // If the session exists
         if (this.mapSessions.get(sessionName) != null && this.mapSessionNamesTokens.get(sessionName) != null) {
@@ -223,7 +232,13 @@ public class OpenviduController {
                 if (this.mapSessionNamesTokens.get(sessionName).isEmpty()) {
                     // Last user left: session must be removed
                     this.mapSessions.remove(sessionName);
+                    //DB 화상회의에서 데이터 삭제
+                    conferenceRepository.deleteById(conference.getConference_id());
                 }
+
+                //한 사람 씩 나갈 때마다 화상회의방 person_now 값을 size로 update 해주기
+                conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
+
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
                 // The TOKEN wasn't valid
@@ -237,7 +252,6 @@ public class OpenviduController {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Problems in the app server: the SESSION does not exist"));
         }
     }
-
 
     @ApiOperation(value = "session 닫기", notes = "해당하는 sessionName의 세션을 지운다.")//body{tokenName:'aaa'}
     @RequestMapping(value = "/close-session/{sessionName}", method = RequestMethod.DELETE)

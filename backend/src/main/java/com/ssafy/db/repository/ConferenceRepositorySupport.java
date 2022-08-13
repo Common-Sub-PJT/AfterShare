@@ -17,6 +17,9 @@ public class ConferenceRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
 
+    @Autowired
+    ConferenceRepository conferenceRepository;
+
     QConference qConference = QConference.conference;
     QFollowing qFollowing = QFollowing.following;
 
@@ -108,5 +111,10 @@ public class ConferenceRepositorySupport {
                 .where(qConference.conference_id.eq(conference_id))
                 .fetchOne();
         return conference;
+    }
+
+    public void updatePersonNow(Conference conference, int person_now) {
+        conference.setPerson_now(person_now);
+        conferenceRepository.save(conference);
     }
 }

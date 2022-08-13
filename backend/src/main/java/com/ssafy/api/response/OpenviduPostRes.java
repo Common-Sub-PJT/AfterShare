@@ -13,15 +13,6 @@ public class OpenviduPostRes extends BaseResponseBody{
     @ApiModelProperty(name="openvidu 생성 토큰", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN...")
     String token;
 
-    public static OpenviduPostRes of(Integer statusCode, String message, String Token, int personNow) {
-        OpenviduPostRes res = new OpenviduPostRes();
-        res.setStatusCode(statusCode);
-        res.setMessage(message);
-        res.setToken(Token);
-        res.setPersonNow(personNow);
-        return res;
-    }
-
     public static OpenviduPostRes of(Integer statusCode, String message, String Token) {
         OpenviduPostRes res = new OpenviduPostRes();
         res.setStatusCode(statusCode);
@@ -29,10 +20,4 @@ public class OpenviduPostRes extends BaseResponseBody{
         res.setToken(Token);
         return res;
     }
-
-//    public static OpenviduPostRes of(int personNow){
-//        OpenviduPostRes res = new OpenviduPostRes();
-//        res.setPersonNow(personNow);
-//        return res;
-//    }
 }
