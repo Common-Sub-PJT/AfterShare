@@ -23,13 +23,16 @@ public class CommunityRes {
     int recommend;
     //댓글 수
     long comment_cnt;
+    // 글 작성자 닉네임
+    String user_name;
 
     public static CommunityRes of(long article_id,
                                   String article_title,
                                   String user_id,
                                   int view_cnt,
                                   int recommend,
-                                  long comment_cnt) {
+                                  long comment_cnt,
+                                  String user_name) {
         CommunityRes res = new CommunityRes();
         //------글 목록 항목
         res.setArticle_id(article_id);
@@ -38,7 +41,7 @@ public class CommunityRes {
         res.setView_cnt(view_cnt);
         res.setRecommend(recommend);
         res.setComment_cnt(comment_cnt);
-
+        res.setUser_name(user_name);
         return res;
     }
 
