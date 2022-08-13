@@ -15,6 +15,8 @@ public class ConferenceRes {
     String title;
     //공연명
     String prfnm;
+    //모두참여/관람자만
+    boolean is_after;
     //스포금지/주의 여부
     boolean is_spoiler;
     // 공연 일시
@@ -36,6 +38,7 @@ public class ConferenceRes {
         res.setConference_id(conference.getConference_id());
         res.setTitle(conference.getTitle());
         res.setPrfnm(conference.getPrfnm());
+        res.set_after(conference.is_after());
         res.set_spoiler(conference.is_spoiler());
         res.setPerform_day(conference.getPerform_day());
         res.setOwner_id(conference.getOwner_id());
