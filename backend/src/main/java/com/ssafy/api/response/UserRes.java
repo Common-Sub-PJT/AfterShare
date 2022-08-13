@@ -22,15 +22,23 @@ public class UserRes{
 	String email;
 	@ApiModelProperty(name="profile_img")
 	String profile_img;
+	@ApiModelProperty(name="following")
+	int following_cnt;
+	@ApiModelProperty(name="follower")
+	int follower_cnt;
+	@ApiModelProperty(name="aboutme")
+	String about_me;
+
 
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
-
 		res.setUserId(user.getUserId());
 		res.setName(user.getName());
 		res.setEmail(user.getEmail());
 		res.setProfile_img(user.getProfile_img());
-
+		res.setFollowing_cnt(user.getFollowing_cnt());
+		res.setFollower_cnt(user.getFollower_cnt());
+		res.setAbout_me(user.getAbout_me());
 		return res;
 	}
 }

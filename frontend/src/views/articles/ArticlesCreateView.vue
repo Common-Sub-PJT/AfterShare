@@ -29,7 +29,6 @@ export default {
     return {
       title: '',
       content: '',
-      image: '/media/article_image/%EB%83%A5%EC%9D%B4.jpg',
     }
   },
   methods: {

@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @ApiModel("ConferenceListResponse")
@@ -23,6 +21,14 @@ public class ConferenceRes {
     String perform_day;
     //방장ID
     String owner_id;
+    //비밀번호 여부
+    boolean is_secret;
+    //비밀번호
+    String password;
+    //방 현재 인원
+    int person_now;
+    //방 제한 인원
+    int person_limit;
 
     public static ConferenceRes of(Conference conference){
         ConferenceRes res = new ConferenceRes();
@@ -33,6 +39,10 @@ public class ConferenceRes {
         res.set_spoiler(conference.is_spoiler());
         res.setPerform_day(conference.getPerform_day());
         res.setOwner_id(conference.getOwner_id());
+        res.set_secret(conference.is_secret());
+        res.setPassword(conference.getPassword());
+        res.setPerson_now(conference.getPerson_now());
+        res.setPerson_limit(conference.getPerson_limit());
 
         return res;
     }

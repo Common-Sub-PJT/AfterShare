@@ -1,16 +1,17 @@
 <template>
   <div class="Community row">
-    <!-- <div class="col-10 offset-1 col-md-8 offset-md-2 col-xxl-6 offset-xxl-3"> -->
-    <div>
-      <div class="mt-2 d-flex justify-content-between">
-        <div class="dropdown" v-for="(communityCategory, index) in communityCategories" :key="index">
-          <router-link to="/articles"><button class="dropbtn" @click="searchArticles(communityCategory, communityCategory)">{{ communityCategory }}</button></router-link>
-        </div>
-        <div class="dropdown" v-for="(performGenre, index) in performGenres" :key="index">
-          <button class="dropbtn">{{ performGenre }}</button>
-          <div class="dropdown-content">
-            <router-link to="/articles"><a @click="searchArticles(performGenre, dropdownContent)" v-for="(dropdownContent, index) in dropdownContents" :key="index">{{ dropdownContent }}</a></router-link>
-          </div>
+    <div class="mt-4 d-flex justify-content-between">
+      <div class="dropdown" v-for="(communityCategory, index) in communityCategories" :key="index">
+        <router-link to="/articles"><button class="dropbtn"
+            @click="searchArticles(communityCategory, communityCategory)">{{ communityCategory }}</button></router-link>
+      </div>
+      <div class="dropdown" v-for="(performGenre, index) in performGenres" :key="index">
+        <button class="dropbtn">{{ performGenre }}</button>
+        <div class="dropdown-content">
+          <a @click="searchArticles(performGenre, dropdownContent)"
+              v-for="(dropdownContent, index) in dropdownContents" :key="index"><router-link to="/articles">{{ dropdownContent }}</router-link></a>
+          <!-- <router-link to="/articles"><a @click="searchArticles(performGenre, dropdownContent)"
+              v-for="(dropdownContent, index) in dropdownContents" :key="index">{{ dropdownContent }}</a></router-link> -->
         </div>
       </div>
     </div>
@@ -38,6 +39,10 @@ export default {
 </script>
 
 <style scoped>
+.Community {
+  margin: 0;
+  padding: 0;
+}
 .dropbtn {
   background-color: #F9F9F9;
   color: black;
