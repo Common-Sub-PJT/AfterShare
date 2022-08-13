@@ -27,9 +27,13 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     FollowerRepository followerRepository;
+    @Autowired
+    FollowerRepositorySupport followerRepositorySupport;
 
     @Autowired
     FollowingRepository followingRepository;
+    @Autowired
+    FollowingRepositorySupport followingRepositorySupport;
 
     @Autowired
     UserReportRepository userReportRepository;
@@ -156,6 +160,18 @@ public class ConferenceServiceImpl implements ConferenceService{
         userReport.setReport_content(reportContent);
         userReport.setUser(userInfo);
         return userReportRepository.save(userReport);
+    }
+
+    @Override
+    public void unfollowing(String unfollowingId, String userId) {
+        Following following = followingRepositorySupport.findByFollowingId(unfollowingId);
+        followingRepository.delete(following);
+    }
+
+    @Override
+    public void unfollower(String unfollwerId, String userId) {
+        Follower follower = followerRepositorySupport.findByFollowerId(unfollwerId);
+        followerRepository.delete(follower);
     }
 }
 

@@ -34,4 +34,8 @@ public interface ConferenceService {
     Follower follower(String userId, String follower_id);
 
     UserReport report(User user, String reportUserId, String reportContent);
+
+    void unfollowing(String unfollowingId, String userId);
+
+    void unfollower(String userId, String unfollowingId);
 }
