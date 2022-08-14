@@ -2,7 +2,7 @@ const HOST = "http://localhost:8080/api/"
 // const HOST = "https://i7b303.p.ssafy.io/api/"
 const ACCOUNTS = "users"
 const COMMUNITIES = "communities"
-const PERFORMS = 'performs/'
+const PERFORMS = 'performs'
 const CONFERENCES = "conferences"
 
 export default {
@@ -28,11 +28,13 @@ export default {
   },
   performs: {
     performs: () => HOST + PERFORMS,
-    guguns: () => HOST + PERFORMS + 'guguns',
-    perform: mt20id => HOST + PERFORMS + `${mt20id}`,
+    guguns: () => HOST + PERFORMS + '/guguns',
+    perform: mt20id => HOST + PERFORMS + `/${mt20id}`,
+    search: () => HOST + PERFORMS + '/search',
   },
   conferences: {
     conferences: () => HOST + CONFERENCES,
     search: () => HOST + CONFERENCES + '/search',
+    create: () => HOST + CONFERENCES +'/chat'
   },
 }

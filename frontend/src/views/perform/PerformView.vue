@@ -106,6 +106,7 @@ export default defineComponent ({
       axios.post(secosi.performs.search(), performInfo)
         .then(res => {
           this.performList = res.data
+          console.log(this.performList)
         })
         .catch(err => {
           console.error(err.response.data)
