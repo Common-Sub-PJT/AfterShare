@@ -1,20 +1,21 @@
 <template>
-  <div class="Community row">
-    <!-- <div class="col-10 offset-1 col-md-8 offset-md-2 col-xxl-6 offset-xxl-3"> -->
-    <div>
-      <div class="mt-2 d-flex justify-content-between">
-        <div class="dropdown" v-for="(communityCategory, index) in communityCategories" :key="index">
-          <router-link to="/articles"><button class="dropbtn" @click="searchArticles(communityCategory, communityCategory)">{{ communityCategory }}</button></router-link>
-        </div>
-        <div class="dropdown" v-for="(performGenre, index) in performGenres" :key="index">
-          <button class="dropbtn">{{ performGenre }}</button>
-          <div class="dropdown-content">
-            <router-link to="/articles"><a @click="searchArticles(performGenre, dropdownContent)" v-for="(dropdownContent, index) in dropdownContents" :key="index">{{ dropdownContent }}</a></router-link>
-          </div>
+  <div class="row">
+    <div class="mt-4 d-flex justify-content-between">
+      <div class="dropdown" v-for="(communityCategory, index) in communityCategories" :key="index">
+        <router-link to="/articles"><button class="dropbtn"
+            @click="searchArticles(communityCategory, communityCategory)">{{ communityCategory }}</button></router-link>
+      </div>
+      <div class="dropdown" v-for="(performGenre, index) in performGenres" :key="index">
+        <button class="dropbtn">{{ performGenre }}</button>
+        <div class="dropdown-content">
+          <a @click="searchArticles(performGenre, dropdownContent)"
+              v-for="(dropdownContent, index) in dropdownContents" :key="index"><router-link to="/articles">{{ dropdownContent }}</router-link></a>
+          <!-- <router-link to="/articles"><a @click="searchArticles(performGenre, dropdownContent)"
+              v-for="(dropdownContent, index) in dropdownContents" :key="index">{{ dropdownContent }}</a></router-link> -->
         </div>
       </div>
     </div>
-    <hr class="mt-0">
+    <div class="nav-line"></div>
   </div>
 </template>
 
@@ -38,16 +39,27 @@ export default {
 </script>
 
 <style scoped>
+.nav-line{
+  margin: 0px 0px 40px 0px;
+  border-top: 3px solid;
+  border-color: #1B3C33;
+}
+.Community {
+  margin: 0;
+  padding: 0;
+}
 .dropbtn {
   background-color: #F9F9F9;
-  color: black;
+  color: #1B3C33;
   padding: 16px;
   font-size: 16px;
   font-weight: bold;
   border: none;
   cursor: pointer;
   width: 88px;
-  height: 40px;
+  height: 48px;
+  text-align: center;
+  align-content: center;
 }
 
 .dropdown:hover .dropbtn {

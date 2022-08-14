@@ -18,6 +18,7 @@ export const useAccounts = defineStore({
   actions: {
     removeToken() {
       localStorage.setItem('token', '')
+      this.currentUser = {}
       window.location.reload()
     },
     fetchCurrentUser() {
@@ -35,10 +36,10 @@ export const useAccounts = defineStore({
               this.removeToken()
             }
           })
-      }
-    },
-    login(credential) {
-      axios.post(secosi.accounts.login(), credential)
+        }
+      },
+      login(credential) {
+        axios.post(secosi.accounts.login(), credential)
         .then(res => {
           localStorage.setItem('token', res.data.accessToken)
           this.token = res.data.accessToken

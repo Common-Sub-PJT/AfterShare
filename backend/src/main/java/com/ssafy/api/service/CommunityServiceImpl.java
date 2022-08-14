@@ -57,7 +57,8 @@ public class CommunityServiceImpl implements CommunityService{
                     commu.getUser().getUserId(),
                     commu.getView_cnt(),
                     commu.getRecommend(),
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+                    commentRepositorySupport.countCommentById(commu.getArticle_id()),
+                    commu.getUser().getName()));
         }
         return res;
     }
@@ -73,7 +74,8 @@ public class CommunityServiceImpl implements CommunityService{
                     commu.getUser().getUserId(),
                     commu.getView_cnt(),
                     commu.getRecommend(),
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+                    commentRepositorySupport.countCommentById(commu.getArticle_id()),
+                    commu.getUser().getName()));
         }
         return res;
     }
@@ -91,7 +93,8 @@ public class CommunityServiceImpl implements CommunityService{
                     commu.getUser().getUserId(),
                     commu.getView_cnt(),
                     commu.getRecommend(),
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+                    commentRepositorySupport.countCommentById(commu.getArticle_id()),
+                    commu.getUser().getName()));
         }
         return res;
     }
@@ -166,7 +169,8 @@ public class CommunityServiceImpl implements CommunityService{
                     commu.getUser().getUserId(),
                     commu.getView_cnt(),
                     commu.getRecommend(),
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+                    commentRepositorySupport.countCommentById(commu.getArticle_id()),
+                    commu.getUser().getEmail()));
         }
         return res;
     }
@@ -192,7 +196,8 @@ public class CommunityServiceImpl implements CommunityService{
                     commu.getUser().getUserId(),
                     commu.getView_cnt(),
                     commu.getRecommend(),
-                    commentRepositorySupport.countCommentById(commu.getArticle_id())));
+                    commentRepositorySupport.countCommentById(commu.getArticle_id()),
+                    commu.getUser().getName()));
         }
         return res;
     }

@@ -10,8 +10,8 @@ import lombok.Setter;
 @ApiModel("OpenviduRemoveUserReq")
 public class OpenviduRemoveUserReq {
 
-    @ApiModelProperty(name="sessionName", example="session1")
-    String sessionName;
+    @ApiModelProperty(name="sessionName", example="1")
+    long sessionName;
     @ApiModelProperty(name="token", example="session1")
     String token;
 }

@@ -27,12 +27,22 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     FollowerRepository followerRepository;
+    @Autowired
+    FollowerRepositorySupport followerRepositorySupport;
 
     @Autowired
     FollowingRepository followingRepository;
+    @Autowired
+    FollowingRepositorySupport followingRepositorySupport;
 
     @Autowired
     UserReportRepository userReportRepository;
+
+    @Autowired
+    UserRepositorySupport userRepositorySupport;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<ConferenceRes> getRecentConferenceList() {
@@ -132,18 +142,19 @@ public class ConferenceServiceImpl implements ConferenceService{
     }
 
     @Override
-    public Following following(String following_id, String userId) {
+    public Following following(String following_id, User user) {
         Following following = new Following();
         following.setFollowing_id(following_id);
-        following.setUserId(userId);
+        following.setUserId(user.getUserId());
         return followingRepository.save(following);
     }
 
     @Override
-    public Follower follower(String userId, String follower_id) {
+    public Follower follower(User user, String follower_id) {
+        //user :
         Follower follower = new Follower();
         // 팔로워 테이블에 저장이므로 팔로잉과 반대로 넣어줘야 함. userId = 내 아이디 follower_id = 팔로워 아이디
-        follower.setFollower_id(userId);
+        follower.setFollower_id(user.getUserId());
         follower.setUserId(follower_id);
         return followerRepository.save(follower);
     }
@@ -157,5 +168,21 @@ public class ConferenceServiceImpl implements ConferenceService{
         userReport.setUser(userInfo);
         return userReportRepository.save(userReport);
     }
+
+    @Override
+    public void unfollowing(String unfollowingId) {
+        Following following = followingRepositorySupport.findByFollowingId(unfollowingId);
+        followingRepository.delete(following);
+    }
+
+    @Override
+    public void unfollower(String unfollwerId) {
+        Follower follower = followerRepositorySupport.findByFollowerId(unfollwerId);
+        followerRepository.delete(follower);
+    }
+
+
+
+
 }
 

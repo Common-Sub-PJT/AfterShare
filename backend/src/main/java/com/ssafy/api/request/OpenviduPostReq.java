@@ -10,6 +10,6 @@ import lombok.Setter;
 @ApiModel("OpenviduPostReq")
 public class OpenviduPostReq {
 
-    @ApiModelProperty(name="sessionName", example="session1")
-    String sessionName;
+    @ApiModelProperty(name="sessionName", example="1")
+    long sessionName;
 }

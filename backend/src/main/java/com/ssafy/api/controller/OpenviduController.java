@@ -4,9 +4,14 @@ import com.ssafy.api.request.OpenviduPostReq;
 import com.ssafy.api.request.OpenviduRemoveUserReq;
 import com.ssafy.api.response.OpenviduPostRes;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Conference;
+import com.ssafy.db.repository.ConferenceRepository;
+import com.ssafy.db.repository.ConferenceRepositorySupport;
 import io.openvidu.java.client.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +19,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Api(value = "openvidu server", tags = {"Openvidu."})
+@RestController
+@RequestMapping("/api/openvidu")
 public class OpenviduController {
+
+    @Autowired
+    ConferenceRepository conferenceRepository;
+    @Autowired
+    ConferenceRepositorySupport conferenceRepositorySupport;
     // OpenVidu object as entrypoint of the SDK
     private OpenVidu openVidu;
 
@@ -120,7 +133,7 @@ public class OpenviduController {
     public ResponseEntity<OpenviduPostRes> getToken(@RequestBody @ApiParam(value="token가져오기", required = true) OpenviduPostReq openviduPostReq) {
 
         System.out.println("Getting sessionId and token | {sessionName}=" +openviduPostReq.getSessionName());
-        String sessionName=openviduPostReq.getSessionName();
+        String sessionName= ""+openviduPostReq.getSessionName()+"";
 
         // The video-call to connect ("TUTORIAL")
 
@@ -131,31 +144,42 @@ public class OpenviduController {
         ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
                 .role(role).data("").build();
 
+        Conference conference = conferenceRepositorySupport.findByConferenceId(openviduPostReq.getSessionName());
+
+        int person_limit = conference.getPerson_limit();
+
         //세션이 있으면 -> 참가자로서 입장
         if (this.mapSessions.get(sessionName) != null) {
             // Session already exists
             System.out.println("Existing session " + sessionName);
-            try {
+            if(this.mapSessionNamesTokens.get(sessionName).size() >= person_limit){
+                throw new RuntimeException("인원이 초과되었습니다.");
+            }else {
+                try {
 
-                // Generate a new token with the recently created connectionProperties
-                String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
+                    // Generate a new token with the recently created connectionProperties
+                    String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
 
-                // Update our collection storing the new token
-                this.mapSessionNamesTokens.get(sessionName).put(token, role);
+                    // Update our collection storing the new token
+                    this.mapSessionNamesTokens.get(sessionName).put(token, role);
+                    
+                    //참가를 했으면 화상회의방 person_now 값을 size로 update 해주기
+                    conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
 
-                // Prepare the response with the token
-                // Return the response to the client
-                return ResponseEntity.ok(OpenviduPostRes.of(200, "Success",token));
+                    // Prepare the response with the token
+                    // Return the response to the client
+                    return ResponseEntity.ok(OpenviduPostRes.of(200, "Success", token));
 
-            } catch (OpenViduJavaClientException e1) {
-                // If internal error generate an error message and return it to client
-                return ResponseEntity.status(401).body(OpenviduPostRes.of(401, "Invalid", null));
-            } catch (OpenViduHttpException e2) {
-                if (404 == e2.getStatus()) {
-                    // Invalid sessionId (user left unexpectedly). Session object is not valid
-                    // anymore. Clean collections and continue as new session
-                    this.mapSessions.remove(sessionName);
-                    this.mapSessionNamesTokens.remove(sessionName);
+                } catch (OpenViduJavaClientException e1) {
+                    // If internal error generate an error message and return it to client
+                    return ResponseEntity.status(401).body(OpenviduPostRes.of(401, "Invalid", null));
+                } catch (OpenViduHttpException e2) {
+                    if (404 == e2.getStatus()) {
+                        // Invalid sessionId (user left unexpectedly). Session object is not valid
+                        // anymore. Clean collections and continue as new session
+                        this.mapSessions.remove(sessionName);
+                        this.mapSessionNamesTokens.remove(sessionName);
+                    }
                 }
             }
         }
@@ -173,18 +197,19 @@ public class OpenviduController {
             this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
             this.mapSessionNamesTokens.get(sessionName).put(token, role);
 
+            //참가를 했으면 화상회의방 person_now 값을 size로 update 해주기
+            conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
+
             // Prepare the response with the sessionId and the token
             System.out.println(token);
             // Return the response to the client
-            return ResponseEntity.ok(OpenviduPostRes.of(200, "Success",token ));
+            return ResponseEntity.ok(OpenviduPostRes.of(200, "Success",token));
 
         } catch (Exception e) {
             // If error generate an error message and return it to client
             return ResponseEntity.status(401).body(OpenviduPostRes.of(401, "Invalid", null));
         }
     }
-
-
 
     @ApiOperation(value = "user 지우기", notes = "유처가 세션을 나간다. 마지막 사람까지 나갈경우 세션은 없어진다.")//body{tokenName:'aaa'}
     @RequestMapping(value = "/remove-user", method = RequestMethod.POST)
@@ -193,8 +218,10 @@ public class OpenviduController {
         System.out.println("Removing user | {sessionName, token}=" + openviduRemoveUserReq.toString());
 
         // Retrieve the params from BODY
-        String sessionName = openviduRemoveUserReq.getSessionName();
+        String sessionName= ""+openviduRemoveUserReq.getSessionName()+"";
         String token = openviduRemoveUserReq.getToken();
+
+        Conference conference = conferenceRepositorySupport.findByConferenceId(openviduRemoveUserReq.getSessionName());
 
         // If the session exists
         if (this.mapSessions.get(sessionName) != null && this.mapSessionNamesTokens.get(sessionName) != null) {
@@ -205,7 +232,13 @@ public class OpenviduController {
                 if (this.mapSessionNamesTokens.get(sessionName).isEmpty()) {
                     // Last user left: session must be removed
                     this.mapSessions.remove(sessionName);
+                    //DB 화상회의에서 데이터 삭제
+                    conferenceRepository.deleteById(conference.getConference_id());
                 }
+
+                //한 사람 씩 나갈 때마다 화상회의방 person_now 값을 size로 update 해주기
+                conferenceRepositorySupport.updatePersonNow(conference, this.mapSessionNamesTokens.get(sessionName).size());
+
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
                 // The TOKEN wasn't valid
@@ -219,7 +252,6 @@ public class OpenviduController {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "Problems in the app server: the SESSION does not exist"));
         }
     }
-
 
     @ApiOperation(value = "session 닫기", notes = "해당하는 sessionName의 세션을 지운다.")//body{tokenName:'aaa'}
     @RequestMapping(value = "/close-session/{sessionName}", method = RequestMethod.DELETE)
