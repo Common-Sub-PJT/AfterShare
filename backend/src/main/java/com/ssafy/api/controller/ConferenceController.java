@@ -123,8 +123,10 @@ public class ConferenceController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
 
-        conferenceService.following(followingId, user.getUserId());
-        conferenceService.follower(user.getUserId(), followingId);
+        conferenceService.following(followingId, user);
+        userService.followingCnt(user);
+        conferenceService.follower(user, followingId);
+        userService.followerCnt(followingId);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -141,8 +143,10 @@ public class ConferenceController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
 
-        conferenceService.unfollowing(unfollowingId, user.getUserId());
-        conferenceService.unfollower(user.getUserId(), unfollowingId);
+        conferenceService.unfollowing(unfollowingId);
+        userService.unfollowingCnt(user);
+        conferenceService.unfollower(user.getUserId());
+        userService.unfollowerCnt(unfollowingId);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
