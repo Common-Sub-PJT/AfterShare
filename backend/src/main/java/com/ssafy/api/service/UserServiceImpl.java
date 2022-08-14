@@ -173,4 +173,11 @@ public class UserServiceImpl implements UserService {
 	}
 	//-----------차송희 마이페이지 끝
 
+	@Override
+	public void report(String reportUserId) {
+		User user = userRepositorySupport.findUserByUserId(reportUserId).get();
+		int current_report_cnt = user.getReport_cnt();
+		user.setReport_cnt(current_report_cnt+1);
+		userRepository.save(user);
+	}
 }
