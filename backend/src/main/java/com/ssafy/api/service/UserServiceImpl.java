@@ -141,6 +141,43 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return;
 	}
+
+	@Override
+	public void followerCnt(String followingId) {
+		User user = userRepositorySupport.findUserByUserId(followingId).get();
+		int current_follower_cnt = user.getFollower_cnt();
+		user.setFollower_cnt(current_follower_cnt+1);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void followingCnt(User user) {
+		int current_following_cnt = user.getFollowing_cnt();
+		user.setFollowing_cnt(current_following_cnt+1);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void unfollowingCnt(User user) {
+		int current_following_cnt = user.getFollowing_cnt();
+		user.setFollowing_cnt(current_following_cnt-1);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void unfollowerCnt(String unfollowingId) {
+		User user = userRepositorySupport.findUserByUserId(unfollowingId).get();
+		int current_follower_cnt = user.getFollower_cnt();
+		user.setFollower_cnt(current_follower_cnt-1);
+		userRepository.save(user);
+	}
 	//-----------차송희 마이페이지 끝
 
+	@Override
+	public void report(String reportUserId) {
+		User user = userRepositorySupport.findUserByUserId(reportUserId).get();
+		int current_report_cnt = user.getReport_cnt();
+		user.setReport_cnt(current_report_cnt+1);
+		userRepository.save(user);
+	}
 }

@@ -1,5 +1,6 @@
 package com.ssafy.api.response;
 
+import com.ssafy.db.entity.Community;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import java.time.LocalDateTime;
 @ApiModel("CommunityListRes")
 public class CommunityRes {
     //-------글 목록 항목
+    //글 번호
+    long article_id;
     //글 제목
     String article_title;
     //글 작성자
@@ -20,20 +23,25 @@ public class CommunityRes {
     int recommend;
     //댓글 수
     long comment_cnt;
+    // 글 작성자 닉네임
+    String user_name;
 
-    public static CommunityRes of(String article_title,
+    public static CommunityRes of(long article_id,
+                                  String article_title,
                                   String user_id,
                                   int view_cnt,
                                   int recommend,
-                                  long comment_cnt
-    ) {
+                                  long comment_cnt,
+                                  String user_name) {
         CommunityRes res = new CommunityRes();
         //------글 목록 항목
+        res.setArticle_id(article_id);
         res.setArticle_title(article_title);
         res.setUser_id(user_id);
         res.setView_cnt(view_cnt);
         res.setRecommend(recommend);
         res.setComment_cnt(comment_cnt);
+        res.setUser_name(user_name);
         return res;
     }
 

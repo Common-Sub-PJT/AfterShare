@@ -1,215 +1,210 @@
 <template>
-  <p>perform detail 화면입니다</p>
-  <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="page-title">
-                        <h2 class="text-dark fw-light lh-base mt-5">레~~~~~~~~~~베카</h2>
-                        <p class="fs-16 text-muted mb-0">여기에 뭐 넣을지 생각해봐야할듯</p>
-                    </div>
+  <section class="sm-section">
+  <h3 class="text-dark fw-light pf-name mt-5">{{performInfo.prfnm}}</h3>
+  <hr>
+    <div class="container my-5">
+      <div class="row info-box">
+        <div class="col-lg-12">
+          <div class="row ">
+            <div class="col">
+                <div class="position-relative">
+                    <img class="poster-img img-fluid rounded-3" :src="`${performInfo.poster}`" alt="img" />
                 </div>
             </div>
-            <!-- end row -->
-        </div>
-  </section>
-    <!-- End Title -->
-
-    <section class="sm-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-md-5 mt-4">
-                            <div class="position-relative">
-                                <img class="img-fluid rounded-3" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg" alt="img" />
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-4 mt-4">
-                                    <a href=""><img class="img-fluid rounded" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg"
-                                            alt="img" /></a>
-                                </div>
-                                <div class="col-sm-4 mt-4">
-                                    <a href=""><img class="img-fluid rounded" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg"
-                                            alt="img" /></a>
-                                </div>
-                                <div class="col-sm-4 mt-4">
-                                    <a href=""><img class="img-fluid rounded" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg"
-                                            alt="img" /></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-7 mt-4">
-                            <div class="pro-detail-content">
-                                <div class="price my-3">
-                                    <ins class="pe-2 fs-18 text-success fw-semibold text-decoration-none">공연 기간</ins>
-                                    <del class="text-muted fs-18">API에서 불러온 정보 넣기</del>
-                                </div>
-
-                                <p class="text-muted fs-16 my-3">
-                                    강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워 강아지귀여워
-                                </p>
-                                <div class="rating my-3">
-                                    <i class="mdi mdi-star fs-20 text-warning d-inline-block"></i>
-                                    <h5 class="d-inline-block fs-16 mb-0">5.0</h5>
-                                </div>
-
-                                <div class="details mb-4">
-                                    <ul class="list-unstyled">
-                                        <li class="text-muted py-1"><i data-feather="arrow-right"
-                                                class="icon-xxs me-2"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="text-muted py-1"><i data-feather="arrow-right"
-                                                class="icon-xxs me-2"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="text-muted py-1"><i data-feather="arrow-right"
-                                                class="icon-xxs me-2"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="text-muted py-1"><i data-feather="arrow-right"
-                                                class="icon-xxs me-2"></i> API에서 불러온 정보 넣기</li>
-                                    </ul>
-                                    <ul class="list-unstyled list-inline"></ul>
-                                </div>
-                                <div class="qty mb-4">
-                                    <h6 class="d-inline-block fw-semibold">Select Items :</h6>
-                                    <select class="form-select border d-inline-block ms-4 w-25" id="autoSizingSelect">
-                                        <option selected="">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select>
-                                </div>
-                                <div class="color mb-4">
-                                    <h6 class="d-inline-block fw-semibold">Color :</h6>
-                                    <ul class="d-inline-block list-unstyled list-inline align-middle ms-3 mb-0">
-                                        <li class="list-inline-item me-0">
-                                            <a href="javascript:void(0)"><i
-                                                    class="mdi mdi-invert-colors fs-5 text-success"></i></a>
-                                        </li>
-                                        <li class="list-inline-item me-0">
-                                            <a href="javascript:void(0)"><i
-                                                    class="mdi mdi-invert-colors fs-5 text-primary"></i></a>
-                                        </li>
-                                        <li class="list-inline-item me-0">
-                                            <a href="javascript:void(0)"><i
-                                                    class="mdi mdi-invert-colors fs-5 text-danger"></i></a>
-                                        </li>
-                                        <li class="list-inline-item me-0">
-                                            <a href="javascript:void(0)"><i
-                                                    class="mdi mdi-invert-colors fs-5 text-warning"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="javascript:void(0)"><i
-                                                    class="mdi mdi-invert-colors fs-5 text-dark"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="hover-content">
-                                    <a href="/shop/cart" class="btn btn-secondary my-2"> <i data-feather="heart"
-                                            class="icon-xs me-2"></i> 목록보기 버튼으로 바꿔주세요</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col">
+                <div class="pro-detail-content">
+                  <div>
+                    <table>
+                      <tr>
+                        <td class="first-td">공연기간</td>
+                        <td>{{performInfo.prfpdfrom}} ~ {{performInfo.prfpdto}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">공연장소</td>
+                        <td>{{performInfo.fcltynm}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">공연시간</td>
+                        <td>{{performInfo.dtguidance}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">관람연령</td>
+                        <td>{{performInfo.prfage}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">티켓 가격</td>
+                        <td>{{performInfo.pcseguidance}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">출연진</td>
+                        <td>{{performInfo.prfcast}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">제작진</td>
+                        <td>{{performInfo.prfcrew}}</td>
+                      </tr>
+                      <tr>
+                        <td class="first-td">기획·제작</td>
+                        <td>{{performInfo.entrpsnm}}</td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
             </div>
+          </div>
         </div>
-    </section>
-    <!-- end pro-detail -->
+      </div>
+  </div>
+</section>
 
-    <!-- detail tab -->
-    <section class="section bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <nav class="pro-detail-area">
-                        <div class="nav nav-tabs border-bottom detail-title" id="nav-tab" role="tablist">
-                            <a class="nav-link border-0 active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home"
-                                role="tab" aria-controls="nav-home" aria-selected="true">소개</a>
-                            <a class="nav-link border-0" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile"
-                                role="tab" aria-controls="nav-profile" aria-selected="false">공연장</a>
-                        </div>
-                    </nav>
-                    <div class="tab-content py-4" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                            aria-labelledby="nav-home-tab">
-                            <p class="text-muted fs-16">
-                                API에서 불러온 소개사진 넣기!!
-                            </p>
-
-                            <div class="row text-muted">
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled">
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled">
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                        <li class="py-1"><i class="mdi mdi-circle-medium text-primary"></i> API에서 불러온 정보 넣기</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <h6 class="lh-base fw-medium">지도 API 넣기!!</h6>
-                            <ul class="list-unstyled my-4">
-                                <li class="list-inline d-flex py-3">
-                                    <div>
-                                        <a href="javascript:void(0)">
-                                            <img class="rounded-circle img-thumbnail" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg"
-                                                alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="ps-4">
-                                        <h6 class="d-inline-block fs-16 mb-0">John Barrows</h6>
-                                        <div class="rating d-inline-block ps-sm-4">
-                                            <i class="mdi mdi-star fs-16 text-warning d-inline-block"></i>
-                                            <h5 class="d-inline-block fs-16">5.0</h5>
-                                        </div>
-                                        <p class="text-muted">24th January, 2021</p>
-                                        <p class="text-muted fs-16">
-                                            API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="list-inline d-flex py-3">
-                                    <div>
-                                        <a href="javascript:void(0)">
-                                            <img class="rounded-circle img-thumbnail" src="http://img.insight.co.kr/static/2018/07/26/700/5r387l930063zu4se350.jpg"
-                                                alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="ps-4">
-                                        <h6 class="d-inline-block fs-16 mb-0">James Marks</h6>
-                                        <div class="rating d-inline-block ps-sm-4">
-                                            <i class="mdi mdi-star fs-16 text-warning d-inline-block"></i>
-                                            <h5 class="d-inline-block fs-16">4.9</h5>
-                                        </div>
-                                        <p class="text-muted">2nd January, 2021</p>
-                                        <p class="text-muted fs-16">
-                                            API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기 API에서 불러온 정보 넣기
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end nav -->
-
+<section class="section bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <nav class="pro-detail-area">
+          <div class="nav nav-tabs detail-title" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" href="#nav-info"
+                role="tab" aria-controls="nav-info" aria-selected="true">소개</a>
+            <a class="nav-link" id="nav-map-tab" data-bs-toggle="tab" href="#nav-map"
+                role="tab" aria-controls="nav-map" aria-selected="false">공연장</a>
+          </div>
+        </nav>
+        <div class="tab-content py-4" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-info" role="tabpanel"
+              aria-labelledby="nav-info-tab">
+            <div class="row text-muted">
+                <div>
+                  <span v-for="(url, index) in styurl" :key="index">
+                    <img class="info-img" :src='`${url}`' alt="info img">
+                  </span>
                 </div>
+                <div class="text-info">{{performInfo.sty}}</div>
             </div>
-            <!-- end row -->
+          </div>
+
+          <div class="tab-pane fade" id="nav-map" role="tabpanel" aria-labelledby="nav-map-tab">
+              <h6 class="lh-base fw-medium">지도 API 넣기!!</h6>
+              <div id="map" ref="kakaomap" style="width:800px;height:600px;"></div>
+              <ul class="list-unstyled my-4">
+                  <li class="list-inline d-flex py-3">
+
+                  </li>
+              </ul>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
+{{performInfo}}
 </template>
 
 <script>
-export default {
+import axios from 'axios'
+import secosi from "@/api/secosi"
 
+export default {
+   name:'PerformDetailView',
+  data() {
+    return {
+      mt20id: this.$route.params.mt20id,
+      performInfo: {},
+      styurl: {},
+    }
+  },
+  methods: {
+    fetchPerform(mt20id) {
+      axios.get(secosi.performs.perform(mt20id))
+        .then(res => {
+          this.performInfo=res.data
+          let strs = this.performInfo.styurls
+          this.styurl=strs.split(',')
+          let str = this.styurl
+          this.styurl=str.slice(0,-1)
+        }) 
+    },
+  },
+  created() {
+    this.fetchPerform(this.mt20id)
+  },
+  mounted() {
+    var container = this.$refs.kakaomap; //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+      level: 3 //지도의 레벨(확대, 축소 정도)
+    };
+
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+  }
 }
 </script>
-
+<style scoped>
+.sm-section {
+  text-align: center;
+}
+.container {
+  display: flex;
+  justify-content: center;
+}
+.row {
+  display: flex;
+  margin: 0;
+}
+.section {
+  display: flex;
+  text-align: center;
+}
+.info-box {
+  width: 896px;
+  display: flex;
+  justify-content: center;
+}
+.first-td{
+  width: 8rem;
+  background-color: #1b3c33;
+  color: #ffffff;
+  font-weight: bold;
+}
+.poster-img {
+  width: 320px;
+  height: 456px;
+}
+.nav-tabs {
+  width: 896px;
+  border-bottom: solid 5px #1b3c33;
+}
+.nav-link {
+  width: 448px;
+  border: 2px solid #1b3c33;
+}
+.text-info {
+  text-align: left;
+  border: 2px solid #1b3c33;
+  border-radius: 5px;
+  /* margin: 1rem; */
+}
+.info-img {
+  width: 896px;
+  padding-bottom: 2rem;
+}
+table {
+  border: 1px solid gray;
+  border-collapse: collapse;
+  height: 456px;
+  width: 544px;
+}
+th, td {
+  border: 1px solid gray;
+  padding: 0.5rem 1rem 0.5rem;
+  text-align: left;
+}
+nav {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+</style>

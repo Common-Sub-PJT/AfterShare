@@ -33,8 +33,14 @@ public class CommentRepositorySupport {
 
     public List<Comment> findCommentListByUserId(String userId) {
         List<Comment> comments = jpaQueryFactory.select(qComment).from(qComment)
-                .where(qComment.user.userId.eq(userId)).fetch();
+                .where(qComment.user.userId.eq(userId)).orderBy(qComment.comment_regtime.desc()).fetch();
         if(comments==null) return null;
+        return comments;
+    }
+
+    public List<Comment> findCommentListByArticleId(long article_id) {
+        List<Comment> comments = jpaQueryFactory.select(qComment).from(qComment)
+                .where(qComment.community.article_id.eq(article_id)).orderBy(qComment.comment_regtime.desc()).fetch();
         return comments;
     }
 }

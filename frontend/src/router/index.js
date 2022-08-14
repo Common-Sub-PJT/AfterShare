@@ -65,14 +65,9 @@ const router = createRouter({
       component: () => import('@/views/perform/PerformView.vue')
     },
     {
-      path: '/perform/:performid',
+      path: '/perform/:mt20id',
       name: 'PerformDetail',
       component: () => import('@/views/perform/PerformDetailView.vue')
-    },
-    {
-      path: '/perform/:performid/search',
-      name: 'PerformSearch',
-      component: () => import('@/views/perform/PerformSearchView.vue')
     },
     {
       path: '/manage', //관리자 페이지의 메인이고 여기서 신고된 모든 유저 정보를 확인할 수 있음

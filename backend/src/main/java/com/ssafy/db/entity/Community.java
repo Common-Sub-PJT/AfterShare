@@ -2,11 +2,10 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,9 +43,10 @@ public class Community {
 
     //FK : 유저 시리얼
     @ManyToOne
-    @JoinColumn(name="fk_user_user_serial", referencedColumnName = "userSerial", unique = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name="fk_user_user_serial", referencedColumnName = "userSerial")
     private User user;
 
-    @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL})
-    private Set<Comment> comments = new HashSet<>();
+//    @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL})
+//    private Set<Comment> comments = new HashSet<>();
 }

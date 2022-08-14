@@ -53,12 +53,14 @@ public class PerformServiceImpl implements PerformService{
             //원래의 주소
             //http://www.kopis.or.kr/openApi/restful/pblprfr?service={서비스키}&stdate=20220628&eddate=20220828&rows=10&cpage=1
             String path = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=";
-            String stdate =startEndDate.get(1);
-            String eddate=startEndDate.get(0);
+            String stdate ="&stdate="+startEndDate.get(1);
+            String eddate="&eddate="+startEndDate.get(0);
             String cpage = "&cpage=1";
             String rows = "&rows=999";
 
             String url = path + serviceKey + stdate + eddate + cpage + rows ;
+
+            System.out.println("==========="+url);
 
             DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -67,6 +69,7 @@ public class PerformServiceImpl implements PerformService{
             // 파싱할 tag = db
             NodeList nList = doc.getElementsByTagName("db");
 
+            System.out.println("몇개일가용"+nList.getLength());
             for(int temp = 0; temp < nList.getLength(); temp++){
                 Node nNode = nList.item(temp);
                 Element eElement = (Element) nNode;
@@ -200,6 +203,9 @@ public class PerformServiceImpl implements PerformService{
         //결과를 저장할 result 변수 선언
         String result = "";
 
+//       if(eElement.getElementsByTagName(tag).item(0)==null){
+//           return "";
+//       }
         NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
 
         result = nlList.item(0).getTextContent();

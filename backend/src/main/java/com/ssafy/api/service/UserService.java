@@ -29,7 +29,17 @@ public interface UserService {
 	String updateAuthStatus(String email, String authKey);
 
 	void updatePassword(User user, UserPasswordFetchReq userPasswordUpdateReq);
-	//----------------------------------차송희 마이페이지 끝
+
+    void followerCnt(String followingId);
+	
+	void followingCnt(User user);
+
+	void unfollowingCnt(User user);
+
+	void unfollowerCnt(String unfollowingId);
+
+    void report(String reportUserId);
+    //----------------------------------차송희 마이페이지 끝
 
 
 }

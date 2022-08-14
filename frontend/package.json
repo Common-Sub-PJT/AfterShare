@@ -7,10 +7,16 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "jquery": "^3.6.0",
+    "openvidu-browser": "^2.22.0",
     "pinia": "^2.0.16",
+    "pinia-plugin-persistedstate": "^2.1.1",
+    "plugin": "^0.3.3",
     "sass": "^1.54.0",
     "sass-loader": "^13.0.2",
+    "v-calendar": "^3.0.0-alpha.8",
+    "v3-infinite-loading": "^1.2.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2"
   },

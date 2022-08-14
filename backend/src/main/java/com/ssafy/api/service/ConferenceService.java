@@ -4,9 +4,8 @@ import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.request.ConferenceRegistPostReq;
 import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
-import com.ssafy.api.response.PerformInfoRes;
-import com.ssafy.api.response.PerformRes;
-import com.ssafy.db.entity.Gugun;
+import com.ssafy.api.response.FollowingRes;
+import com.ssafy.db.entity.*;
 
 import java.util.List;
 
@@ -29,4 +28,15 @@ public interface ConferenceService {
     List<ConferenceRes> getConferenceFollowList(List<FollowingRes> followingUser);
 
     ConferenceInfoRes getConferenceInfo(long conference_id);
+
+    Following following(String following_id, User user);
+
+    Follower follower(User user, String follower_id);
+
+    UserReport report(User user, String reportUserId, String reportContent);
+
+    void unfollowing(String unfollowingId);
+
+    void unfollower(String userId);
+
 }

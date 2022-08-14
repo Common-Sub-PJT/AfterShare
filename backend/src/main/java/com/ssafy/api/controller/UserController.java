@@ -137,9 +137,9 @@ public class UserController {
 	}
 
 	//내가 쓴 게시글
-	@GetMapping("/{userId}/my-s")
+	@GetMapping("/{userId}/my-articles")
 	@ApiOperation(value = "내가 쓴 글 리스트 가져오기", notes = "내가 쓴 글 리스트를 가져온다.")
-	public ResponseEntity<List<CommunityRes>> getMys(
+	public ResponseEntity<List<CommunityRes>> getMyArticles(
 			@PathVariable String userId,
 			@ApiIgnore Authentication authentication) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();

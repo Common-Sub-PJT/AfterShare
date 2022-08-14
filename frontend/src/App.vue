@@ -11,7 +11,7 @@
       <button v-else @click="ShowLoginModal" class="log main-btn">Login</button>
       <ul class="menu">
         <li><router-link to="/conferencelist" id="r-tag">뒤풀이방</router-link></li>
-        <li><router-link to="/articles" id="r-tag">Community</router-link></li>
+        <li><router-link to="/articles" id="r-tag" @click="searchArticles('전체', '전체')">Community</router-link></li>
         <li><router-link to="/perform" id="r-tag">공연찾기</router-link></li>
       </ul>
     </header>
@@ -26,7 +26,9 @@
 <script>
 import LoginView from '@/views/accounts/LoginView.vue'
 import SignupView from '@/views/accounts/SignupView.vue'
-import { useAccounts } from "@/stores/accounts";
+import { useAccounts } from "@/stores/accounts"
+import { useCommunities } from '@/stores/community'
+import { mapActions, mapState } from 'pinia'
 
 export default{
   name:'App',
@@ -40,13 +42,22 @@ export default{
       isSignupViewVisible: false,
     }
   },
+  created() {
+    this.fetchCurrentUser()
+    this.searchArticles(this.genre, this.community)
+  },
   setup(){
     const isLogin = useAccounts()
     return {
       isLogin
     }
   },
+  computed: {
+    ...mapState(useCommunities, ['genre', 'community'])
+  },
   methods: {
+    ...mapActions(useCommunities, ['searchArticles']),
+    ...mapActions(useAccounts, ['fetchCurrentUser']),
     ShowLoginModal() {
       this.isLoginViewVisible = true;
     },

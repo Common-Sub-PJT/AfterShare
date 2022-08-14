@@ -4,9 +4,9 @@ import com.ssafy.api.request.ConferenceGetReq;
 import com.ssafy.api.request.ConferenceRegistPostReq;
 import com.ssafy.api.response.ConferenceInfoRes;
 import com.ssafy.api.response.ConferenceRes;
-import com.ssafy.db.entity.Conference;
-import com.ssafy.db.repository.ConferenceRepository;
-import com.ssafy.db.repository.ConferenceRepositorySupport;
+import com.ssafy.api.response.FollowingRes;
+import com.ssafy.db.entity.*;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,25 @@ public class ConferenceServiceImpl implements ConferenceService{
 
     @Autowired
     ConferenceRepositorySupport conferenceRepositorySupport;
+
+    @Autowired
+    FollowerRepository followerRepository;
+    @Autowired
+    FollowerRepositorySupport followerRepositorySupport;
+
+    @Autowired
+    FollowingRepository followingRepository;
+    @Autowired
+    FollowingRepositorySupport followingRepositorySupport;
+
+    @Autowired
+    UserReportRepository userReportRepository;
+
+    @Autowired
+    UserRepositorySupport userRepositorySupport;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<ConferenceRes> getRecentConferenceList() {
@@ -121,4 +140,49 @@ public class ConferenceServiceImpl implements ConferenceService{
 
         return res;
     }
+
+    @Override
+    public Following following(String following_id, User user) {
+        Following following = new Following();
+        following.setFollowing_id(following_id);
+        following.setUserId(user.getUserId());
+        return followingRepository.save(following);
+    }
+
+    @Override
+    public Follower follower(User user, String follower_id) {
+        //user :
+        Follower follower = new Follower();
+        // 팔로워 테이블에 저장이므로 팔로잉과 반대로 넣어줘야 함. userId = 내 아이디 follower_id = 팔로워 아이디
+        follower.setFollower_id(user.getUserId());
+        follower.setUserId(follower_id);
+        return followerRepository.save(follower);
+    }
+
+    @Override
+    public UserReport report(User userInfo, String reportUserId, String reportContent) {
+        UserReport userReport = new UserReport();
+        userReport.setUser_id(userInfo.getUserId());
+        userReport.setReport_user_id(reportUserId);
+        userReport.setReport_content(reportContent);
+        userReport.setUser(userInfo);
+        return userReportRepository.save(userReport);
+    }
+
+    @Override
+    public void unfollowing(String unfollowingId) {
+        Following following = followingRepositorySupport.findByFollowingId(unfollowingId);
+        followingRepository.delete(following);
+    }
+
+    @Override
+    public void unfollower(String unfollwerId) {
+        Follower follower = followerRepositorySupport.findByFollowerId(unfollwerId);
+        followerRepository.delete(follower);
+    }
+
+
+
+
 }
+
