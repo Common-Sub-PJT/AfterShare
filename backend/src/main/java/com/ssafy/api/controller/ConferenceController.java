@@ -163,6 +163,7 @@ public class ConferenceController {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
         conferenceService.report(user, userReportInfo.getReportUserId(), userReportInfo.getReportContent());
+        userService.report(userReportInfo.getReportUserId());
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
