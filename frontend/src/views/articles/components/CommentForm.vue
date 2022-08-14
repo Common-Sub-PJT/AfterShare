@@ -38,7 +38,6 @@ export default {
         this.searchComments(this.articleId)
       })
       .catch(err => {
-        console.log(err)
       })
     },
   },

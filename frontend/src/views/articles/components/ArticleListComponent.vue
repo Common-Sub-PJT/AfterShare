@@ -1,10 +1,10 @@
 <template>
   <h5 class="community-name">{{ this.articleListName }}</h5>
   <div class="classification-box">
-    <p>제목</p>
-    <div class="d-flex">
+    <p class="article-list-info-title">제목</p>
+    <div class="article-list-info-title-box">
       <div v-for="(item, index) in items" :key="index">
-        <p class="article-list-info">{{ item }}</p>
+        <p class="article-list-info-title">{{ item }}</p>
       </div>
     </div>
   </div>
@@ -23,9 +23,9 @@
         </div>
       </div>
       <div class="article-info">
-        <p class="article-list-info">작성자</p>
+        <p class="article-list-info">{{ article.user_name }}</p>
         <p class="article-list-info">{{ article.view_cnt }}</p>
-        <p class="article-list-info">추천수</p>
+        <p class="article-list-info">{{ article.recommend }}</p>
       </div>
     </li>
   </ul>
@@ -45,7 +45,6 @@ export default {
     }
   },
   created() {
-    console.log(this.articleList)
   },
   methods: {
     viewCount(articleId) {
@@ -68,6 +67,11 @@ export default {
 </script>
 
 <style scoped>
+.article-list-info-title-box{
+  display: flex;
+  width: 240px;
+  justify-content: space-around;
+}
 .comment-value {
   text-align: center;
   align-items: center;
@@ -93,13 +97,19 @@ export default {
 }
 .community-name {
   font-weight: bold;
-  margin: 1.5rem 0rem 1.5rem 0rem;
+  margin: 0rem 0rem 1.5rem 0rem;
   padding: 0;
 }
 .article-list {
   display: flex;
   text-align: center;
   justify-content: space-between;
+}
+.article-list-info-title{
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 5px;
 }
 .article-list-item {
   text-decoration: none;

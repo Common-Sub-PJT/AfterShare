@@ -1,7 +1,7 @@
 <template>
+  <ArticleNavComponent></ArticleNavComponent>
   <div class="row">
     <div>
-      <ArticleNavComponent></ArticleNavComponent>
       <h1>{{ this.title }}</h1>
       <button @click.prevent="likeArticle">좋아요</button>
       <p>{{ this.content }}</p>
@@ -59,7 +59,6 @@ export default {
       axios.delete(secosi.communities.articleDelete(this.articleId))
         .then(res => {
           this.searchArticles(this.genre, this.category)
-          console.log(this.articleList)
           this.$router.push({ name: 'Articles' })
         })
         .catch(err => {
@@ -71,9 +70,10 @@ export default {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       }
-      axios.post(secosi.communities.viewCount(this.articleId), config)
+      axios.post(secosi.communities.like(this.articleId), config)
         .then(res => {
-          console.log('게시글 좋아요')
+          console.log(res)
+          console.log('게시글 추천')
         })
         .catch(err => {
           console.log(err)
@@ -81,8 +81,6 @@ export default {
     }
   },
   created() {
-    console.log('myProfile is')
-    console.log(this.currentUser)
     this.articleId = this.$route.params.articleid
     axios.get(secosi.communities.articleDetail(this.articleId))
       .then(res => {

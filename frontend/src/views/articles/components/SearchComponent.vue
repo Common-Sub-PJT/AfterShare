@@ -2,14 +2,14 @@
   <div class="wrapper">
     <div class="search_box">
       <div @click="searchShow" class="dropdown">
-        <div class="search_default_option">제목</div>
+        <div class="search_default_option">{{ this.searchCategory }}</div>
         <ul v-if="searchVisible">
           <li @click="searchClick(search)" v-for="(search, index) in searchList" :key="index">{{ search }}</li>
         </ul>
       </div>
       <div class="search_field">
-        <input @keyup.enter="searchSubmit" v-model="searchText" type="text" class="input" placeholder="검색">
-        <button @click="searchSubmit" class="btn btn-secondary">Go!</button>
+        <input @keyup.enter="searchArticles" v-model="searchText" type="text" class="input" placeholder="검색">
+        <button @click="searchArticles" class="btn btn-secondary">Go!</button>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
 import axios from 'axios'
 import secosi from "@/api/secosi"
 import { defineComponent } from 'vue'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import { useCommunities } from "@/stores/community";
 
 export default defineComponent({
@@ -36,17 +36,26 @@ export default defineComponent({
     }
   },
   methods: {
+    ...mapActions(useCommunities, ['updateArticleList']),
     searchShow() {
       this.searchVisible = !this.searchVisible
     },
     searchArticles() {
-      axios.post(secosi.performs.articleSearch(), performInfo)
-        .then(res => {
-          this.performList = res.data
-        })
-        .catch(err => {
-          console.error(err.response.data)
-        })
+      if (this.searchText.length > 0) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        }
+        axios.get(secosi.communities.articleSearch(this.articleGenre, this.articleCategory, this.searchCategory, this.searchText), config)
+          .then(res => {
+            this.updateArticleList(res.data)
+            this.searchText = ""
+          })
+          .catch(err => {
+            console.error(err.response.data)
+          })
+      }
     },
     searchClick(search) {
       this.searchCategory = search

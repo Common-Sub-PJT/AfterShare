@@ -1,5 +1,5 @@
 <template>
-  <div class="Community row">
+  <div class="row">
     <div class="mt-4 d-flex justify-content-between">
       <div class="dropdown" v-for="(communityCategory, index) in communityCategories" :key="index">
         <router-link to="/articles"><button class="dropbtn"
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <hr class="mt-0">
+    <div class="nav-line"></div>
   </div>
 </template>
 
@@ -39,20 +39,27 @@ export default {
 </script>
 
 <style scoped>
+.nav-line{
+  margin: 0px 0px 40px 0px;
+  border-top: 3px solid;
+  border-color: #1B3C33;
+}
 .Community {
   margin: 0;
   padding: 0;
 }
 .dropbtn {
   background-color: #F9F9F9;
-  color: black;
+  color: #1B3C33;
   padding: 16px;
   font-size: 16px;
   font-weight: bold;
   border: none;
   cursor: pointer;
   width: 88px;
-  height: 40px;
+  height: 48px;
+  text-align: center;
+  align-content: center;
 }
 
 .dropdown:hover .dropbtn {

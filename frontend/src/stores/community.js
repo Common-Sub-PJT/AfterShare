@@ -3,20 +3,26 @@ import axios from 'axios'
 import secosi from "@/api/secosi";
 
 export const useCommunities = defineStore('communities', {
-  state: () => ({
-    articleListName: '전체게시판',
-    articleList: [],
-    articleGenre: 0,
-    articleCategory: 0,
-    commentList: [],
-    commentListRerendering: 0,
-    genre: '전체',
-    category: '전체',
-  }),
+  state: () => {
+    return {
+      articleListName: '전체게시판',
+      articleList: [],
+      articleGenre: 0,
+      articleCategory: 0,
+      commentList: [],
+      commentListRerendering: 0,
+      genre: '전체',
+      category: '전체',
+    }
+  },
+  persist: true,
   getters: {
 
   },
   actions: {
+    updateArticleList(newArticleList) {
+      this.articleList = newArticleList
+    },
     searchArticles(genre, category) {
       this.genre = genre
       this.category = category
@@ -59,7 +65,6 @@ export const useCommunities = defineStore('communities', {
       axios.get(secosi.communities.comment(articleId))
       .then(res => {
         this.commentList = res.data
-        console.log(this.commentList)
       })
       .catch(err => {
       })
