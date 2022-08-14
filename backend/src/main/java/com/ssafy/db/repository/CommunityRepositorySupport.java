@@ -58,17 +58,31 @@ public class CommunityRepositorySupport{
     public List<Community> findCommunityListSearch(int genre, int category, String searchcategory, String searchword) {
         List<Community> communities = null;
         if(searchcategory.equals("제목")){
-            communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                    .where(qCommunity.article_genre.eq(genre),
-                            qCommunity.article_category.eq(category),
-                            qCommunity.article_title.like("%" + searchword + "%") )
-                    .orderBy(qCommunity.recommend.desc()).fetch();
+            if(genre==0&&category==0){
+                communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
+                        .where(qCommunity.article_title.like("%" + searchword + "%") )
+                        .orderBy(qCommunity.recommend.desc()).fetch();
+            }else{
+                communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
+                        .where(qCommunity.article_genre.eq(genre),
+                                qCommunity.article_category.eq(category),
+                                qCommunity.article_title.like("%" + searchword + "%") )
+                        .orderBy(qCommunity.recommend.desc()).fetch();
+            }
+
         }else if(searchcategory.equals("작성자")){
-            communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
-                    .where(qCommunity.article_genre.eq(genre),
-                            qCommunity.article_category.eq(category),
-                            qCommunity.user.userId.like("%" + searchword + "%"))
-                    .orderBy(qCommunity.recommend.desc()).fetch();
+            if(genre==0&&category==0){
+                communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
+                        .where(qCommunity.user.userId.like("%" + searchword + "%"))
+                        .orderBy(qCommunity.recommend.desc()).fetch();
+            }else{
+                communities = jpaQueryFactory.select(qCommunity).from(qCommunity)
+                        .where(qCommunity.article_genre.eq(genre),
+                                qCommunity.article_category.eq(category),
+                                qCommunity.user.userId.like("%" + searchword + "%"))
+                        .orderBy(qCommunity.recommend.desc()).fetch();
+            }
+
         }
         if(communities==null) return null;
         return communities;

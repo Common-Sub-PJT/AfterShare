@@ -29,9 +29,14 @@ public interface ConferenceService {
 
     ConferenceInfoRes getConferenceInfo(long conference_id);
 
-    Following following(String following_id, String userId);
+    Following following(String following_id, User user);
 
-    Follower follower(String userId, String follower_id);
+    Follower follower(User user, String follower_id);
 
     UserReport report(User user, String reportUserId, String reportContent);
+
+    void unfollowing(String unfollowingId);
+
+    void unfollower(String userId);
+
 }

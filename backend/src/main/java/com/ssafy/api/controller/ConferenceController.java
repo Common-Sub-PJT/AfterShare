@@ -65,7 +65,7 @@ public class ConferenceController {
 
     @PostMapping("/chat")
     @ApiOperation(value = "화상회의 방 생성", notes = "<strong>회의실 생성 정보</strong>를 입력받아 화상회의 방을 생성한다. ")
-    public ResponseEntity<? extends BaseResponseBody> searchConference(
+    public ResponseEntity<Long> createConference(
             @RequestBody @ApiParam(value = "화상회의 생성 정보", required = true) ConferenceRegistPostReq conferenceInfo,
             @ApiIgnore Authentication authentication) {
 
@@ -79,7 +79,7 @@ public class ConferenceController {
         //임의로 리턴된 Conference 인스턴스. 현재 코드는 방 생성 성공 여부만 판단하기 때문에 굳이 Insert 된 정보를 응답하지 않음.
         Conference conference = conferenceService.createConference(user, conferenceInfo);
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        return ResponseEntity.status(200).body(conference.getConference_id());
     }
 
     @GetMapping("/follow")
@@ -122,10 +122,33 @@ public class ConferenceController {
             @ApiIgnore Authentication authentication) {
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
-        conferenceService.following(followingId, user.getUserId());
-        conferenceService.follower(user.getUserId(), followingId);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 
+        conferenceService.following(followingId, user);
+        userService.followingCnt(user);
+        conferenceService.follower(user, followingId);
+        userService.followerCnt(followingId);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @DeleteMapping("/unfollowing")
+    @ApiOperation(value = "언팔로우 하기", notes = "화상 회의중 언팔로우 하기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<? extends BaseResponseBody> unfollowing(
+            @RequestParam("unfollowingId") String unfollowingId,
+            @ApiIgnore Authentication authentication) {
+        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        User user = userDetails.getUser();
+
+        conferenceService.unfollowing(unfollowingId);
+        userService.unfollowingCnt(user);
+        conferenceService.unfollower(user.getUserId());
+        userService.unfollowerCnt(unfollowingId);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
     @PostMapping("/report")
