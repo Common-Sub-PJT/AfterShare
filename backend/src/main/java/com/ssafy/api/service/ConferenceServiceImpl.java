@@ -181,8 +181,26 @@ public class ConferenceServiceImpl implements ConferenceService{
         followerRepository.delete(follower);
     }
 
+    @Override
+    public Conference updatePersonNowIn(long conference_id) {
+        Conference conference = conferenceRepositorySupport.findByConferenceId(conference_id);
+        if(conference==null) return null;
 
+        conference.setPerson_now(conference.getPerson_now()+1);
+        conferenceRepository.save(conference);
 
+        return conference;
+    }
 
+    @Override
+    public Conference updatePersonNowOut(long conference_id, int person_now) {
+        Conference conference = conferenceRepositorySupport.findByConferenceId(conference_id);
+        if(conference==null) return null;
+
+        conference.setPerson_now(person_now);
+        conferenceRepository.save(conference);
+
+        return conference;
+    }
 }
 

@@ -160,4 +160,39 @@ public class ConferenceController {
         userService.report(userReportInfo.getReportUserId());
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
+
+    @PatchMapping("/roomIn/{conference_id}")
+    @ApiOperation(value = "화상회의 방 입장", notes="화상회의방 입장할 때, 현재 인원 1명 증가해준다. ")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "입장 시 현재 인원 수 증가 성공"),
+            @ApiResponse(code = 404, message = "존재하지 않는 화상회의 방"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> updatePersonNow(
+            @PathVariable long conference_id) {
+
+        Conference conference = conferenceService.updatePersonNowIn(conference_id);
+
+        if(conference == null) return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not exists Conference"));
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    @PatchMapping("/roomOut/{conference_id}")
+    @ApiOperation(value = "화상회의 방 퇴장", notes="화상회의방 퇴장할 때, 기존 데이터를 넘어온 현재 인원으로 수정해준다. ")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = " 사용 가능"),
+            @ApiResponse(code = 404, message = "존재하지 않는 화상회의 방"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> updatePersonNow(
+            @PathVariable long conference_id,
+            @RequestParam @ApiParam(value = "현재 인원 수", required = true) int person_now) {
+
+        Conference conference = conferenceService.updatePersonNowOut(conference_id, person_now);
+        
+        if(conference == null) return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not exists Conference"));
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
 }
