@@ -42,4 +42,6 @@ public interface ConferenceService {
     Conference updatePersonNowIn(long conference_id);
 
     Conference updatePersonNowOut(long conference_id, int person_now);
+
+    void deleteConference(long conference_id);
 }

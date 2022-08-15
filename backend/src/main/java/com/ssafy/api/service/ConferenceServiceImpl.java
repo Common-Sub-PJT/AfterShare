@@ -202,5 +202,10 @@ public class ConferenceServiceImpl implements ConferenceService{
 
         return conference;
     }
+
+    @Override
+    public void deleteConference(long conference_id) {
+        conferenceRepository.deleteById(conference_id);
+    }
 }
 
