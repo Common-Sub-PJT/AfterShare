@@ -1,9 +1,7 @@
 package com.ssafy.api.controller;
 import com.ssafy.api.request.UserInfoFetchReq;
 import com.ssafy.api.request.UserPasswordFetchReq;
-import com.ssafy.api.response.CommunityRes;
-import com.ssafy.api.response.FollowerRes;
-import com.ssafy.api.response.FollowingRes;
+import com.ssafy.api.response.*;
 import com.ssafy.api.service.CommunityService;
 import com.ssafy.common.error.ErrorResponse;
 import com.ssafy.db.entity.Comment;
@@ -14,7 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.response.UserRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -151,11 +148,11 @@ public class UserController {
 	//내가 쓴 댓글
 	@GetMapping("/{userId}/my-comments")
 	@ApiOperation(value = "내가 쓴 댓글 리스트 가져오기", notes = "내가 쓴 댓글 리스트를 가져온다.")
-	public ResponseEntity<List<String>> getMyComments(
+	public ResponseEntity<List<CommentRes>> getMyComments(
 			@PathVariable String userId,
 			@ApiIgnore Authentication authentication) {
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-		List<String> res = communityService.getCommentListByUserId(userId);
+		List<CommentRes> res = communityService.getCommentListByUserId(userId);
 
 		return ResponseEntity.status(200).body(res);
 	}
