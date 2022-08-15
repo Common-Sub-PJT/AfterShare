@@ -38,6 +38,7 @@ public class CommunityRepositorySupport{
     public Community findByArticleId(long article_id) {
         Community res = jpaQueryFactory.select(qCommunity).from(qCommunity)
                 .where(qCommunity.article_id.eq(article_id)).fetchOne();
+        res.getArticle_content().replace("\r\n","<br>");
         if(res==null) return null;
         return res;
     }
