@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.CommunityRegistPostReq;
+import com.ssafy.api.response.CommentRes;
 import com.ssafy.api.response.CommunityRes;
 import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
@@ -176,12 +177,13 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public List<String> getCommentListByUserId(String userId) {
+    public List<CommentRes> getCommentListByUserId(String userId) {
         List<Comment> commentList = commentRepositorySupport.findCommentListByUserId(userId);
-        List<String> res = new ArrayList<>();
+        List<CommentRes> res = new ArrayList<>();
         for(Comment comment: commentList){
-            res.add(comment.getComment_content());
+            res.add(CommentRes.of(comment.getCommunity().getArticle_id(), comment.getComment_content()));
         }
+
         return res;
     }
 
