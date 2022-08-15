@@ -14,6 +14,7 @@ import com.ssafy.db.entity.Conference;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserReport;
 import io.swagger.annotations.*;
+import org.kurento.client.internal.server.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -82,15 +83,11 @@ public class ConferenceController {
         return ResponseEntity.status(200).body(conference.getConference_id());
     }
 
-    @GetMapping("/follow")
+    @GetMapping("/follow/{user_id}")
     @ApiOperation(value = "화상회의 팔로우 목록 조회", notes = "화상회의 목록에서 팔로우한 방장의 화상회의 방 목록을 가져온다. ")
     public ResponseEntity<List<ConferenceRes>> getConferenceFollowList(
             @PathVariable String user_id
     ) {
-        /**
-         * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-         * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-         */
         List<FollowingRes> followingUser = userService.getFollowingListByUserId(user_id);
 
         List<ConferenceRes> res = conferenceService.getConferenceFollowList(followingUser);
@@ -163,5 +160,4 @@ public class ConferenceController {
         userService.report(userReportInfo.getReportUserId());
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
-
 }
