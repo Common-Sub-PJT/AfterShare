@@ -180,7 +180,7 @@ public class CommunityServiceImpl implements CommunityService{
         List<Comment> commentList = commentRepositorySupport.findCommentListByUserId(userId);
         List<String> res = new ArrayList<>();
         for(Comment comment: commentList){
-            res.add(comment.getComment_content().replace("\r\n","<br>"));
+            res.add(comment.getComment_content());
         }
         return res;
     }
