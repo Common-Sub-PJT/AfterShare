@@ -1,10 +1,10 @@
-
 const HOST = "http://localhost:8080/api/"
 // const HOST = "https://i7b303.p.ssafy.io/api/"
 const ACCOUNTS = "users"
 const COMMUNITIES = "communities"
 const PERFORMS = 'performs'
 const CONFERENCES = "conferences"
+const MAIN = "main"
 
 export default {
   accounts: {
@@ -14,6 +14,7 @@ export default {
     userIdCheck: () => HOST + ACCOUNTS + '/check-userid',
     emailCheck: () => HOST + ACCOUNTS + '/check-email',
     nicknameCheck: () => HOST + ACCOUNTS + '/check-name',
+    deleteAccount: userId => HOST + ACCOUNTS + `/${userId}`
   },
   mypages: {
     myArticles: userId => HOST + ACCOUNTS + `/${userId}` + '/my-articles',
@@ -21,7 +22,7 @@ export default {
     myFollowers: userId => HOST + ACCOUNTS + '/follower' + `/${userId}`,
     myFollowings: userId => HOST + ACCOUNTS + '/following' + `/${userId}`,
     passwordChange: () => HOST + ACCOUNTS + '/change-password',
-    editAccount: userId => HOST + ACCOUNTS + `/${userId}`,
+    editProfile: userId => HOST + ACCOUNTS + `/${userId}`,
     deleteAccount: userId => HOST + ACCOUNTS + `/${userId}`,
   },
   communities: {
@@ -46,6 +47,17 @@ export default {
   conferences: {
     conferences: () => HOST + CONFERENCES,
     search: () => HOST + CONFERENCES + '/search',
-    create: () => HOST + CONFERENCES +'/chat'
+    create: () => HOST + CONFERENCES +'/chat',
+    follow: () => HOST + CONFERENCES + '/follow',
+    unfollow: () => HOST + CONFERENCES + '/unfollowing',
+    join: () => HOST + CONFERENCES + '/roomIn',
+    out: () => HOST + CONFERENCES + '/roomOut',
+    following: () => HOST + CONFERENCES + '/following',
+    report: () => HOST + CONFERENCES + '/report',
+  },
+  main: {
+    prfrank: () => HOST + MAIN + '/performs' + '/ranking',
+    cfrrank: () => HOST + MAIN + '/conferences' + '/ranking',
+    artrank: () => HOST + MAIN + '/communities' + '/ranking',
   },
 }
