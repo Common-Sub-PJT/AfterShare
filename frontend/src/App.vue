@@ -27,6 +27,7 @@
 <script>
 import LoginView from '@/views/accounts/LoginView.vue'
 import SignupView from '@/views/accounts/SignupView.vue'
+import { useHomes } from "@/stores/home"
 import { useAccounts } from "@/stores/accounts"
 import { usePerforms } from '@/stores/performs'
 import { useCommunities } from '@/stores/community'
@@ -45,6 +46,8 @@ export default{
     }
   },
   created() {
+    this.fetchPerformAllRank()
+    this.fetchPerformGenreRank()
     this.fetchPerforms()
     this.fetchCurrentUser()
     this.searchArticles(this.genre, this.category)
@@ -63,6 +66,7 @@ export default{
     ...mapActions(useCommunities, ['searchArticles']),
     ...mapActions(useAccounts, ['fetchCurrentUser']),
     ...mapActions(usePerforms, ['fetchPerforms']),
+    ...mapActions(useHomes, ['fetchPerformAllRank', 'fetchPerformGenreRank']),
     ShowLoginModal() {
       this.isLoginViewVisible = true;
     },

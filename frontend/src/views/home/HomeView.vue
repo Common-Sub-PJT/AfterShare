@@ -28,13 +28,13 @@
         <div class="card-col">
           <div class="card-box" v-for="conference in cfrrankList" :key="conference.conference_id">
             <figure class="conf-card">
-              <img v-if="conference.genrnme === genreNm[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
-              <img v-else-if="conference.genrenm === genreNm[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
+              <img v-if="conference.genrnme === genreName[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
               <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
               <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
               <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
@@ -100,13 +100,15 @@
 import axios from 'axios'
 import secosi from "@/api/secosi"
 import { defineComponent } from 'vue'
+import { mapState, mapActions } from 'pinia'
+import { useHomes } from '@/stores/home'
 import Swal from 'sweetalert2'
 
 
 export default defineComponent({
   data() {
     return {
-      prfrankList: [],
+      prfrankList: this.performRank === undefined ? [] : this.performRank.all,
       cfrrankList: [],
       artrankList: [],
       genreList:{
@@ -123,38 +125,35 @@ export default defineComponent({
       genrenm: {
         "catecode": ""
       },
-      genreNm:[
+      genreName:[
         "ALL", "뮤지컬", "연극", "무용", "클래식", "오페라", "국악", "복합"
       ],
     }
   },
   methods: {
+    ...mapActions(useHomes, ['fetchPerformRank']),
     fetchPrfrank() {
       axios.get(secosi.main.prfrank(), { params: { "catecode" : "" } })
         .then(res => {
           this.prfrankList = res.data
-          console.log(res.data)
         })
     },
     searchPrfrank(genrenm) {
       axios.get(secosi.main.prfrank(), { params: genrenm })
         .then(res => {
-          this.prfrankList = res.data
-          console.log(res.data)
+          this.fetchPerformRank(genrenm, res.data)
         })
     },
     fetchCfrrank() {
       axios.get(secosi.main.cfrrank())
         .then(res => {
           this.cfrrankList = res.data
-          console.log(res.data)
         })
     },
     fetchArtrank() {
       axios.get(secosi.main.artrank())
         .then(res => {
           this.artrankList = res.data
-          console.log(res.data)
         })
     },
     viewCount(articleId) {
@@ -206,6 +205,9 @@ export default defineComponent({
       })
     },
   },
+  computed: {
+    ...mapState(useHomes, ['performRank'])
+  },
   created() {
     this.fetchPrfrank()
     this.fetchCfrrank()
@@ -213,9 +215,18 @@ export default defineComponent({
   },
   setup() {
     const genreClick = function genreClick(genre) {
+      const listmatch = {
+        "전체": this.performRank.all,
+        "연극": this.performRank.act,
+        "뮤지컬": this.performRank.musical,
+        "무용": this.performRank.dance,
+        "클래식": this.performRank.classic,
+        "오페라": this.performRank.opera,
+        "국악": this.performRank.gukak,
+        "복합": this.performRank.complex,
+      }
+      this.prfrankList = listmatch[genre.genre]
       this.genrenm.catecode = genre.code
-      console.log(this.genrenm.catecode)
-      console.log(genre.code)
       this.searchPrfrank(this.genrenm)
     }
     return {
