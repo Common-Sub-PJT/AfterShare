@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="scroll-box">
+    <div class="scroll-bar">
       <ul v-for="article in myArticleList" :key="article.article_id">
         <li class="article-list">
           <router-link @click="viewCount(article.article_id)" class="article-list-item"
@@ -40,10 +40,20 @@ export default {
 </script>
 
 <style>
-.scroll-box {
-  overflow: scroll;
+.scroll-bar {
   width: 420px;
   height: 440px;
+  overflow: scroll;
+}
+.scroll-bar::-webkit-scrollbar {
+  width: 10px;
+}
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #1b3c3376;
+  border: 2px solid transparent;
+}
+.scroll-bar::-webkit-scrollbar-track {
+  background: #ffffff;
 }
 .article-list {
   list-style: none;

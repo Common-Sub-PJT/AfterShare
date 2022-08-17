@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="modal-content">
       <div @click="$emit('ProfileImageComponentClose')" class="close-btn">&times;</div>
-      <div class="profile-image-box" v-for="(num, index) in this.imgNum" :key="index">
+      <div class="profile-inside" v-for="(num, index) in this.imgNum" :key="index">
         <div class="small-profile-image-box">
           <img @click="editProfile(num), $emit('ProfileImageComponentClose')" class="small-profile-image" :src="`./../src/assets/account/${num}.png`">
         </div>
@@ -137,10 +137,14 @@ export default defineComponent ({
 
 <style scoped>
 
+.profile-inside{
+
+}
 .profile-image
 .small-profile-image {
   width: 90px;
   height: 90px;
+  border: none;
 }
 .small-profile-image-box {
   width: 120px;
@@ -148,15 +152,13 @@ export default defineComponent ({
   border-radius: 70%;
   overflow: hidden;
   background: #BDBDBD;
-
+  margin: 15px;
   padding: 15px;
-
   display: flex;
   justify-content: center;
   align-content: center;
-
   grid-row: span 3;
-  border: 1px solid;
+  border: none;
   border-color: #1B3C33;
 }
 .userId-check, .email-check, .password-check, .newPassword-check , .newPasswordCheck-check{
@@ -183,13 +185,13 @@ export default defineComponent ({
   max-width: 800px;
   background: #f4f4f4;
   margin: 10% auto;
-  width: 60%;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
-  position: relative;
   border-radius: 3px;
   min-height: 500px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* grid-template-rows: 1fr; */
+  padding: 30px;
+  grid-template-columns: auto auto auto auto;
 }
 .close-btn {
   position: absolute;
@@ -289,7 +291,9 @@ export default defineComponent ({
     margin: 20% auto;
     width: 90%;
     height: 80%;
+    grid-template-columns: auto;
   }
 }
+
 </style>
 

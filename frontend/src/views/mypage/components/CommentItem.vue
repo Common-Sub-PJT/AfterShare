@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="scroll-box">
+    <div class="scroll-bar">
       <ul v-for="(comment, index) in myCommentList" :key="index">
         <li class="comment-list">
           <router-link @click="viewCount(article.article_id)" class="comment-list-item"
@@ -38,11 +38,7 @@ export default {
 </script>
 
 <style>
-.scroll-box {
-  overflow: scroll;
-  width: 420px;
-  height: 440px;
-}
+
 .comment-list {
   list-style: none;
   margin: 20px 0px 0px 0px;
