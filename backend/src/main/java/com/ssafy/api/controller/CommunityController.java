@@ -48,6 +48,9 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
+        String content_br = communityRegisterInfo.getArticle_content().replace("\n","<br>");
+
+        communityRegisterInfo.setArticle_content(content_br);
 
         Community community = communityService.createArticle(user, communityRegisterInfo);
 
@@ -110,6 +113,8 @@ public class CommunityController {
             @RequestBody @ApiParam(value = "글 내용") CommunityRegistPostReq Info,
             @ApiIgnore Authentication authentication){
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String content_br = Info.getArticle_content().replace("\n","<br>");
+        Info.setArticle_content(content_br);
         communityService.update(article_id, Info);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -138,14 +143,11 @@ public class CommunityController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> recommendarticle(
-            @PathVariable("article_id") long article_id,
-            @ApiIgnore Authentication authentication) {
+            @PathVariable("article_id") long article_id) {
         /**
          * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
          * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
          */
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-        User user = userDetails.getUser();
 
         Community community = communityService.getArticleByArticleId(article_id);
         communityService.recommend(article_id);

@@ -37,7 +37,9 @@ public interface UserService {
 	void unfollowingCnt(User user);
 
 	void unfollowerCnt(String unfollowingId);
-	//----------------------------------차송희 마이페이지 끝
+
+    void report(String reportUserId);
+    //----------------------------------차송희 마이페이지 끝
 
 
 }
