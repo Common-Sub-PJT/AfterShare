@@ -1,25 +1,6 @@
-<!-- 
 <template class="row">
   <ArticleNavComponent></ArticleNavComponent>
-  <div class="col-10 offset-1 col-md-8 offset-md-2 col-xxl-6 offset-xxl-3">
-    <form @submit="createArticle">
-      <div class="row mb-3">
-        <label for="title" class="col-form-label">Title</label>
-        <input type="text" class="form-control" id="title" v-model="title">
-      </div>
-      <div class="row mb-3">
-        <label for="content" class="col-form-label">Content</label>
-        <textarea id="content" v-model="content" rows="20" class="form-control"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-  </div>
-</template> -->
-
-
-<template class="row">
-  <ArticleNavComponent></ArticleNavComponent>
-  <div class="article-create-box">
+  <div class="article-box">
     <div class="community-name-box">
       <p class="article-list-name">{{ this.articleListName }}</p>
     </div>
@@ -34,7 +15,7 @@
           <textarea id="content" v-model="content" rows="20" class="content-input form-control"></textarea>
         </div>
         <div class="button-box">
-          <button type="submit" class="btn-style">수정</button>
+          <button type="submit" class="edit-button"></button>
           <button class="btn-style" @click.prevent="this.$router.go(-1)">취소</button>
         </div>
       </div>
@@ -71,9 +52,10 @@ export default {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       }
-      
+      console.log(this.content)
       axios.patch(secosi.communities.articleUpdate(this.articleId), formData, config)
         .then(res => {
+          console.log(res)
           this.$router.push({name:'ArticleDetail', params: {articleid: this.articleId}})
         })
         .catch(err => {
@@ -147,7 +129,7 @@ export default {
   font-weight: bold;
 }
 
-.article-create-box {
+.article-box {
   width: 1024px;
   height: 560px;
   border: 1px solid;

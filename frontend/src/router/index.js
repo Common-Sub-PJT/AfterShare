@@ -40,11 +40,6 @@ const router = createRouter({
       component: () => import('@/views/articles/ArticlesCreateView.vue')
     },
     {
-      path: '/articles/:communityid', // 커뮤니티 별 게시물들 불러오는 것.
-      name: 'CommunityArticles',
-      component: () => import('@/views/articles/CommunityArticlesView.vue')
-    },
-    {
       path: '/articles/:articleid/detail',
       name: 'ArticleDetail',
       component: () => import('@/views/articles/ArticlesDetailView.vue')
@@ -85,7 +80,11 @@ const router = createRouter({
       name: 'Report',
       component: () => import('@/views/manage/ReportView.vue')
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
 })
 
 export default router

@@ -112,9 +112,4 @@ public class ConferenceRepositorySupport {
                 .fetchOne();
         return conference;
     }
-
-    public void updatePersonNow(Conference conference, int person_now) {
-        conference.setPerson_now(person_now);
-        conferenceRepository.save(conference);
-    }
 }

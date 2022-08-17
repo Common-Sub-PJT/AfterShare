@@ -26,7 +26,7 @@
 </div>
 <div class="container">
   <div class="row card-box">
-    <div v-for="perform in performList" :key="perform.mt20id" class="card col-lg-4">
+    <div v-for="perform in this.performList.slice(0, this.performNum)" :key="perform.mt20id" class="card col-lg-4">
       <router-link :to="{ name: 'PerformDetail', params: {mt20id: perform.mt20id} }">
         <img class="card-img-top" :src='`${perform.poster}`' alt="Card image cap">
         <div class="card-body">
@@ -45,13 +45,17 @@
 // import { loadPerform } from '@/stores/performs'
 import axios from 'axios'
 import secosi from "@/api/secosi"
+import { mapState } from 'pinia'
+import { usePerforms } from '@/stores/performs.js'
 import { defineComponent } from 'vue'
 
 export default defineComponent ({
   name:'PerformView',
   data() {
     return {
-      performList : [], 
+      // performList : [], 
+      performNum: 20,
+      isScrollEnd: false,
       sidoVisible: false,
       gugunsVisible: false,
       sidoList: [
@@ -80,13 +84,24 @@ export default defineComponent ({
       }
     }
   },
+  watch: {
+    isScrollEnd(newValue) {
+      if (newValue) {
+        this.performNum += 20
+        this.isScrollEnd = false
+      }
+    }
+  },
+  computed: {
+    ...mapState(usePerforms, ['performList'])
+  },
   methods: {
-    fetchPerforms() {
-      axios.get(secosi.performs.performs())
-        .then(res => {
-          this.performList=res.data
-        })
-    },
+    // fetchPerforms() {
+      //   axios.get(secosi.performs.performs())
+    //     .then(res => {
+    //       this.performList=res.data
+    //     })
+    // },
     sidoShow() {
       this.sidoVisible = !this.sidoVisible
     },
@@ -111,10 +126,21 @@ export default defineComponent ({
         .catch(err => {
           console.error(err.response.data)
         })
+    },
+    checkScrollEnd() {
+      window.onscroll = () => {
+        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+
+        if (bottomOfWindow) {
+          this.isScrollEnd = true
+        }
+      }
     }
   },
   created() {
-    this.fetchPerforms()
+  },
+  mounted() {
+    this.checkScrollEnd()
   },
   setup(){
     const sidoClick = function sidoClick(sido){

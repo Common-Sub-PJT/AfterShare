@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-end button-div">
       <SearchComponent></SearchComponent>
       <router-link v-show="this.isLoggedIn" to="/articles/create" class="">
-        <button v-if="this.genre !== '전체'" type="button" class="btn">글쓰기</button>
+        <button v-if="(this.genre !== '전체') && ((this.genre !== '공지') || this.currentUser._staff)" type="button" class="btn">글쓰기</button>
       </router-link>
     </div>
   </div>
@@ -55,5 +55,6 @@ export default {
   width: 96px;
   height: 32px;
   font-size: 16px;
+  padding:0;
 }
 </style>
