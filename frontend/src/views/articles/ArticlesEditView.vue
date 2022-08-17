@@ -15,7 +15,7 @@
           <textarea id="content" v-model="content" rows="20" class="content-input form-control"></textarea>
         </div>
         <div class="button-box">
-          <button type="submit" class="btn-style">수정</button>
+          <button type="submit" class="edit-button"></button>
           <button class="btn-style" @click.prevent="this.$router.go(-1)">취소</button>
         </div>
       </div>

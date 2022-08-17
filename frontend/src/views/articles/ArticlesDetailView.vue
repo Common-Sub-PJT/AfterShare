@@ -13,7 +13,7 @@
         </div>
         <p class="article-content-box" v-html="article.article_content"></p>
         <div v-show="this.currentUser.name === this.article.user.name">
-          <button class="btn-style" @click.prevent="likeArticle">추천</button>
+          <button @click.prevent="likeArticle"><img class = "edit-img" src="@/assets/like.png">{{}}</button>
           <router-link :to="{
           name: 'ArticleEdit',
           params: {
@@ -21,8 +21,9 @@
             title: this.article.article_title,
             content: this.article.article_content
           }
-        }"><button class="btn-style">수정</button></router-link>
-          <button class="btn-style" @click="articleDelete">삭제</button>
+        }">
+          <button class="article-button" @click="articleDelete">삭제</button>
+        <button class="article-button">수정</button></router-link>
         </div>
         <hr>
         <CommentForm v-show="this.isLoggedIn"></CommentForm>
@@ -111,6 +112,7 @@ hr {
 .detail-box {
   display: flex;
   justify-content: center;
+  padding-bottom: 30px;
 }
 .article-detail-box {
   width: 880px;
@@ -141,5 +143,27 @@ hr {
   border: 0;
   color: #FFFFFF;
   background-color: #1B3C33;
+}
+.edit-img{
+  width: 20px;
+  height: 20;
+}
+.delete-img{
+  width: 20px;
+  height: 20;
+}
+.recommand-img{
+  width: 20px;
+  height: 20;
+}
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border-style: none;
+}
+.article-button{
+  float: right;
 }
 </style>

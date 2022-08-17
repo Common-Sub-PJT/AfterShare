@@ -8,7 +8,7 @@
       </div>
     </div>
   </div>
-  <hr>
+  <hr class="hrclass">
   <ul v-for="article in paginatedData" :key="article.article_id">
     <li class="article-list">
       <div class="article-title">
@@ -118,6 +118,8 @@ export default {
   width: 5rem;
   height: 2rem;
   letter-spacing: 0.5px;
+  border-radius: 5px;
+  
 }
 .btn-cover .page-count {
   padding: 0 1rem;
@@ -164,6 +166,7 @@ export default {
   text-decoration: none;
   font-weight: bold;
   color: black;
+  margin-top:5px;
   margin-bottom: 5px;
 }
 .article-list-item {
@@ -188,5 +191,8 @@ ul {
   width: 48px;
   text-align: center;
   align-items: center;
+}
+.hrclass{
+  margin-bottom: 10px;
 }
 </style>

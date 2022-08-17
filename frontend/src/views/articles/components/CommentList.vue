@@ -5,9 +5,9 @@
         <p class="comment-style" v-if="this.editNum!=comment.comment_id">{{ comment.comment_content }}</p>
         <input v-else type="text" id="comment" v-model="content" required>
         <div v-show="this.currentUser.name===comment.user.name">
-          <button v-if="this.editNum!=comment.comment_id" @click="commentEditSetup(comment)" class="btn-style">수정</button>
+          <button v-if="this.editNum!=comment.comment_id" @click="commentEditSetup(comment)" class="edit-button"><img class = "edit-img" src="@/assets/edit.png"></button>
           <button v-else @click="commentEdit(comment.comment_id)" class="btn-style">적용</button>
-          <button v-if="this.editNum!=comment.comment_id" class="btn-style" @click="commentDelete(comment.comment_id)">삭제</button>
+          <button v-if="this.editNum!=comment.comment_id" @click="commentDelete(comment.comment_id)"><img class = "edit-img" src="@/assets/x.png"></button>
           <button v-else @click="initEditNum" class="btn-style">취소</button>
         </div>
       </li>
