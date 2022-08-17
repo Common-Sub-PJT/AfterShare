@@ -57,16 +57,14 @@
   <div class="row card-row">
       <div class="card-box" v-for="conference in conferenceList" :key="conference.conference_id">
         <figure class="conf-card">
-          <!-- <img class="conf-img" :src="`@/assets/conference/${imgs}.jpg`" alt="sample99" /> -->
-          <img v-if="conference.genre === 'AAAA'" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'AAAB'" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'BBBA'" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'CCCA'" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'CCCB'" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'CCCC'" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
-          <img v-else-if="conference.genre === 'EEEA'" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
+          <img v-if="conference.genrnme === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
           <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
-
           <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
           <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
           <figcaption>
@@ -202,7 +200,6 @@ export default defineComponent ({
         cancelButtonText: '돌아가기',
       })
     },
-    
     secretAlert(password) {
       Swal.fire({
         title: '입장하시겠습니까?',
@@ -588,7 +585,6 @@ label::before {
 }
 .conf-card:before,
 .conf-card:after {
-
   content: '';
   background-color: #fff;
   opacity: 0;

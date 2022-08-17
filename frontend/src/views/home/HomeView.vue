@@ -28,11 +28,22 @@
         <div class="card-col">
           <div class="card-box" v-for="conference in cfrrankList" :key="conference.conference_id">
             <figure class="conf-card">
-              <img class="conf-img" src="@/assets/conference.png" alt="sample99" />
+              <img v-if="conference.genrnme === genreNm[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreNm[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
+              <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
+              <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
+              <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
               <figcaption>
                 <h3 v-if="conference._after">관람자만</h3>
                 <h3 v-else>모두참여</h3>
-                <div><button class="conf-in">입장하기</button></div>
+                <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
+                <div v-else-if="conference._secret"><button @click="secretAlert(conference.password)" class="conf-in">입장하기</button></div>
+                <div v-else><button @click="basicAlert" class="conf-in">입장하기</button></div>
               </figcaption>
             </figure>
             <div class="text-box">
@@ -89,6 +100,8 @@
 import axios from 'axios'
 import secosi from "@/api/secosi"
 import { defineComponent } from 'vue'
+import Swal from 'sweetalert2'
+
 
 export default defineComponent({
   data() {
@@ -109,7 +122,10 @@ export default defineComponent({
       items: ['작성자', '조회수', '추천수'],
       genrenm: {
         "catecode": ""
-      }
+      },
+      genreNm:[
+        "ALL", "뮤지컬", "연극", "무용", "클래식", "오페라", "국악", "복합"
+      ],
     }
   },
   methods: {
@@ -151,6 +167,42 @@ export default defineComponent({
       .then (res => {
       })
       .catch (err => {
+      })
+    },
+    basicAlert() {
+      Swal.fire({
+        title: '입장하시겠습니까?',
+        confirmButtonColor: '#1b3c33',
+        confirmButtonText: '입장하기',
+        showCloseButton: true,
+      })
+    },
+    cantAlert() {
+      Swal.fire({
+        showConfirmButton: false,
+        title: '정원이 다 차 입장할 수 없습니다.',
+        showCancelButton: true,
+        cancelButtonText: '돌아가기',
+      })
+    },
+    secretAlert(password) {
+      Swal.fire({
+        title: '입장하시겠습니까?',
+        input: 'password',
+        inputLabel: '비밀번호',
+        inputPlaceholder: '비밀번호를 입력해주세요.',
+        showCloseButton: true,
+        confirmButtonColor: '#1b3c33',
+        confirmButtonText: '입장하기',
+        inputAttributes: {
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        },
+        inputValidator: (inputPassword) => {
+          if (inputPassword != password) {
+            return '잘못된 비밀번호입니다.'
+          }
+        },
       })
     },
   },
@@ -265,18 +317,15 @@ a {
   transition: all 0.4s ease;
 }
 .conf-card img {
-  max-width: 100%;
+  max-width: 99%;
+  border-radius: 5px;
   backface-visibility: hidden;
   vertical-align: top;
 }
 .conf-card:before,
 .conf-card:after {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   content: '';
   background-color: #fff;
-  z-index: 1;
   opacity: 0;
 }
 .conf-card:before {
@@ -345,7 +394,7 @@ a {
   transition-delay: 0.3s;
 }
 .conf-img {
-  width: 200px;
+  width: 100%;
   height: 136px;
   /* background-color: #ffffff; */
 }
@@ -357,8 +406,7 @@ a {
 }
 .card-col {
   column-count: 4;
-  margin-top: 0.5rem;
-  width: 1080px;
+  width: 1024px;
 }
 .card-box {
   width: 240px;
@@ -375,6 +423,19 @@ a {
   height: 20px;
   font-size: 12px;
   margin: 0;
+}
+.lock-img {
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0.5rem;
+}
+.limit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0.5rem;
 }
 .line {
   width: 1024px;
