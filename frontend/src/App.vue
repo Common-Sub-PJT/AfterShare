@@ -28,6 +28,7 @@
 import LoginView from '@/views/accounts/LoginView.vue'
 import SignupView from '@/views/accounts/SignupView.vue'
 import { useAccounts } from "@/stores/accounts"
+import { usePerforms } from '@/stores/performs'
 import { useCommunities } from '@/stores/community'
 import { mapActions, mapState } from 'pinia'
 
@@ -44,6 +45,7 @@ export default{
     }
   },
   created() {
+    this.fetchPerforms()
     this.fetchCurrentUser()
     this.searchArticles(this.genre, this.category)
   },
@@ -60,6 +62,7 @@ export default{
   methods: {
     ...mapActions(useCommunities, ['searchArticles']),
     ...mapActions(useAccounts, ['fetchCurrentUser']),
+    ...mapActions(usePerforms, ['fetchPerforms']),
     ShowLoginModal() {
       this.isLoginViewVisible = true;
     },
