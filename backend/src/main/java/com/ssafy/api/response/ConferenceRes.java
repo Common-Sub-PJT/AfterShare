@@ -31,6 +31,8 @@ public class ConferenceRes {
     int person_now;
     //방 제한 인원
     int person_limit;
+    //장르명
+    String genrenm;
 
     public static ConferenceRes of(Conference conference){
         ConferenceRes res = new ConferenceRes();
@@ -46,6 +48,7 @@ public class ConferenceRes {
         res.setPassword(conference.getPassword());
         res.setPerson_now(conference.getPerson_now());
         res.setPerson_limit(conference.getPerson_limit());
+        res.setGenrenm(conference.getGenrenm());
 
         return res;
     }
