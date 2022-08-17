@@ -113,9 +113,8 @@ public class ConferenceController {
     })
     public ResponseEntity<? extends BaseResponseBody> following(
             @RequestParam("followingId") String followingId,
-            @ApiIgnore Authentication authentication) {
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-        User user = userDetails.getUser();
+            @RequestParam("userId") String userId) {
+        User user = userService.getUserByUserId(userId);
 
         conferenceService.following(followingId, user);
         userService.followingCnt(user);
@@ -133,9 +132,8 @@ public class ConferenceController {
     })
     public ResponseEntity<? extends BaseResponseBody> unfollowing(
             @RequestParam("unfollowingId") String unfollowingId,
-            @ApiIgnore Authentication authentication) {
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-        User user = userDetails.getUser();
+            @RequestParam("userId") String userId) {
+        User user = userService.getUserByUserId(userId);
 
         conferenceService.unfollowing(unfollowingId);
         userService.unfollowingCnt(user);
