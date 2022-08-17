@@ -11,8 +11,9 @@
       <button v-else @click="ShowLoginModal" class="log main-btn">Login</button>
       <ul class="menu">
         <li><router-link to="/conferencelist" id="r-tag">뒤풀이방</router-link></li>
-        <li><router-link to="/articles" id="r-tag" @click="searchArticles('전체', '전체')">Community</router-link></li>
+        <li><router-link to="/articles" id="r-tag" @click="searchArticles('전체', '전체')">커뮤니티</router-link></li>
         <li><router-link to="/perform" id="r-tag">공연찾기</router-link></li>
+        <li v-show="isLogin.isLoggedIn"><router-link :to="{ name: 'Mypage', params: { username: `${this.currentUser.name}` } }" id="r-tag">마이페이지</router-link></li>
       </ul>
     </header>
     <div id="main">
@@ -44,7 +45,7 @@ export default{
   },
   created() {
     this.fetchCurrentUser()
-    this.searchArticles(this.genre, this.community)
+    this.searchArticles(this.genre, this.category)
   },
   setup(){
     const isLogin = useAccounts()
@@ -53,7 +54,8 @@ export default{
     }
   },
   computed: {
-    ...mapState(useCommunities, ['genre', 'community'])
+    ...mapState(useCommunities, ['genre', 'category']),
+    ...mapState(useAccounts, ['currentUser'])
   },
   methods: {
     ...mapActions(useCommunities, ['searchArticles']),
