@@ -44,13 +44,11 @@
         </div>
       </router-link>
     </div>
-    <infinite-loading @infinite="load"></infinite-loading>
   </div>
 </div>
 </template>
 
 <script>
-// import { loadPerform } from '@/stores/performs'
 import axios from 'axios'
 import secosi from "@/api/secosi"
 import { mapState } from 'pinia'
@@ -104,12 +102,6 @@ export default defineComponent ({
     ...mapState(usePerforms, ['performs'])
   },
   methods: {
-    // fetchPerforms() {
-      //   axios.get(secosi.performs.performs())
-    //     .then(res => {
-    //       this.performList=res.data
-    //     })
-    // },
     sidoShow() {
       this.sidoVisible = !this.sidoVisible
     },
@@ -129,7 +121,6 @@ export default defineComponent ({
       axios.post(secosi.performs.search(), performInfo)
         .then(res => {
           this.performList = res.data
-          console.log(this.performList)
         })
         .catch(err => {
           console.error(err.response.data)
@@ -174,7 +165,6 @@ export default defineComponent ({
     const genreClick = function genreClick(genre) {
       this.searchInfo.genre = genre.code
       this.searchPerforms(this.searchInfo)
-      console.log(genre)
     }
     return {
       sidoClick,
