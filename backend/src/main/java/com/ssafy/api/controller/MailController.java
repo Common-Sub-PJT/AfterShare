@@ -34,7 +34,7 @@ public class MailController {
     @Autowired
     private MailService mailService;
 
-    @PatchMapping("/findmy/sendemail")
+    @PatchMapping("/findmy/sendemail/{user_id}")
     @ApiOperation(value = "비밀번호 찾기", notes = "입력한 이메일로 변경된 비밀번호를 전송한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
@@ -42,13 +42,9 @@ public class MailController {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<? extends BaseResponseBody> findPwd(
-            @ApiIgnore Authentication authentication) throws Exception {
-        // 유저 정보 가져오기
-        SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
-        User user = userDetails.getUser();
-
+            @PathVariable String user_id) throws Exception {
+        User user = userService.getUserByUserId(user_id);
         mailService.sendFindPwdMail(user);
-
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }

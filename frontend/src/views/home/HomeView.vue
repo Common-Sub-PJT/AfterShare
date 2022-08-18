@@ -28,7 +28,7 @@
         <div class="card-col">
           <div class="card-box" v-for="conference in cfrrankList" :key="conference.conference_id">
             <figure class="conf-card">
-              <img v-if="conference.genrnme === genreName[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+              <img v-if="conference.genrenm === genreName[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
               <img v-else-if="conference.genrenm === genreName[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
               <img v-else-if="conference.genrenm === genreName[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
               <img v-else-if="conference.genrenm === genreName[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
@@ -209,6 +209,8 @@ export default defineComponent({
     ...mapState(useHomes, ['performRank'])
   },
   created() {
+    window.location.reload
+    this.prfrankList = this.performRank === undefined ? [] : this.performRank.all
     this.fetchPrfrank()
     this.fetchCfrrank()
     this.fetchArtrank()

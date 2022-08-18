@@ -23,11 +23,6 @@
         </div>
       </div>
       <div class="article-info">
-        <!-- 유저 이름 클릭하면 그 유저 프로필 페이지로 이동하려다 만 코드 -->
-        <!-- <router-link class="article-list-info"
-          :to="{ name: 'Mypage', params: { username: article.user_name } }">
-          {{ article.user_name }}
-        </router-link> -->
         <p class="article-list-info">{{ article.user_name }}</p>
         <p class="article-list-info">{{ article.view_cnt }}</p>
         <p class="article-list-info">{{ article.recommend }}</p>
@@ -112,6 +107,7 @@ export default {
 <style scoped>
 .btn-cover {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 .btn-cover .page-btn {
@@ -191,6 +187,7 @@ ul {
   width: 48px;
   text-align: center;
   align-items: center;
+  overflow: hidden;
 }
 .hrclass{
   margin-bottom: 10px;
