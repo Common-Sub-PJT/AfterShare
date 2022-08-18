@@ -6,9 +6,8 @@
       </router-link>
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-      <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()]" class="log main-btn">Logout</button>
-      <!-- <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()], this.$router.push({ name: 'Home' })" class="log main-btn">Logout</button> -->
-      <button v-else @click="ShowLoginModal" class="log main-btn">Login</button>
+      <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()]" class="log main-btn">로그아웃</button>
+      <button v-else @click="ShowLoginModal" class="log main-btn">로그인</button>
       <ul class="menu">
         <li><router-link to="/conferencelist" id="r-tag">뒤풀이방</router-link></li>
         <li><router-link to="/articles" id="r-tag" @click="searchArticles('전체', '전체')">커뮤니티</router-link></li>
@@ -133,7 +132,7 @@ button:hover {
 }
 .header li #r-tag {
   display: block;
-  padding: 20px 20px;
+  padding: 16px 16px;
   text-decoration: none;
 }
 .header li #r-tag:hover,

@@ -469,6 +469,7 @@ nav .menuItems li p{
   transition: all 0.3s ease-in-out;
   position: relative;
   text-transform: uppercase;
+  z-index: 0;
 }
 nav .menuItems li p:hover{
   text-decoration: none;
@@ -479,6 +480,7 @@ nav .menuItems li p:hover{
   position: relative;
   text-transform: uppercase;
   margin: 4px;
+  z-index: 0;
 }
 nav .menuItems li ::before{
   content: "";
@@ -495,6 +497,8 @@ nav .menuItems li ::before{
   overflow: hidden; 
   border: none;
   border-radius: 5px;
+  z-index: -1;
+
 }
 nav .menuItems li :hover::before{
   width: 100%;
