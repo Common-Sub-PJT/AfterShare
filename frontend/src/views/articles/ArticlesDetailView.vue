@@ -50,6 +50,8 @@ export default {
       article: [],
       articleId: '',
       articleUserId: '',
+      rerender: ['0'],
+      likeCount: 0,
     }
   },
   components: {
@@ -80,7 +82,13 @@ export default {
       }
       axios.post(secosi.communities.like(this.articleId), config)
         .then(res => {
-        })
+          this.articleId = this.$route.params.articleid
+          axios.get(secosi.communities.articleDetail(this.articleId))
+            .then(res => {
+              this.article = res.data
+              this.likeCount = res.data.recommend
+            })
+          })
         .catch(err => {
         })
     }
@@ -90,6 +98,7 @@ export default {
     axios.get(secosi.communities.articleDetail(this.articleId))
       .then(res => {
         this.article = res.data
+        this.likeCount = res.data.recommend
       })
   }
 };
