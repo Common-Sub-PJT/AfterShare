@@ -53,7 +53,7 @@ export default defineComponent ({
   name:'PerformView',
   data() {
     return {
-      // performList : [], 
+      performList : [], 
       performNum: 20,
       isScrollEnd: false,
       sidoVisible: false,
@@ -93,7 +93,7 @@ export default defineComponent ({
     }
   },
   computed: {
-    ...mapState(usePerforms, ['performList'])
+    ...mapState(usePerforms, ['performs'])
   },
   methods: {
     // fetchPerforms() {
@@ -138,6 +138,7 @@ export default defineComponent ({
     }
   },
   created() {
+    this.performList = this.performs
   },
   mounted() {
     this.checkScrollEnd()
