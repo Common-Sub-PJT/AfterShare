@@ -6,7 +6,7 @@
       </div>
       <div class="modal-content-right">
         <div  @click="$emit('loginClose')" class="close-btn">&times;</div>
-        <form  @submit.prevent="[doLogin(credential), $emit('loginClose')]" class="modal-form" id="form">
+        <form  @submit.prevent="[doLogin(credential)]" class="modal-form" id="form">
           <h1 class="font-weight-bold">Login</h1>
           <div class="form-validation">
             <input v-model="credential.id" type="text" class="modal-input" id="name" name="name" placeholder="Enter your ID">
@@ -54,6 +54,7 @@ export default {
         .then(res => {
           const token = res.data.accessToken
           login.fetchCurrentUser(token)
+          this.$emit('loginClose')
         })
         .catch(err => {
           console.log(err)

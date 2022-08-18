@@ -19,9 +19,9 @@ export const useAccounts = defineStore({
     removeToken() {
       localStorage.setItem('token', '')
       this.currentUser = {}
-      // window.location.reload()
-      // this.$router.push({ name: 'Home' })
+      window.location.reload()
     },
+
     fetchCurrentUser(token) {
       localStorage.setItem('token', token)
       this.token = token
