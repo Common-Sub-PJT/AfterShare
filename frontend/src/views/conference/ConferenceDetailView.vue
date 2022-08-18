@@ -40,7 +40,7 @@
 						</div>
 					</div>
 						<div id="session-header">
-							<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+							<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="방 나가기">
 						</div>
 					</div>
 			</div>
@@ -327,7 +327,7 @@ export default {
 	padding: 10px 10px 10px;
 	border-bottom: 2px solid white;
 	overflow-y: scroll;
-	height:480px;
+	height:460px;
 }
     
 .chat .chat-history .message-data {
