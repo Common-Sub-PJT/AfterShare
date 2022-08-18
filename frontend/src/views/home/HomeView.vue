@@ -101,7 +101,7 @@ import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'pinia'
 import { useHomes } from '@/stores/home'
 import Swal from 'sweetalert2'
-
+import router from '@/router'
 
 export default defineComponent({
   data() {
@@ -172,6 +172,8 @@ export default defineComponent({
         confirmButtonColor: '#1b3c33',
         confirmButtonText: '입장하기',
         showCloseButton: true,
+      }).then(function(){
+        router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
       })
     },
     cantAlert() {
@@ -198,6 +200,8 @@ export default defineComponent({
         inputValidator: (inputPassword) => {
           if (inputPassword != password) {
             return '잘못된 비밀번호입니다.'
+          }else{
+            router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
           }
         },
       })
