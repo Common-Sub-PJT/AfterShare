@@ -5,14 +5,14 @@ import secosi from "@/api/secosi";
 export const useCommunities = defineStore('communities', {
   state: () => {
     return {
-      articleListName: '전체게시판',
+      articleListName: '',
       articleList: [],
       articleGenre: 0,
       articleCategory: 0,
       commentList: [],
       commentListRerendering: 0,
-      genre: '전체',
-      category: '전체',
+      genre: '',
+      category: '',
     }
   },
   persist: true,

@@ -1,7 +1,7 @@
 
 <template class="row">
   <ArticleNavComponent></ArticleNavComponent>
-  <div class="article-create-box">
+  <div class="article-box">
     <div class="community-name-box">
       <p class="article-list-name">{{ this.articleListName }}</p>
     </div>
@@ -77,7 +77,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .btn-style {
   font-size: 18px;
   font-weight: bold;
@@ -89,9 +89,6 @@ export default {
   border: 0;
   color: #FFFFFF;
   background-color: #1B3C33;
-}
-.community-name-box{
-  display: flex;
 }
 .input-label{
   width: 44px;
@@ -121,7 +118,9 @@ export default {
   width: 816px;
   height: 32px;
 }
-
+.community-name-box{
+  display: flex;
+}
 .article-list-name {
   padding: 30px 0px 30px 40px;
   margin: 0;
@@ -129,7 +128,7 @@ export default {
   font-weight: bold;
 }
 
-.article-create-box {
+.article-box {
   width: 1024px;
   height: 560px;
   border: 1px solid;

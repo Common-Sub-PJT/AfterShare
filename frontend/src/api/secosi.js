@@ -1,24 +1,10 @@
-<<<<<<< HEAD
-//const HOST = "https://i7b303.p.ssafy.io/api/"
-const HOST = "http://localhost:8080/api"
-=======
-<<<<<<< HEAD
-const HOST = "https://i7b303.p.ssafy.io/api/"
-// const HOST = "http://localhost:8080/api/"
-=======
-<<<<<<< HEAD
-const HOST = "https://i7b303.p.ssafy.io/api/"
-// const HOST = "http://localhost:8080/api"
-=======
 const HOST = "http://localhost:8080/api/"
 // const HOST = "https://i7b303.p.ssafy.io/api/"
->>>>>>> 45e50df21c4ea6e918272167759fb754d1ab2cf1
->>>>>>> 4919ad605eb38b9d817c0e40b5d2abcdfd8a3d2c
->>>>>>> 2376c12215ab30dbc265962b37f216c6442d9a33
 const ACCOUNTS = "users"
 const COMMUNITIES = "communities"
 const PERFORMS = 'performs'
 const CONFERENCES = "conferences"
+const MAIN = "main"
 
 export default {
   accounts: {
@@ -28,6 +14,16 @@ export default {
     userIdCheck: () => HOST + ACCOUNTS + '/check-userid',
     emailCheck: () => HOST + ACCOUNTS + '/check-email',
     nicknameCheck: () => HOST + ACCOUNTS + '/check-name',
+    deleteAccount: userId => HOST + ACCOUNTS + `/${userId}`
+  },
+  mypages: {
+    myArticles: userId => HOST + ACCOUNTS + `/${userId}` + '/my-articles',
+    myComments: userId => HOST + ACCOUNTS + `/${userId}` + '/my-comments',
+    myFollowers: userId => HOST + ACCOUNTS + '/follower' + `/${userId}`,
+    myFollowings: userId => HOST + ACCOUNTS + '/following' + `/${userId}`,
+    passwordChange: () => HOST + ACCOUNTS + '/change-password',
+    editProfile: userId => HOST + ACCOUNTS + `/${userId}`,
+    deleteAccount: userId => HOST + ACCOUNTS + `/${userId}`,
   },
   communities: {
     community: () => HOST + COMMUNITIES,
@@ -37,6 +33,7 @@ export default {
     comment: articleId => HOST + COMMUNITIES + `/${articleId}` + '/comments',
     commentEdit: (articleId, commentId) => HOST + COMMUNITIES + `/${articleId}` + '/comments' + `/${commentId}`,
     viewCount: articleId => HOST + COMMUNITIES + `/${articleId}` + '/count',
+    like: articleId => HOST + COMMUNITIES + `/${articleId}` + '/like',
     articleDelete: (articleId) => HOST + COMMUNITIES + `/${articleId}`,
     commentDelete: (articleId, commentId) => HOST + COMMUNITIES + `/${articleId}` + '/comments' + `/${commentId}`,
     articleSearch: (articleGenre, articleCategory, searchCategory, searchWord) => HOST + COMMUNITIES + `/${articleGenre}` + `/${articleCategory}` + `/${searchCategory}` + `/${searchWord}`,
@@ -50,6 +47,17 @@ export default {
   conferences: {
     conferences: () => HOST + CONFERENCES,
     search: () => HOST + CONFERENCES + '/search',
-    create: () => HOST + CONFERENCES +'/chat'
+    create: () => HOST + CONFERENCES +'/chat',
+    follow: () => HOST + CONFERENCES + '/follow',
+    unfollow: () => HOST + CONFERENCES + '/unfollowing',
+    join: () => HOST + CONFERENCES + '/roomIn',
+    out: () => HOST + CONFERENCES + '/roomOut',
+    following: () => HOST + CONFERENCES + '/following',
+    report: () => HOST + CONFERENCES + '/report',
+  },
+  main: {
+    prfrank: () => HOST + MAIN + '/performs' + '/ranking',
+    cfrrank: () => HOST + MAIN + '/conferences' + '/ranking',
+    artrank: () => HOST + MAIN + '/communities' + '/ranking',
   },
 }
