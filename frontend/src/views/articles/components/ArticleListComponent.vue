@@ -107,6 +107,7 @@ export default {
 <style scoped>
 .btn-cover {
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 .btn-cover .page-btn {

@@ -57,7 +57,7 @@
   <div class="row card-row">
       <div class="card-box" v-for="conference in conferenceList" :key="conference.conference_id">
         <figure class="conf-card">
-          <img v-if="conference.genrnme === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+          <img v-if="conference.genrenm === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
