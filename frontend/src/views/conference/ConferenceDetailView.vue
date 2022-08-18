@@ -1,35 +1,49 @@
 <template>
-	<div id="main-container" class="container">
-		<div id="session">
-			<div id="session-header">
-				<h1 id="session-title">{{ conferenceTitle }}</h1>
-				<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-			</div>
-			<div id="video-container" class="col-md-6">
-				<div>이거는 내 화면</div>
+	<div class="container">
+		<div class="d-flex main-box">
+			<div class="malan" id="video-container">
 				<user-video :stream-manager="publisher" v-on:click="updateMainVideoStreamManager(publisher)"/>
-				<div>이 밑은 다른 참여자 화면</div>
 				<user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" v-on:click="updateMainVideoStreamManager(sub)"/>
 			</div>
-		</div>
-
-    <div id="chat-session">
-      <h1 id="chat-session-header"></h1>
-      <div class="content">
-        <div class="messages" id="chat"></div>
-        <form class="footer" onsubmit="return false;">
-          <input type="text" id="mensaje" placeholder="Tu mensaje..." />
-          <button type="submit" @click="mandar_mensaje">Enviar</button>
-        </form>
-      </div>
-
-      <template data-template="message">
-        <div class="message">
-          <div class="message__name"></div>
-          <div class="message__bubble"></div>
-        </div>
-      </template>
-    </div>
+				<div class="chat-session">
+					<div class="chat">
+						<div class="chat-header clearfix">
+							<div class="chat-about">
+								<div class="chat-with">{{ conferenceTitle }}</div>
+							</div>
+						</div>
+						<div class="chat-history">
+							<ul style="list-style: none;" v-for="(message, index) in chattingList" :key="index">
+								<li v-if="message.writer === currentUser.name" class="clearfix">
+									<div class="message-data align-right">
+										<span class="message-data-time" >{{this.possibleEmojis[message.cute]}}</span>
+										<span class="message-data-name" >{{message.writer}}</span> 
+									</div>
+									<div class="message other-message float-right">
+										{{ message.text }}
+									</div>
+								</li>
+								<li v-else class="clearfix">
+									<div class="message-data">
+										<span class="message-data-name">{{message.writer}}</span>
+										<span class="message-data-time">{{this.possibleEmojis[message.cute]}}</span>
+									</div>
+									<div class="message my-message">
+										{{ message.text }}
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="chat-message clearfix">
+							<textarea v-model="textMessage" @keyup.enter="makeMessage" name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>     
+							<button @click="makeMessage">Send</button>
+						</div>
+					</div>
+						<div id="session-header">
+							<input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+						</div>
+					</div>
+			</div>
 	</div>
 </template>
 
@@ -41,7 +55,6 @@ import UserVideo from './components/UserVideo.vue'
 import { mapState } from 'pinia'
 import router from '@/router'
 import secosi from "@/api/secosi"
-// import '@/views/conference/conference.css'
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443'
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -53,10 +66,11 @@ export default {
   name: 'ConferenceDetailView', 
   components:{
     UserVideo,
+		// MyVideo
   },
   data(){
     return{
-			conferenceTitle: this.$route.params.title,
+			conferenceTitle: "",
       OV: undefined,
       session: undefined,
       mainStreamManager: undefined,
@@ -65,9 +79,9 @@ export default {
       mySessionId: 'SessionA',
       myUserName : 'Participant' + Math.floor(Math.random() * 100),
 			possibleEmojis : [],
-			// emoji : this.possibleEmojis[this.pos_emoji],
 			pos_emoji : this.randomEmoji(),
 			chattingList : [],
+			textMessage: "",
     }
   },
 	computed: {
@@ -105,13 +119,13 @@ export default {
 		setData(){
 			this.mySessionId = this.$route.params.conferenceid
 			this.myUserName = this.currentUser
+			this.conferenceTitle = this.$route.params.title
 			this.possibleEmojis = [
 			'🐀', '🐁', '🐭', '🐹', '🐂', '🐃', '🐄', '🐮', '🐅', '🐆', '🐯', '🐇', '🐐', '🐑', '🐏', '🐴',
 			'🐎', '🐱', '🐈', '🐰', '🐓', '🐔', '🐤', '🐣', '🐥', '🐦', '🐧', '🐘', '🐩', '🐕', '🐷', '🐖',
 			'🐗', '🐫', '🐪', '🐶', '🐺', '🐻', '🐨', '🐼', '🐵', '🙈', '🙉', '🙊', '🐒', '🐉', '🐲', '🐊',
 			'🐍', '🐢', '🐸', '🐋', '🐳', '🐬', '🐙', '🐟', '🐠', '🐡', '🐚', '🐌', '🐛', '🐜', '🐝', '🐞',
 			]
-			// console.log(this.possibleEmojis)
 		},
 		randomEmoji() {
 			console.log(this.possibleEmojis)
@@ -126,46 +140,27 @@ export default {
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber)
       })
-
 			this.session.on('signal:chat', (event) => {
+				let messageInfo = event.data.split('.././././.')
 				console.log(event.data)
-				// console.log('진짜 이러지마...')
-				// var mensaje = event.data.split(".././././.")
-				let chattingItem = {text: event.data, writer: this.currentUser.name, cute: Number}
-				// chattingItem.text = mensaje[0]
-				// chattingItem.writer = mensaje[1]
-				// chattingItem.cute = parseInt(mensaje[2])
-				// this.chattingList.push(chattingItem)
-				// console.log(this.chattingList.length)
-				// console.log(this.chattingList)
-				// const template = document.querySelector('template[data-template="message"]')
-				// const nameEl = template.textContent.querySelector('.message__name')
-
+				console.log(messageInfo[0])
+				console.log(messageInfo[1].replace('.././././.', ''))
+				let chattingItem = {text: messageInfo[0], writer: messageInfo[1].replace('.././././.', ''), cute: Number}
 				const pos_emoji = parseInt(this.randomEmoji())
 				chattingItem.cute = parseInt(pos_emoji)
-				// this.chattingItem.push(chattingItem)
-				console.log(this.chattingList)
+				// const list = this.chattingList.slice(-5, -1)
+				// let len = this.chattingList.length
+				// let goList = []
+				// if(len>7){
+				// 	for (i = 5; i < 1; i-- ){
+				// 		[ ...goList, this.chattingList[len-i]]
+				// 	}
+				// }
+				console.log(this.chattingList[1])
+				console.log(this.chattingList.keys)
 				this.chattingList = [...this.chattingList, chattingItem]
 				console.log(this.chattingList)
-			// var mensaje = document.getElementById("mensaje").value
-			// // console.log(mensaje)
-			// document.getElementById("mensaje").value = ""
-			// mensaje = mensaje+".././././."+this.myUserName.name+".././././."+pos_emoji
-				// if (mensaje[1] || this.possibleEmojis[parseInt(mensaje[2])]){
-				// 	nameEl.innerText = this.possibleEmojis[parseInt(mensaje[2])] + ' ' + mensaje[1]
-				// }
-				// template.content.querySelector('.message__bubble').innerText = mensaje[0]
-        // const clone = document.importNode(template.content, true)
-        // const messageEl = clone.querySelector('.message')
-
-				// if (event.from.connectionId === this.session.connection.connectionId){
-				// 	messageEl.classList.add('message--mine')
-				// } else {
-				// 	messageEl.classList.add('message--theres')
-				// }
-
-				// const messagesEl = document.querySelector('.messages')
-				// messagesEl.appendChild(clone)
+				console.log(this.currentUser.name)
 			})
 
       this.session.on('streamDestroyed', ({stream}) => {
@@ -183,14 +178,12 @@ export default {
 				this.myUserName = this.currentUser
         this.session.connect(token, {clientData: this.myUserName})
           .then(()=> {
-						document.getElementById("chat-session-header").innerText=this.mySessionId
-
 						let publisher = this.OV.initPublisher(undefined, {
 							audioSource: undefined, 
 							videoSource: undefined,
 							publishAudio: true,
 							publishVideo: true, 
-							resolution: '640x480',
+							resolution: '240x150',
 							frameRate: 30,
 							insertMode: 'APPEND',	
 							mirror: false 
@@ -222,15 +215,14 @@ export default {
 			router.push({ name: 'ConferenceList' })
 			window.removeEventListener('beforeunload', this.leaveSession);      
     },
-		mandar_mensaje(){
-			var mensaje = document.getElementById("mensaje").value
+		makeMessage(){
 			this.session.signal({
-				data: mensaje,
+				data: this.textMessage+'.././././.'+this.currentUser.name,
 				to: [],
 				type:'chat',
 			})
 			.then(()=> {
-				console.log("Mensaje enviado")
+				this.textMessage = ""
 			})
 			.catch(error => {
 				console.error(error)
@@ -241,10 +233,6 @@ export default {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
 		},
-
-
-
-// getToken 함수들
 
    	getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
@@ -277,7 +265,6 @@ export default {
 			});
 		},
 
-		// See https://docs.openvidu.io/en/stable/reference-docs/REST-API/#post-connection
 		createToken (sessionId) {
 			return new Promise((resolve, reject) => {
 				axios
@@ -296,7 +283,140 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#main{
+	width:1400px;
+}
+.container{
+	display: flex;
+	margin: 0;
+	padding: 0;
+	justify-content: space-between;
+}
+.clearfix, .clearfix:before, .clearfix:after {
+  box-sizing: border-box;
+	text-decoration: none;
+}
 
+.chat {
+  width: 340px;
+  float:left;
+  background: #eef2ed;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #434651;
+}
+  
+.chat .chat-header {
+	padding: 3px;
+	padding-left: 10px;
+	border-bottom: 2px solid white;
+}
+.chat .chat-header .chat-about {
+	float: left;
+	padding-left: 10px;
+	margin-top: 6px;
+}
 
+.chat .chat-header .chat-with {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.chat .chat-history {
+	padding: 10px 10px 10px;
+	border-bottom: 2px solid white;
+	overflow-y: scroll;
+	height:480px;
+}
+    
+.chat .chat-history .message-data {
+	margin-bottom: 6px;
+}
+    
+.chat .chat-history .message-data-time {
+	color: lighten(#92959E, 8%);
+	padding-left: 6px;
+}
+    
+.chat .chat-history .message {      
+	color: white;
+	padding: 4px 20px;
+	line-height: 26px;
+	font-size: 16px;
+	border-radius: 7px;
+	margin-bottom: 0px;
+	width: 90%;
+	position: relative;
+}
+  
+.chat .chat-history .my-message {
+	background: #92a0bc;
+}
+    
+.chat .chat-history .other-message {
+  background: #1B3C33;
+}
+.chat-message {
+	padding: 10px 30px;
+}
+.chat-message textarea {
+	width: 75%;
+	border: none;
+	padding: 10px 20px;
+	padding-bottom: 0px;
+	font: 14px/22px "Lato", Arial, sans-serif;
+	margin-bottom: 0px;
+	border-radius: 5px;
+	resize: none;
+}
+
+.chat-message button {
+	float: right;
+	color: #94C2ED;
+	font-size: 16px;
+	text-transform: uppercase;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+	background: #F2F5F8;
+	margin-left: 4px;
+}
+.chat-message button:hover{
+  color: darken(#94C2ED, 7%);
+} 
+
+.online, .offline, .me {
+    margin-right: 3px;
+    font-size: 10px;
+  }
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.float-right {
+  float: right;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.malan {
+	column-count: 2;
+	margin: 1rem;
+}
+.chat-session{
+	margin-left: 3rem;
+	margin-top: 1rem;
+}
 </style>
