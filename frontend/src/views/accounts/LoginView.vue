@@ -6,7 +6,7 @@
       </div>
       <div class="modal-content-right">
         <div  @click="$emit('loginClose')" class="close-btn">&times;</div>
-        <form  @submit.prevent="[login.login(credential), $emit('loginClose')]" class="modal-form" id="form">
+        <form  @submit.prevent="[doLogin(credential), $emit('loginClose')]" class="modal-form" id="form">
           <h1 class="font-weight-bold">Login</h1>
           <div class="form-validation">
             <input v-model="credential.id" type="text" class="modal-input" id="name" name="name" placeholder="Enter your ID">
@@ -26,6 +26,8 @@
 
 <script>
 import { useAccounts } from "@/stores/accounts";
+import secosi from "@/api/secosi";
+import axios from "axios";
 
 export default {
   name: 'LoginView',
@@ -39,10 +41,27 @@ export default {
       }
     }
   },
-  setup(){
+  methods: {
+  },
+  setup() {
     const login = useAccounts()
-    return{
-      login
+
+
+    const doLogin = function doLogin(context) {
+      console.log(this.credential)
+
+      axios.post(secosi.accounts.login(), context)
+        .then(res => {
+          const token = res.data.accessToken
+          login.fetchCurrentUser(token)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    return {
+      login,
+      doLogin,
     }
   },
   methods: {

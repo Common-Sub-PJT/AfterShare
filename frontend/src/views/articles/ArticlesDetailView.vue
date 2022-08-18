@@ -9,11 +9,12 @@
         <h4>{{ this.article.article_title }}</h4>
         <hr>
         <div class="place-right">
+          <p>작성자 - {{ this.article.user.name }}</p>
           <p>{{ this.article.regtime.slice(0, 16) }}</p>
         </div>
         <p class="article-content-box" v-html="article.article_content"></p>
         <div v-show="this.currentUser.name === this.article.user.name">
-          <button @click.prevent="likeArticle"><img class = "edit-img" src="@/assets/like.png">{{}}</button>
+          <button @click.prevent="likeArticle"><img class = "edit-img" src="@/assets/like.png">{{ this.article.recommend }}</button>
           <router-link :to="{
           name: 'ArticleEdit',
           params: {
@@ -107,7 +108,7 @@ hr {
 }
 .place-right {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 .detail-box {
   display: flex;
