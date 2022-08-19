@@ -5,7 +5,6 @@ const COMMUNITIES = "communities"
 const PERFORMS = 'performs'
 const CONFERENCES = "conferences"
 const MAIN = "main"
-const MAIL = "mail"
 
 export default {
   accounts: {
@@ -61,7 +60,4 @@ export default {
     cfrrank: () => HOST + MAIN + '/conferences' + '/ranking',
     artrank: () => HOST + MAIN + '/communities' + '/ranking',
   },
-  mail:{
-    passwordFind:() => HOST + MAIL + '/findmy/sendemail'
-  }
 }

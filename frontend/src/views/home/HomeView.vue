@@ -24,31 +24,33 @@
 
     <div class="container">
       <h4 class="title">뒤풀이방</h4>
-      <div class="row card-row">
-        <div class="card-box" v-for="conference in cfrrankList" :key="conference.conference_id">
-          <figure class="conf-card">
-            <img v-if="conference.genrenm === genreName[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
-            <img v-else-if="conference.genrenm === genreName[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
-            <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
-            <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
-            <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
-            <figcaption>
-              <h3 v-if="conference._after">관람자만</h3>
-              <h3 v-else>모두참여</h3>
-              <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
-              <div v-else-if="conference._secret"><button @click="secretAlert(conference.password, conference.conference_id,conference.title)" class="conf-in">입장하기</button></div>
-              <div v-else><button @click="basicAlert(conference.conference_id,conference.title)" class="conf-in">입장하기</button></div>
-            </figcaption>
-          </figure>
-          <div class="text-box">
-            <p class="card-text">방 제목: {{conference.title}}</p>
-            <p class="card-text">공연이름: {{conference.prfnm}}</p>
-            <p class="card-text">공연일시: {{conference.perform_day}}</p>
+      <div class="row">
+        <div class="card-col">
+          <div class="card-box" v-for="conference in cfrrankList" :key="conference.conference_id">
+            <figure class="conf-card">
+              <img v-if="conference.genrnme === genreName[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
+              <img v-else-if="conference.genrenm === genreName[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
+              <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
+              <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
+              <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
+              <figcaption>
+                <h3 v-if="conference._after">관람자만</h3>
+                <h3 v-else>모두참여</h3>
+                <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
+                <div v-else-if="conference._secret"><button @click="secretAlert(conference.password)" class="conf-in">입장하기</button></div>
+                <div v-else><button @click="basicAlert" class="conf-in">입장하기</button></div>
+              </figcaption>
+            </figure>
+            <div class="text-box">
+              <p class="card-text">방 제목: {{conference.title}}</p>
+              <p class="card-text">공연이름: {{conference.prfnm}}</p>
+              <p class="card-text">공연일시: {{conference.perform_day}}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@ import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'pinia'
 import { useHomes } from '@/stores/home'
 import Swal from 'sweetalert2'
-import router from '@/router'
+
 
 export default defineComponent({
   data() {
@@ -166,14 +168,12 @@ export default defineComponent({
       .catch (err => {
       })
     },
-    basicAlert(id, title) {
+    basicAlert() {
       Swal.fire({
         title: '입장하시겠습니까?',
         confirmButtonColor: '#1b3c33',
         confirmButtonText: '입장하기',
         showCloseButton: true,
-      }).then(function(){
-        router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
       })
     },
     cantAlert() {
@@ -184,7 +184,7 @@ export default defineComponent({
         cancelButtonText: '돌아가기',
       })
     },
-    secretAlert(password,id,title) {
+    secretAlert(password) {
       Swal.fire({
         title: '입장하시겠습니까?',
         input: 'password',
@@ -200,8 +200,6 @@ export default defineComponent({
         inputValidator: (inputPassword) => {
           if (inputPassword != password) {
             return '잘못된 비밀번호입니다.'
-          }else{
-            router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
           }
         },
       })
@@ -211,8 +209,6 @@ export default defineComponent({
     ...mapState(useHomes, ['performRank'])
   },
   created() {
-    window.location.reload
-    this.prfrankList = this.performRank === undefined ? [] : this.performRank.all
     this.fetchPrfrank()
     this.fetchCfrrank()
     this.fetchArtrank()
@@ -426,7 +422,6 @@ a {
 .card-box {
   width: 240px;
   margin: 0 0 2rem 0;
-  padding: 0;
   border: 1px solid black;
   border-radius: 5px;
 }
@@ -522,10 +517,6 @@ a {
 }
 h2 {
   color: #1B3C33;
-}
-.card-row {
-  display: flex;
-  justify-content: space-between;
 }
 </style>
 

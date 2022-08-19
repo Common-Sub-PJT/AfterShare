@@ -1,21 +1,17 @@
 <template>
-<div v-if="streamManager" class="container">
-	<ov-video class="ovVideo" :stream-manager="streamManager"/>
-	<div class="d-flex aho">
-		<div class="nametag">{{ clientData.name }}</div>
+<div v-if="streamManager">
+	<div v-if="elVisible" @click="followClick">
+		<img class="like" src="@/assets/follow.png" 
+			style="width:24px; height: 24px; top: 33px; left: 4px; z-index: 1; cursor: pointer;"
+			>
 	</div>
-	<div>
-		<div class="followabs" v-if="elVisible" @click="followClick">
-			<img class="like" src="@/assets/follow.png" 
-				style="width:24px; height: 24px; top: 33px; left: 4px; z-index: 1; cursor: pointer;"
-				>
-		</div>
-		<div class="reportabs" v-if="elVisible" @click="reportClick">
-			<img class="report" src="@/assets/exclamation-mark.png" 
-				style="width:28px; height: 28px; top: 30px; left: 8px; z-index: 1; cursor: pointer;"
-				>
-		</div>
+	<div v-if="elVisible" @click="reportClick">
+		<img class="report" src="@/assets/exclamation-mark.png" 
+			style="width:30px; height: 30px; top: 30px; left: 8px; z-index: 1; cursor: pointer;"
+			>
 	</div>
+	<div><p style="top:30px;">{{ clientData.name }}</p></div>
+	<ov-video :stream-manager="streamManager"/>
 </div>
 </template>
 
@@ -50,10 +46,18 @@ export default {
 		clientData () {
 			const { clientData } = this.getConnectionData();
 			this.thisUserInfo = clientData.userId
+			// this.thisUserInfo
+			// this
 			return clientData
 		},
 	},
 	methods: {
+		// elShow(){
+		// 	console.log(this.currentUser.userId)
+		// 	if(this.thisUserId !== this.currentUser.userId){
+		// 		this.elVisible = false
+		// 	}
+		// },
 		followClick(){
 			if(this.clientData.userId === this.currentUser.userId){
 				this.elVisible = false
@@ -61,7 +65,7 @@ export default {
 				this.follow(this.clientData.userId)
 			}
 		},
-		follow(id){
+		follow(id, my){
 			console.log(id)
 			const config = {
 				headers: {
@@ -73,7 +77,6 @@ export default {
 				.then(()=> console.log('팔로우가 잘되었다~'))
 				.catch(err=> {
 					console.error(err.response.data)
-					
 				})
 		},
 		report(info){
@@ -125,27 +128,4 @@ export default {
 }	
 </script>
 <style scoped>
-.ovVideo {
-	width: 300px;
-	margin-bottom: 1rem;
-}
-.nametag {
-	position: absolute;
-	/* left: 3rem; */
-	z-index: 1;
-	background-color: #1b3c33;
-	color: white;
-}
-.container {
-	width: 320px;
-}
-.aho {
-	/* display: flex; */
-	position: absolute;
-	/* justify-content: space-between; */
-	width: 110%;
-}
-.like {
-	margin-left: 3px;
-}
 </style>

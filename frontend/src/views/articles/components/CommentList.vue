@@ -1,13 +1,9 @@
 <template>
   <router-view :key="this.commentList">
-  <p>댓글 - {{ this.commentList.length }}</p>
     <ul class='ul-style list-group list-group-flush' v-for="comment in this.commentList" :key="comment.comment_id">
       <li class="list-group-item li-style">
-        <div>
-          <p class="comment-username">{{ comment.user.name }}</p>
-          <p class="comment-style" v-if="this.editNum!=comment.comment_id">{{ comment.comment_content }}</p>
-          <input v-else type="text" id="comment" v-model="content" required>
-        </div>
+        <p class="comment-style" v-if="this.editNum!=comment.comment_id">{{ comment.comment_content }}</p>
+        <input v-else type="text" id="comment" v-model="content" required>
         <div v-show="this.currentUser.name===comment.user.name">
           <button v-if="this.editNum!=comment.comment_id" @click="commentEditSetup(comment)" class="edit-button"><img class = "edit-img" src="@/assets/edit.png"></button>
           <button v-else @click="commentEdit(comment.comment_id)" class="btn-style">적용</button>
@@ -85,10 +81,6 @@ export default {
 </script>
 
 <style>
-.comment-username {
-  font-size: 12px;
-  margin: 0;
-}
 .li-style {
   margin-top: 4px;
   display: flex;

@@ -126,7 +126,7 @@ export default defineComponent ({
   },
   data() {
     return {
-      getDate: "",
+      getDate: new Date(),
       date:"",
       calVisible: false,
       sidoVisible: false,

@@ -9,7 +9,7 @@
       </div>
       <div class="search_field">
         <input @keyup.enter="searchArticles" v-model="searchText" type="text" class="input" placeholder="검색">
-        <button @click="searchArticles" class="button">Go!</button>
+        <button @click="searchArticles" class="btn btn-secondary">Go!</button>
       </div>
     </div>
   </div>
@@ -86,21 +86,19 @@ body {
 }
 
 .wrapper {
+  position: absolute;
+  top: 42rem;
   left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1;
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
 }
 
 .wrapper .search_box {
   width: 500px;
   background: #fff;
-  border: 2px solid #1B3C33;
   border-radius: 5px;
   height: 50px;
   display: flex;
-  /* justify-content: space-between; */
   padding: 10px;
   box-shadow: 0 8px 6px -10px #1e2721;
 }
@@ -157,10 +155,9 @@ body {
 }
 
 .wrapper .search_box .search_field {
-  width: 400px;
+  width: 200px;
   height: 100%;
-  display: flex;
-  justify-content: space-between;
+  position: relative;
 }
 
 .wrapper .search_box .search_field .input {
@@ -173,10 +170,128 @@ body {
   color: #6f768d;
 }
 
-.button {
-  background: #1B3C33;
-  color: #fff;
-  width: 32px;
-  border-radius: 5px;
+
+nav {
+  position: absolute;
+  margin: 0px;
+  background: #f9f9f9;
+  padding-left: 24px;
+  top: 70px;
+  /* left: 25%; */
+}
+
+nav .menuItems {
+  list-style: none;
+  display: flex;
+}
+
+nav .menuItems li {
+  cursor: pointer;
+  margin: 10px;
+}
+
+nav .menuItems li p {
+  text-decoration: none;
+  color: #8f8f8f;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 0;
+
+}
+
+nav .menuItems li p:hover {
+  text-decoration: none;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 0;
+  margin: 4px;
+}
+
+nav .menuItems li ::before {
+  content: "";
+  transition: 0.3s;
+  background-color: #1B3C33;
+  color: white;
+  position: absolute;
+  /* font-weight:bold; */
+  margin: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+nav .menuItems li :hover::before {
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.container {
+  padding: 2rem;
+  margin-top: 10rem;
+}
+
+.card-box {
+  margin: 0;
+  justify-content: space-between;
+}
+
+.card {
+  margin-bottom: 3rem;
+  padding: 0;
+  width: 200px;
+  height: 372px;
+}
+
+.card-body {
+  margin: 0;
+  padding-top: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.card-img-top {
+  width: 200px;
+  height: 264px;
+}
+
+.card-title {
+  font-size: 12px;
+  height: 40px;
+}
+
+.card-date {
+  font-size: 10px;
+  height: 20px;
+}
+
+.card-location {
+  font-size: 10px;
+  height: 32px;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+p {
+  margin: 0;
+  overflow: hidden;
 }
 </style>

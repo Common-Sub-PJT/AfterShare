@@ -42,7 +42,7 @@ export default {
   setup(){
     const login = useAccounts()
     return{
-      login,
+      login
     }
   },
   methods: {
