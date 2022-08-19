@@ -91,6 +91,15 @@
 ![메인](https://user-images.githubusercontent.com/97671781/185530941-f1b2a162-e19a-4bcc-962a-8cb1175209a6.png)   
 
 
+#### 5. 마이페이지   
+
+- 회원정보 수정, 팔로우&팔로잉 목록 조회 및 내가 쓴 게시글, 댓글 조회    
+![마이페이지](https://user-images.githubusercontent.com/97671781/185570864-33670415-b0c7-4195-a3c0-1ca0b1888f93.png)   
+![프로필이미지수정](https://user-images.githubusercontent.com/97671781/185570842-b9389d73-28a8-4e9b-a283-c7926692159b.png)
+
+
+
+
 * * *
 <br>   
 
