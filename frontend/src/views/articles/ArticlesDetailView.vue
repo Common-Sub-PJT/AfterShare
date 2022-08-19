@@ -9,11 +9,12 @@
         <h4>{{ this.article.article_title }}</h4>
         <hr>
         <div class="place-right">
+          <p>작성자 - {{ this.article.user.name }}</p>
           <p>{{ this.article.regtime.slice(0, 16) }}</p>
         </div>
         <p class="article-content-box" v-html="article.article_content"></p>
         <div v-show="this.currentUser.name === this.article.user.name">
-          <button @click.prevent="likeArticle"><img class = "edit-img" src="@/assets/like.png">{{}}</button>
+          <button @click.prevent="likeArticle"><img class = "edit-img" src="@/assets/like.png">{{ this.article.recommend }}</button>
           <router-link :to="{
           name: 'ArticleEdit',
           params: {
@@ -49,6 +50,8 @@ export default {
       article: [],
       articleId: '',
       articleUserId: '',
+      rerender: ['0'],
+      likeCount: 0,
     }
   },
   components: {
@@ -79,7 +82,13 @@ export default {
       }
       axios.post(secosi.communities.like(this.articleId), config)
         .then(res => {
-        })
+          this.articleId = this.$route.params.articleid
+          axios.get(secosi.communities.articleDetail(this.articleId))
+            .then(res => {
+              this.article = res.data
+              this.likeCount = res.data.recommend
+            })
+          })
         .catch(err => {
         })
     }
@@ -89,6 +98,7 @@ export default {
     axios.get(secosi.communities.articleDetail(this.articleId))
       .then(res => {
         this.article = res.data
+        this.likeCount = res.data.recommend
       })
   }
 };
@@ -107,7 +117,7 @@ hr {
 }
 .place-right {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 .detail-box {
   display: flex;

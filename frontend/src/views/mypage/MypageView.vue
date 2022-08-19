@@ -8,26 +8,27 @@
         <img class="edit_img" src="@/assets/folder.png">
         <div class="profile-detail">
           <div class="profile-detail-username">
-            <input v-if="this.isEdit" v-model="newUsername" @keyup="usernameValid" type="text" class="modal-input" id="newUsername" name="newUsername" :placeholder="this.currentUser.name">
-            <p class="username-style" v-else :key="this.currentUser.name">닉네임 : {{ this.currentUser.name }}</p>
+            <span v-if="this.isEdit" class="username-style">닉네임 수정: </span><input v-if="this.isEdit" v-model="newUsername" @keyup="usernameValid" type="text" class="modal-input" id="newUsername" name="newUsername" :placeholder="this.currentUser.name" required>
+            <div v-else><p class="username-style" :key="this.currentUser.name">닉네임 : {{ this.currentUser.name }}</p></div>
           </div>
           <div class="profile-detail-aboutme">
-            <input v-if="this.isEdit" v-model="newAboutMe" type="text" class="modal-input" id="newAboutMe" name="newAboutMe" :placeholder="this.currentUser.about_me">
-            <p class="username-style" v-else>한 줄 소개 : {{ this.currentUser.about_me }}</p>
+            <span class="username-style" v-if="this.isEdit">한 줄 소개 : </span><input v-if="this.isEdit" v-model="newAboutMe" type="text" class="modal-input" id="newAboutMe" name="newAboutMe" :placeholder="this.currentUser.about_me">
+            <div v-else style="width:441px;"><p class="username-style">한 줄 소개 : {{ this.currentUser.about_me }}</p></div>
           </div>
           <div class="profile-detail-follow">
-            <button @click="getFollowings">팔로잉</button>
+            <button @click="ShowFollowingModal">팔로잉</button>
             <p class="mypage-follow-cnt">{{ this.currentUser.following_cnt }}</p>
-            <button @click="getFollowers">팔로워</button>
+            <button @click="ShowFollowerModal">팔로워</button>
             <p class="mypage-follow-cnt">{{ this.currentUser.follower_cnt }}</p>
           </div>
-          <div class="profile-detail-setting">
-            <button>설정</button>
-            <button v-if="!this.isEdit" @click="editProfileOn">프로필수정</button>
+          <div class="profile-detail-setting" style="width:500px;">
+            <button v-if="!settingVisible" @click="settingShow(), editProfileoff()">설정</button>
+            <button v-else @click="settingShow">닫기</button>
+            <button v-if="!this.isEdit && this.settingVisible" @click="editProfileOn">프로필수정</button>
             <button v-if="this.isEdit" @click="editProfile(), editProfileOff()">수정</button>
             <button v-if="this.isEdit" @click="editProfileOff">취소</button>
-            <button @click="ShowPasswordChangeModal">비밀번호 변경</button>
-            <button @click="DeleteAccount">회원탈퇴</button>
+            <button v-if="this.settingVisible" @click="ShowPasswordChangeModal">비밀번호 변경</button>
+            <button  v-if="this.settingVisible" @click="DeleteAccount">회원탈퇴</button>
             <button @click="Unfollow">언팔로우</button>
           </div>
         </div>
@@ -51,6 +52,8 @@
       </div>
     </div>
   </div>
+  <FollowItem v-show="followVisible" @ShowFollowModal="ShowFollowModal"></FollowItem>
+  <FollowingItem v-show="followingVisible" @ShowFollowingModal="ShowFollowingModal"></FollowingItem>
   <PasswordChangeComponent v-show="isPasswordChangeViewVisible" @PasswordChangeClose="ClosePasswordChangeModal">
   </PasswordChangeComponent>
   <ProfileImageComponent v-show="isProfileImageComponentVisible" @ProfileImageComponentClose="CloseProfileImageComponent">
@@ -64,6 +67,8 @@ import ArticleItem from '@/views/mypage/components/ArticleItem.vue'
 import CommentItem from '@/views/mypage/components/CommentItem.vue'
 import PasswordChangeComponent from '@/views/mypage/components/PasswordChangeComponent.vue'
 import ProfileImageComponent from '@/views/mypage/components/ProfileImageComponent.vue'
+// import FollowItem from '@/views/mypage/components/FollowItem.vue'
+// import FollowingItem from '@/views/mypage/components/FollowItem.vue'
 import { mapState, mapActions } from 'pinia'
 import { useAccounts } from '@/stores/accounts.js'
 
@@ -71,6 +76,9 @@ export default {
   name: "MypageView",
   data() {
     return {
+      followVisible: false,
+      FollowItem: false,
+      settingVisible: false,
       isPasswordChangeViewVisible: false,
       isProfileImageComponentVisible: false,
       userId: '',
@@ -82,6 +90,9 @@ export default {
   },
   methods: {
     ...mapActions(useAccounts, ['removeToken', 'fetchCurrentUser']),
+    settingShow() {
+      this.settingVisible = !this.settingVisible
+    },
     editProfile() {
       const config = {
           headers: {
@@ -122,6 +133,12 @@ export default {
       })
       .catch(err => {
       })
+    },
+    ShowFollowModal(){
+      this.followVisible = !this.followVisible
+    },
+    ShowFollowingModal(){
+      this.followingVisible = !this.followingVisible
     },
     ShowPasswordChangeModal() {
       this.isPasswordChangeViewVisible = true;
@@ -178,15 +195,20 @@ export default {
     },
   },
   computed: {
-    ...mapState(useAccounts, ['currentUser']),
+    ...mapState(useAccounts, ['currentUser', 'isLoggedIn']),
   },
   components: {
     ArticleItem,
     CommentItem,
     PasswordChangeComponent,
     ProfileImageComponent,
+    FollowItem,
+    FollowingItem,
   },
   created() {
+    if(!this.isLoggedIn) {
+      this.$router.push({name:'Home'})
+    }
     this.username = this.currentUser.name
     this.aboutMe = this.currentUser.aboutMe || '-'
     this.userId = this.currentUser.userId

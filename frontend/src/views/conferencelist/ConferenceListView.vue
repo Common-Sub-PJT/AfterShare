@@ -57,7 +57,7 @@
   <div class="row card-row">
       <div class="card-box" v-for="conference in conferenceList" :key="conference.conference_id">
         <figure class="conf-card">
-          <img v-if="conference.genrnme === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+          <img v-if="conference.genrenm === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
@@ -469,6 +469,7 @@ nav .menuItems li p{
   transition: all 0.3s ease-in-out;
   position: relative;
   text-transform: uppercase;
+  z-index: 0;
 }
 nav .menuItems li p:hover{
   text-decoration: none;
@@ -479,6 +480,7 @@ nav .menuItems li p:hover{
   position: relative;
   text-transform: uppercase;
   margin: 4px;
+  z-index: 0;
 }
 nav .menuItems li ::before{
   content: "";
@@ -495,6 +497,8 @@ nav .menuItems li ::before{
   overflow: hidden; 
   border: none;
   border-radius: 5px;
+  z-index: -1;
+
 }
 nav .menuItems li :hover::before{
   width: 100%;
