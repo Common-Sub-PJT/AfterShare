@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <header class="header">
+    <header class="header" :key="this.isLogin.isLoggedIn">
       <router-link class="logo" to="/">
         <img style="width:auto; height:48px; padding-left:12px; padding-top:13px; margin-right: 40px;" src="@/assets/Logo.png" alt="">
       </router-link>
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-      <!-- <div v-if="isLogin.isLoggedIn" class="log">{{isLogin.currentUser.name}}</div> -->
-      <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()]" class="log main-btn">Logout</button>
-      <button v-else @click="ShowLoginModal" class="log main-btn">Login</button>
+      <button v-if="isLogin.isLoggedIn" @click="[isLogin.removeToken()]" class="log main-btn">로그아웃</button>
+      <button v-else @click="ShowLoginModal" class="log main-btn">로그인</button>
       <ul class="menu">
         <li><router-link to="/conferencelist" id="r-tag">뒤풀이방</router-link></li>
         <li><router-link to="/articles" id="r-tag" @click="searchArticles('전체', '전체')">커뮤니티</router-link></li>
         <li><router-link to="/perform" id="r-tag">공연찾기</router-link></li>
-        <li v-show="isLogin.isLoggedIn"><router-link :to="{ name: 'Mypage', params: { username: `${this.currentUser.name}` } }" id="r-tag">마이페이지</router-link></li>
+        <li v-if="isLogin.isLoggedIn"><router-link :to="{ name: 'Mypage', params: { username: `${this.currentUser.name}` } }" id="r-tag">마이페이지</router-link></li>
       </ul>
     </header>
     <div id="main">
@@ -46,8 +45,10 @@ export default{
     }
   },
   created() {
-    this.fetchPerformAllRank()
-    this.fetchPerformGenreRank()
+    if (!localStorage.getItem('homes')){
+      this.fetchPerformAllRank()
+      this.fetchPerformGenreRank()
+    }
     this.fetchPerforms()
     this.fetchCurrentUser()
     this.searchArticles(this.genre, this.category)
@@ -131,7 +132,7 @@ button:hover {
 }
 .header li #r-tag {
   display: block;
-  padding: 20px 20px;
+  padding: 16px 16px;
   text-decoration: none;
 }
 .header li #r-tag:hover,

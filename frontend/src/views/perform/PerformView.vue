@@ -1,29 +1,37 @@
 <template>
-<div class="wrapper">
-  <div class="search_box">
-    <div @click="sidoShow" class="dropdown">
-      <div class="sido_default_option">시/도</div>  
-      <ul v-if="sidoVisible">
-        <li @click="sidoClick(sido)" v-for="(sido, index) in sidoList" :key="index">{{sido}}</li>
-      </ul>
+<div class="container">
+  <div class="wrapper">
+    <div class="col cont">
+      <div class="search_box">
+        <div @click="sidoShow" class="dropdown">
+          <div class="sido_default_option">시/도</div>  
+          <ul v-if="sidoVisible">
+            <li @click="sidoClick(sido)" v-for="(sido, index) in sidoList" :key="index">{{sido}}</li>
+          </ul>
+        </div>
+        <div @click="gugunsShow" class="dropdown">
+          <div class="gugun_default_option">구/군</div>  
+          <ul v-if="gugunsVisible">
+            <li  @click="gugunClick(gugun.gugunname)" v-for="(gugun, index) in gugunList" :key="index">{{gugun.gugunname}}</li>
+          </ul>
+        </div>
+        <div class="search_field">
+          <input @keyup.enter="searchSubmit" v-model="searchText" type="text" class="input" placeholder="공연제목">
+          <button @click="searchSubmit" class="fas">Go!</button>
+        </div>
+      </div>
     </div>
-    <div @click="gugunsShow" class="dropdown">
-      <div class="gugun_default_option">구/군</div>  
-      <ul v-if="gugunsVisible">
-        <li  @click="gugunClick(gugun.gugunname)" v-for="(gugun, index) in gugunList" :key="index">{{gugun.gugunname}}</li>
-      </ul>
-    </div>
-    <div class="search_field">
-      <input @keyup.enter="searchSubmit" v-model="searchText" type="text" class="input" placeholder="공연제목">
-      <button @click="searchSubmit" class="btn btn-secondary">Go!</button>
+    <div class="nav-box">
+      <nav>
+        <ul class="menuItems">
+          <li @click="genreClick(genre)" v-for="(genre, index) in genreList" :key="index"><p>{{genre.genre}}</p></li>
+        </ul>
+      </nav>
     </div>
   </div>
-  <nav>
-    <ul class="menuItems">
-      <li @click="genreClick(genre)" v-for="(genre, index) in genreList" :key="index"><p>{{genre.genre}}</p></li>
-    </ul>
-  </nav>
 </div>
+<div class="line"></div>
+
 <div class="container">
   <div class="row card-box">
     <div v-for="perform in this.performList.slice(0, this.performNum)" :key="perform.mt20id" class="card col-lg-4">
@@ -36,13 +44,11 @@
         </div>
       </router-link>
     </div>
-    <infinite-loading @infinite="load"></infinite-loading>
   </div>
 </div>
 </template>
 
 <script>
-// import { loadPerform } from '@/stores/performs'
 import axios from 'axios'
 import secosi from "@/api/secosi"
 import { mapState } from 'pinia'
@@ -53,7 +59,7 @@ export default defineComponent ({
   name:'PerformView',
   data() {
     return {
-      // performList : [], 
+      performList : [], 
       performNum: 20,
       isScrollEnd: false,
       sidoVisible: false,
@@ -93,15 +99,9 @@ export default defineComponent ({
     }
   },
   computed: {
-    ...mapState(usePerforms, ['performList'])
+    ...mapState(usePerforms, ['performs'])
   },
   methods: {
-    // fetchPerforms() {
-      //   axios.get(secosi.performs.performs())
-    //     .then(res => {
-    //       this.performList=res.data
-    //     })
-    // },
     sidoShow() {
       this.sidoVisible = !this.sidoVisible
     },
@@ -121,7 +121,6 @@ export default defineComponent ({
       axios.post(secosi.performs.search(), performInfo)
         .then(res => {
           this.performList = res.data
-          console.log(this.performList)
         })
         .catch(err => {
           console.error(err.response.data)
@@ -138,6 +137,7 @@ export default defineComponent ({
     }
   },
   created() {
+    this.performList = this.performs
   },
   mounted() {
     this.checkScrollEnd()
@@ -165,7 +165,6 @@ export default defineComponent ({
     const genreClick = function genreClick(genre) {
       this.searchInfo.genre = genre.code
       this.searchPerforms(this.searchInfo)
-      console.log(genre)
     }
     return {
       sidoClick,
@@ -188,34 +187,29 @@ export default defineComponent ({
   font-family: 'Montserrat', sans-serif;
 }
 
-body{
-  background: #e4eefa;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.cont {
+  margin: 0;
+  width: 720px;
+  border: 2px solid #1B3C33;
+  border-radius: 5px;
 }
-
-.wrapper{
-  position: absolute;
-  top: 8rem;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 1;
+.wrapper {
+  width: 720px;
+  margin-top: 5rem;
 }
-
 .wrapper .search_box{
-  width: 500px;
+  width: 100%;
   background: #fff;
   border-radius: 5px;
   height: 50px;
   display: flex;
-  padding: 10px;
+  padding: 12px;
+  justify-content: space-between;
   box-shadow: 0 8px 6px -10px #1e2721;
 }
 
 .wrapper .search_box .dropdown{
-  width: 150px;
+  width: 200px;
   border-right: 2px solid #dde2f1;
   color: #9fa3b1;
   position: relative;
@@ -236,7 +230,7 @@ body{
   top: 40px;
   left: -10px;
   background: #fff;
-  width: 140px;
+  width: 184px;
   border-radius: 5px;
   padding: 20px;
   display: block;
@@ -264,34 +258,45 @@ body{
   border-color: #1B3C33 transparent transparent transparent;
 }
 
-.wrapper .search_box .search_field{
-  width: 200px;
+/* .wrapper .search_box .search_field{
+  width: 320px;
   height: 100%;
-  position: relative;
-}
+} */
 
 .wrapper .search_box .search_field .input{
-  width: 80%;
-  height: 100%;
-  border: 0px;
+  width: 240px;
+  /* height: 100%; */
+  border: none;
   font-size: 16px;
-  padding-left: 20px;
-  padding-right: 10px;
+  /* padding-left: 20px;
+  padding-right: 10px; */
   color: #6f768d;
 }
 
-
+.fas{
+  float: right;
+  /* width: 14%; */
+  padding: 3px;
+  background: #1B3C33;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  border-radius: 15%;
+  cursor: pointer;
+}
+.fas:hover{
+  background: #326356;
+}
 nav {
-  position: absolute;
+  width: 480px;
   margin: 0px;
-  background: #f9f9f9;
-  padding-left: 24px;
-  top: 70px;
   /* left: 25%; */
 }
 nav .menuItems {
   list-style: none;
   display: flex;
+  width: 480px;
 }
 nav .menuItems li {
   cursor: pointer;
@@ -306,7 +311,6 @@ nav .menuItems li p{
   position: relative;
   text-transform: uppercase;
   z-index: 0;
-
 }
 nav .menuItems li p:hover{
   text-decoration: none;
@@ -316,8 +320,8 @@ nav .menuItems li p:hover{
   transition: all 0.3s ease-in-out;
   position: relative;
   text-transform: uppercase;
-  z-index: 0;
   margin: 4px;
+  z-index: 0;
 }
 nav .menuItems li ::before{
   content: "";
@@ -325,25 +329,29 @@ nav .menuItems li ::before{
   background-color: #1B3C33;
   color:white;
   position: absolute;
-  /* font-weight:bold; */
-  margin: 0px;
+  margin: 0;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   width: 0;
   overflow: hidden; 
+  border: none;
+  border-radius: 5px;
   z-index: -1;
+
 }
 nav .menuItems li :hover::before{
   width: 100%;
   transition: all 0.3s ease-in-out;
 }
 .container {
-  padding: 2rem;
-  margin-top: 10rem;
+  display: flex;
+  justify-content: center;
 }
 .card-box {
+  display: flex;
+  justify-content: center;
   margin: 0;
   justify-content: space-between;
 }
@@ -386,5 +394,18 @@ a {
 p{
   margin: 0;
   overflow: hidden;
+}
+.nav-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  align-items: center;
+}
+.line {
+  width: 1024px;
+  background-color: #1B3C33;
+  border: 1px #1B3C33 solid;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
 }
 </style>

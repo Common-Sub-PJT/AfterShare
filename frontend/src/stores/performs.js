@@ -5,7 +5,7 @@ import secosi from "@/api/secosi"
 export const usePerforms = defineStore('performs', {
   state: () => {
     return {
-      performList: [],
+      performs: [],
     }
   },
   persist: true,
@@ -15,7 +15,7 @@ export const usePerforms = defineStore('performs', {
     fetchPerforms() {
       axios.get(secosi.performs.performs())
         .then(res => {
-          this.performList=res.data
+          this.performs=res.data
         })
     },
   },

@@ -7,17 +7,17 @@
       <div class="modal-content-right">
         <div  @click="$emit('loginClose')" class="close-btn">&times;</div>
         <form  @submit.prevent="[login.login(credential), $emit('loginClose')]" class="modal-form" id="form">
-          <h1 class="font-weight-bold">Login</h1>
+          <h1 class="font-weight-bold">로그인</h1>
           <div class="form-validation">
-            <input v-model="credential.id" type="text" class="modal-input" id="name" name="name" placeholder="Enter your ID">
+            <input v-model="credential.id" type="text" class="modal-input" id="name" name="name" placeholder="아이디를 입력하세요">
             <p>Error Message</p>
           </div>
           <div class="form-validation">
-            <input v-model="credential.password" type="password" class="modal-input" id="password1" name="password" placeholder="Enter your password">
+            <input v-model="credential.password" type="password" class="modal-input" id="password1" name="password" placeholder="비밀번호를 입력하세요">
             <p>Error Message</p>
           </div>
-          <input type="submit" class="modal-input-btn" value="Login">
-          <div @click="[$emit('showSignup'), $emit('loginClose')]" style="border: none; cursor: pointer;" class="my-2">Sign Up</div>
+          <input type="submit" class="modal-input-btn" value="로그인">
+          <div @click="[$emit('showSignup'), $emit('loginClose')]" style="border: none; cursor: pointer;" class="my-2">회원가입</div>
         </form>
       </div>
     </div>
@@ -42,7 +42,7 @@ export default {
   setup(){
     const login = useAccounts()
     return{
-      login
+      login,
     }
   },
   methods: {

@@ -8,29 +8,29 @@
         <div  @click="$emit('signupClose')" class="close-btn">&times;</div>
         <!-- <form id="form" @submit.prevent="[signupValid(), $emit('signupClose'), $emit('showLogin')]" class="modal-form"> -->
         <form id="form" @submit.prevent="signupValid" class="modal-form">
-          <h1 class="font-weight-bold">Sign Up!</h1>
+          <h1 class="font-weight-bold">회원가입!</h1>
           <div class="form-validation">
-            <input v-model="userId" @keyup="userIdValid" type="text" class="modal-input" name="userId" id="userId" placeholder="Enter your ID" required>
+            <input v-model="userId" @keyup="userIdValid" type="text" class="modal-input" name="userId" id="userId" placeholder="아이디를 입력하세요" required>
             <p class="userId-check">UserId Valid Error</p>
           </div>
           <div class="form-validation">
-            <input v-model="email" @keyup="emailValid" type="email" class="modal-input" id="email" name="email" placeholder="Enter your e-mail">
+            <input v-model="email" @keyup="emailValid" type="email" class="modal-input" id="email" name="email" placeholder="이메일을 입력하세요">
             <p class="email-check">Email Valid Error</p>
           </div>
           <div class="form-validation">
-            <input v-model="nickname" @keyup="nicknameValid" type="text" class="modal-input" id="nickname" name="nickname" placeholder="Enter your nickname">
+            <input v-model="nickname" @keyup="nicknameValid" type="text" class="modal-input" id="nickname" name="nickname" placeholder="닉네임을 입력하세요">
             <p class="nickname-check">Nickname Valid Error</p>
           </div>
           <div class="form-validation">
-            <input v-model="password" @keyup="pwValid(), pwCheckValid()" type="password" class="modal-input" id="password" name="password" placeholder="Enter your password">
+            <input v-model="password" @keyup="pwValid(), pwCheckValid()" type="password" class="modal-input" id="password" name="password" placeholder="비밀번호를 입력하세요">
             <p class="password-check">Password Valid Error</p>
           </div>
           <div class="form-validation">
-            <input v-model="passwordCheck" @keyup="pwCheckValid" type="password" class="modal-input" id="password-confirm" name="password" placeholder="Confirm your password">
+            <input v-model="passwordCheck" @keyup="pwCheckValid" type="password" class="modal-input" id="password-confirm" name="password" placeholder="비밀번호 재입력">
             <p class="passwordCheck-check">Password-Check Valid Error</p>
           </div>
           <input type="submit" class="modal-input-btn" value="Sign up">
-          <div @click="[$emit('showLogin'), $emit('signupClose')]" style="border: none; cursor: pointer;" class="my-2">Login</div>
+          <div @click="[$emit('showLogin'), $emit('signupClose')]" style="border: none; cursor: pointer;" class="my-2">로그인</div>
         </form>
       </div>
     </div>

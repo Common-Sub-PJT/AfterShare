@@ -47,7 +47,7 @@
         </ul>
       </nav>
         <button v-if="isLogin.isLoggedIn" @click="showFollow" class="log main-btn">내팔로잉</button>
-        <button @click="showCreateModal" class="log main-btn">방만들기</button>
+        <button v-if="isLogin.isLoggedIn" @click="showCreateModal" class="log main-btn">방만들기</button>
     </div>
   </div>
 </div>
@@ -57,7 +57,7 @@
   <div class="row card-row">
       <div class="card-box" v-for="conference in conferenceList" :key="conference.conference_id">
         <figure class="conf-card">
-          <img v-if="conference.genrnme === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+          <img v-if="conference.genrenm === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
           <img v-else-if="conference.genrenm === genreList[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
@@ -70,9 +70,9 @@
           <figcaption>
             <h3 v-if="conference._after">관람자만</h3>
             <h3 v-else>모두참여</h3>
-            <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
-            <div v-else-if="conference._secret"><button @click="secretAlert(conference.password, conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
-            <div v-else><button @click="basicAlert(conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
+            <div v-if="(conference.person_now === conference.person_limit) && isLogin.isLoggedIn"><button @click="cantAlert" class="conf-in">입장하기</button></div>
+            <div v-else-if="conference._secret && isLogin.isLoggedIn"><button @click="secretAlert(conference.password, conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
+            <div v-else-if="isLogin.isLoggedIn"><button @click="basicAlert(conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
           </figcaption>
         </figure>
         <div class="text-box">
@@ -469,6 +469,7 @@ nav .menuItems li p{
   transition: all 0.3s ease-in-out;
   position: relative;
   text-transform: uppercase;
+  z-index: 0;
 }
 nav .menuItems li p:hover{
   text-decoration: none;
@@ -479,6 +480,7 @@ nav .menuItems li p:hover{
   position: relative;
   text-transform: uppercase;
   margin: 4px;
+  z-index: 0;
 }
 nav .menuItems li ::before{
   content: "";
@@ -495,6 +497,8 @@ nav .menuItems li ::before{
   overflow: hidden; 
   border: none;
   border-radius: 5px;
+  z-index: -1;
+
 }
 nav .menuItems li :hover::before{
   width: 100%;
