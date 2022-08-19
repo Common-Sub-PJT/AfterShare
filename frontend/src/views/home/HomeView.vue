@@ -41,8 +41,8 @@
               <h3 v-if="conference._after">관람자만</h3>
               <h3 v-else>모두참여</h3>
               <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
-              <div v-else-if="conference._secret"><button @click="secretAlert(conference.password)" class="conf-in">입장하기</button></div>
-              <div v-else><button @click="basicAlert" class="conf-in">입장하기</button></div>
+              <div v-else-if="conference._secret"><button @click="secretAlert(conference.password, conference.conference_id,conference.title)" class="conf-in">입장하기</button></div>
+              <div v-else><button @click="basicAlert(conference.conference_id,conference.title)" class="conf-in">입장하기</button></div>
             </figcaption>
           </figure>
           <div class="text-box">
@@ -166,7 +166,7 @@ export default defineComponent({
       .catch (err => {
       })
     },
-    basicAlert() {
+    basicAlert(id, title) {
       Swal.fire({
         title: '입장하시겠습니까?',
         confirmButtonColor: '#1b3c33',
@@ -184,7 +184,7 @@ export default defineComponent({
         cancelButtonText: '돌아가기',
       })
     },
-    secretAlert(password) {
+    secretAlert(password,id,title) {
       Swal.fire({
         title: '입장하시겠습니까?',
         input: 'password',
