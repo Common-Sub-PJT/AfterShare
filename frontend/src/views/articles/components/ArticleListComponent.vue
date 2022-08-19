@@ -8,8 +8,8 @@
       </div>
     </div>
   </div>
-  <hr>
-  <ul v-for="article in this.articleList" :key="article.article_id">
+  <hr class="hrclass">
+  <ul v-for="article in paginatedData" :key="article.article_id">
     <li class="article-list">
       <div class="article-title">
         <router-link @click="viewCount(article.article_id)" class="article-list-item"
@@ -29,6 +29,15 @@
       </div>
     </li>
   </ul>
+  <div class="btn-cover">
+    <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+      이전
+    </button>
+    <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+    <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
+      다음
+    </button>
+  </div>
 </template>
 
 <script>
@@ -36,17 +45,32 @@ import axios from 'axios'
 import secosi from '@/api/secosi'
 import { mapState } from 'pinia'
 import { useCommunities } from '@/stores/community'
+// import PaginatedListComponent from '@/views/articles/components/PaginatedListComponent'
 
 export default {
   name: 'ArticleListComponent',
   data() {
     return {
       items: ['작성자', '조회수', '추천수'],
+      
+      // pagination
+      pageNum: 0,
+      pageSize: 10,
     }
   },
   created() {
   },
   methods: {
+    // pagination
+    nextPage () {
+      this.pageNum += 1;
+    },
+    prevPage () {
+      this.pageNum -= 1;
+    },
+
+
+
     viewCount(articleId) {
       const config = {
         headers: {
@@ -61,12 +85,41 @@ export default {
     }
   },
   computed: {
-    ...mapState(useCommunities, ['articleListName', 'articleList'])
-  }
+    ...mapState(useCommunities, ['articleListName', 'articleList']),
+
+    // pagination
+    pageCount () {
+      let listLeng = this.articleList.length,
+          listSize = this.pageSize,
+          page = Math.floor(listLeng / listSize)
+      if (listLeng % listSize > 0) page += 1;
+      return page
+    },
+    paginatedData () {
+      const start = this.pageNum * this.pageSize,
+            end = start + this.pageSize
+      return this.articleList.slice(start, end)
+    }
+  },
 }
 </script>
 
 <style scoped>
+.btn-cover {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.btn-cover .page-btn {
+  width: 5rem;
+  height: 2rem;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  
+}
+.btn-cover .page-count {
+  padding: 0 1rem;
+}
 .article-list-info-title-box{
   display: flex;
   width: 240px;
@@ -109,6 +162,7 @@ export default {
   text-decoration: none;
   font-weight: bold;
   color: black;
+  margin-top:5px;
   margin-bottom: 5px;
 }
 .article-list-item {
@@ -133,5 +187,9 @@ ul {
   width: 48px;
   text-align: center;
   align-items: center;
+  overflow: hidden;
+}
+.hrclass{
+  margin-bottom: 10px;
 }
 </style>

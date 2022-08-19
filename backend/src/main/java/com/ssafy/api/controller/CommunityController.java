@@ -48,6 +48,9 @@ public class CommunityController {
          */
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
         User user = userDetails.getUser();
+        String content_br = communityRegisterInfo.getArticle_content().replace("\n","<br>");
+
+        communityRegisterInfo.setArticle_content(content_br);
 
         Community community = communityService.createArticle(user, communityRegisterInfo);
 
@@ -110,6 +113,8 @@ public class CommunityController {
             @RequestBody @ApiParam(value = "글 내용") CommunityRegistPostReq Info,
             @ApiIgnore Authentication authentication){
         SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+        String content_br = Info.getArticle_content().replace("\n","<br>");
+        Info.setArticle_content(content_br);
         communityService.update(article_id, Info);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

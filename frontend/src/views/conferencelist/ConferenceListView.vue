@@ -1,63 +1,78 @@
 <template>
-<div class="wrapper">
-  <div class="search-box">
-    <div @click="sidoShow" class="dropdown">
-      <div class="sido-default-option">시/도</div>  
-      <ul v-if="sidoVisible">
-        <li @click="sidoClick(sido)" v-for="(sido, index) in sidoList" :key="index">{{sido}}</li>
-      </ul>
-    </div>
-    <div @click="gugunsShow" class="dropdown">
-      <div class="gugun-default-option">구/군</div>  
-      <ul v-if="gugunsVisible">
-        <li  @click="gugunClick(gugun.gugunname)" v-for="(gugun, index) in gugunList" :key="index">{{gugun.gugunname}}</li>
-      </ul>
-    </div>
-    <div class="group" style="z-index: 500;">
-      <div>
-        <input type="radio" name="rb" id="rb1" checked="checked"/>
-        <label @click="isAfterClick(true)" for="rb1">관람자만</label>
+<div class="container">
+  <div class="wrapper">
+    <div class="col cont">
+      <div class="search-box">
+        <div @click="sidoShow" class="dropdown">
+          <div class="sido-default-option">시/도</div>  
+          <ul v-if="sidoVisible">
+            <li @click="sidoClick(sido)" v-for="(sido, index) in sidoList" :key="index">{{sido}}</li>
+          </ul>
+        </div>
+        <div @click="gugunsShow" class="dropdown">
+          <div class="gugun-default-option">구/군</div>  
+          <ul v-if="gugunsVisible">
+            <li  @click="gugunClick(gugun.gugunname)" v-for="(gugun, index) in gugunList" :key="index">{{gugun.gugunname}}</li>
+          </ul>
+        </div>
+        <div class="group" style="z-index: 1;">
+          <div>
+            <input type="radio" name="rb" id="rb1" checked="checked"/>
+            <label @click="isAfterClick(true)" for="rb1">관람자만</label>
+          </div>
+          <div>
+            <input type="radio" name="rb" id="rb2" />
+            <label @click="isAfterClick(false)" for="rb2">모두참여</label>
+          </div>
+        </div>
       </div>
-      <div>
-        <input type="radio" name="rb" id="rb2" />
-        <label @click="isAfterClick(false)" for="rb2">모두참여</label>
+      <div class="search-box">
+        <div @click="typeShow" class="dropdown">
+          <div class="type-default-option">공연 제목</div>  
+          <ul v-if="typeVisible">
+            <li v-if="searchInfo.is_after" @click="searchTypeClick(0)" >공연제목</li>
+            <li @click="searchTypeClick(1)" >뒤풀이방 이름</li>
+          </ul>
+        </div>
+        <div class="search-field">
+          <input @keyup.enter="searchSubmit" v-model="searchText" type="text" class="input" placeholder="검색어를 입력하세요.">
+          <button @click="searchSubmit" @createClose="closeCreateModal" class="fas">Go!</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="search-box">
-    <div @click="typeShow" class="dropdown">
-      <div class="type-default-option">공연 제목</div>  
-      <ul v-if="typeVisible">
-        <li v-if="searchInfo.is_after" @click="searchTypeClick(0)" >공연제목</li>
-        <li @click="searchTypeClick(1)" >뒤풀이방 이름</li>
-      </ul>
+    <div class="row nav-box">
+      <nav>
+        <ul class="menuItems">
+          <li @click="genreClick(genre)" v-for="(genre, index) in genreList" :key="index"><p>{{genre}}</p></li>
+        </ul>
+      </nav>
+        <button v-if="isLogin.isLoggedIn" @click="showFollow" class="log main-btn">내팔로잉</button>
+        <button @click="showCreateModal" class="log main-btn">방만들기</button>
     </div>
-    <div class="search-field">
-      <input @keyup.enter="searchSubmit" v-model="searchText" type="text" class="input" placeholder="검색어를 입력하세요.">
-      <button @click="searchSubmit" @createClose="closeCreateModal" class="fas">Go!</button>
-    </div>
-  </div>
-  <nav>
-    <ul class="menuItems">
-      <li @click="genreClick(genre)" v-for="(genre, index) in genreList" :key="index"><p>{{genre}}</p></li>
-    </ul>
-  </nav>
-  <div class="row nav-btn" style="margin-left:504px">
-    <button @click="showFollow" class="log main-btn">내팔로잉</button>
-    <button @click="showCreateModal" class="log main-btn">방만들기</button>
   </div>
 </div>
+<div class="line"></div>
 
 <div class="container">
-  <div class="row">
-    <div class="card-col">
+  <div class="row card-row">
       <div class="card-box" v-for="conference in conferenceList" :key="conference.conference_id">
         <figure class="conf-card">
-          <img class="conf-img" src="@/assets/conference.png" alt="sample99" />
+          <img v-if="conference.genrenm === genreList[1]" class="conf-img" src="@/assets/conference/1.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[2]" class="conf-img" src="@/assets/conference/2.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[3]" class="conf-img" src="@/assets/conference/3.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[4]" class="conf-img" src="@/assets/conference/4.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[5]" class="conf-img" src="@/assets/conference/5.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[6]" class="conf-img" src="@/assets/conference/6.jpg" alt="sample99" />
+          <img v-else-if="conference.genrenm === genreList[7]" class="conf-img" src="@/assets/conference/7.jpg" alt="sample99" />
+          <img v-else class="conf-img" src="@/assets/conference/8.jpg" alt="sample99" />
+          <img v-if="conference._secret" src="@/assets/conference/padlock.png" alt="" class="lock-img">
+          <p class="limit">{{conference.person_now}}/{{conference.person_limit}}</p>
           <figcaption>
             <h3 v-if="conference._after">관람자만</h3>
             <h3 v-else>모두참여</h3>
-            <div><button class="conf-in">입장하기</button></div>
+            <div v-if="conference.person_now === conference.person_limit"><button @click="cantAlert" class="conf-in">입장하기</button></div>
+            <div v-else-if="conference._secret"><button @click="secretAlert(conference.password, conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
+            <div v-else><button @click="basicAlert(conference.conference_id, conference.title)" class="conf-in">입장하기</button></div>
           </figcaption>
         </figure>
         <div class="text-box">
@@ -66,21 +81,8 @@
           <p class="card-text">공연일시: {{conference.perform_day}}</p>
         </div>
       </div>
-    </div>
   </div>
 </div>
-<!-- 
-<div class="conference-list">
-  <router-link to="/conference/1/" class="list-group-item list-group-item-action py-2 ripple">
-    <span>방입장</span>
-  </router-link>  
-  <router-link to="/conference/2/" class="list-group-item list-group-item-action py-2 ripple">
-    <span>방입장</span>
-  </router-link>  
-  <router-link to="/conference/3/" class="list-group-item list-group-item-action py-2 ripple">
-    <span>방입장</span>
-  </router-link>
-</div> -->
 <conference-create v-show="isRoomCreateVisible" @createClose="closeCreateModal"></conference-create>
 </template>
 
@@ -90,7 +92,9 @@ import { mapState } from 'pinia'
 import { useAccounts } from "@/stores/accounts";
 import secosi from "@/api/secosi"
 import axios from "axios"
+import Swal from 'sweetalert2'
 import ConferenceCreate from '@/views/conferencecreate/ConferenceCreateView.vue'
+import router from '@/router'
 
 export default defineComponent ({
   name: 'ConferenceListView',
@@ -161,6 +165,7 @@ export default defineComponent ({
       axios.post(secosi.conferences.search(), searchInfo)
         .then(res => {
           this.conferenceList = res.data
+          console.log(res.data);
         })
         .catch(err => {
           console.error(err.response.data)
@@ -173,16 +178,53 @@ export default defineComponent ({
         })
     },
     followConferences() {
-      const context = {
-        "userId" : this.currentUser.userId,
-      }
-      console.log(this.currentUser.userId);
-      axios.get(secosi.conferences.follow(), context)
+      const context = this.currentUser.userId
+
+      axios.get(secosi.conferences.follow()+`/${context}`)
         .then(res => {
           this.conferenceList = res.data
-          console.log('------------------------');
         })
-    }
+    },
+    basicAlert(id, title) {
+      Swal.fire({
+        title: '입장하시겠습니까?',
+        confirmButtonColor: '#1b3c33',
+        confirmButtonText: '입장하기',
+        showCloseButton: true,
+      }).then(function(){
+        router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
+      })
+    },
+    cantAlert() {
+      Swal.fire({
+        showConfirmButton: false,
+        title: '정원이 다 차 입장할 수 없습니다.',
+        showCancelButton: true,
+        cancelButtonText: '돌아가기',
+      })
+    },
+    secretAlert(password, id, title) {
+      Swal.fire({
+        title: '입장하시겠습니까?',
+        input: 'password',
+        inputLabel: '비밀번호',
+        inputPlaceholder: '비밀번호를 입력해주세요.',
+        showCloseButton: true,
+        confirmButtonColor: '#1b3c33',
+        confirmButtonText: '입장하기',
+        inputAttributes: {
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        },
+        inputValidator: (inputPassword) => {
+          if (inputPassword != password) {
+            return '잘못된 비밀번호입니다.'
+          }else{
+            router.push({ name: 'ConferenceDetail', params:{ conferenceid: id, title: title }  })
+          }
+        },
+      })
+    },
   },
   created() {
     this.fetchConferences()
@@ -217,7 +259,7 @@ export default defineComponent ({
       this.searchConferences(this.searchInfo)
     }
     const genreClick = function genreClick(genre) {
-      this.searchInfo.genre = genre
+      this.searchInfo.genrenm = genre
       this.searchConferences(this.searchInfo)
     }
     const searchTypeClick = function searchTypeClick(type) {
@@ -242,6 +284,7 @@ export default defineComponent ({
     const showFollow = function showFollow() {
       this.followConferences()
     }
+    const isLogin = useAccounts()
     return {
       sidoClick,
       gugunClick,
@@ -250,6 +293,7 @@ export default defineComponent ({
       searchTypeClick,
       isAfterClick,
       showFollow,
+      isLogin,
     }
   },
 })
@@ -265,59 +309,62 @@ export default defineComponent ({
   list-style: none;
   font-family: 'Montserrat', sans-serif;
 }
-
-body{
-  background: #e4eefa;
+.card-row {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-box {
+  display: flex;
   justify-content: center;
+  margin-top: 2rem;
   align-items: center;
 }
 .main-btn {
   cursor: pointer;
-  top: 1000px;
-  border: 0;
-  border-radius: 4px;
-  font-weight: 600;
-  margin: 0 15px;
+  border-radius: 5px;
+  margin-left: 1rem;
   width: 80px;
-  padding: 0;
-  margin-top: 12px;
-  transition: 0.4s;
   height: 32px;
-}
-.main-btn {
+  padding: 0;
+  transition: 0.4s;
   color: #1B3C33;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: #fafafa;
   border: 1px solid ;
 }
 .main-btn:hover {
   color: white;
   background-color: #1B3C33;
 }
-.wrapper{
-  position: absolute;
-  top: 14rem;
-  left: 50%;
-  transform: translate(-50%,-50%);
+.container {
+  display: flex;
+  justify-content: center;
 }
-
+.line {
+  width: 1024px;
+  background-color: #1B3C33;
+  border: 1px #1B3C33 solid;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+.wrapper {
+  width: 720px;
+  margin-top: 5rem;
+}
 .wrapper .search-box{
-  width: 540px;
-  background: #fff;
+  width: 720px;
   border-radius: 5px;
   height: 40px;
   display: flex;
+  justify-content: space-between;
   padding: 10px;
   box-shadow: 0 8px 6px -10px #1e2721;
-  z-index: -5;
 }
 
 .wrapper .search-box .dropdown{
-  width: 150px;
+  width: 200px;
   border-right: 2px solid #dde2f1;
   color: #9fa3b1;
-  position: relative;
   cursor: pointer;
 }
 
@@ -328,21 +375,22 @@ body{
 }
 
 .wrapper .search-box .dropdown ul{
-  z-index: 3;
   overflow-y: scroll;
   height: 200px;
-  position: absolute;
   top: 35px;
   left: -10px;
   background: #fff;
-  width: 140px;
+  width: 184px;
   border-radius: 5px;
   padding: 20px;
   display: block;
   box-shadow: 8px 8px 6px -10px #b3c6ff;
+  position: absolute;
+  z-index: 1;
 }
 .wrapper .search-box .dropdown ul li{
   padding-bottom: 20px;
+  z-index: 1;
 }
 
 .wrapper .search-box .dropdown ul li:last-child{
@@ -363,18 +411,18 @@ body{
 }
 
 .wrapper .search-box .search-field{
-  width: 350px;
+  width: 480px;
   height: 100%;
   position: relative;
 }
 
 .wrapper .search-box .search-field .input{
-  width: 80%;
+  width: 440px;
   height: 100%;
   border: 0px;
   font-size: 16px;
-  padding-left: 20px;
-  padding-right: 10px;
+  /* padding-left: 20px;
+  padding-right: 10px; */
   color: #6f768d;
 }
 
@@ -393,17 +441,21 @@ body{
 .wrapper .search-box .search-field .fas:hover{
   background: #326356;
 }
+.cont {
+  margin: 0;
+  width: 720px;
+  border: 2px solid #1B3C33;
+  border-radius: 5px;
+}
 nav {
-  position: absolute;
+  width: 480px;
   margin: 0px;
-  background: #ffffff;
-  padding-left: 24px;
-  top: 120px;
   /* left: 25%; */
 }
 nav .menuItems {
   list-style: none;
   display: flex;
+  width: 480px;
 }
 nav .menuItems li {
   cursor: pointer;
@@ -427,8 +479,8 @@ nav .menuItems li p:hover{
   transition: all 0.3s ease-in-out;
   position: relative;
   text-transform: uppercase;
-  z-index: 0;
   margin: 4px;
+  z-index: 0;
 }
 nav .menuItems li ::before{
   content: "";
@@ -443,9 +495,10 @@ nav .menuItems li ::before{
   right: 0;
   width: 0;
   overflow: hidden; 
-  z-index: -1;
   border: none;
   border-radius: 5px;
+  z-index: -1;
+
 }
 nav .menuItems li :hover::before{
   width: 100%;
@@ -461,16 +514,16 @@ nav .menuItems li :hover::before{
   align-items: center;
   margin-bottom: 0px;
   margin-left: 6px;
+  width: 240px;
 }
 .group input[type="checkbox"],
 .group input[type="radio"] {
   position: absolute;
   opacity: 0;
-  z-index: -1;
 }
 label {
   position: relative;
-  margin-right: 3px;
+  margin-right: 1rem;
   padding-left: 1.2em;
   padding-right: 1.2em;
   line-height: 2;
@@ -510,10 +563,7 @@ label::before {
   -o-transition: .25s all ease;
   transition: .25s all ease;
 }
-.container {
-  position: absolute;
-  top: 24rem;
-}
+
 .conf-card {
   font-family: 'Montserrat', Arial, sans-serif;
   position: relative;
@@ -537,18 +587,15 @@ label::before {
   transition: all 0.4s ease;
 }
 .conf-card img {
-  max-width: 100%;
+  max-width: 99%;
+  border-radius: 5px;
   backface-visibility: hidden;
   vertical-align: top;
 }
 .conf-card:before,
 .conf-card:after {
-  position: absolute;
-  top: 20px;
-  right: 20px;
   content: '';
   background-color: #fff;
-  z-index: 1;
   opacity: 0;
 }
 .conf-card:before {
@@ -578,7 +625,6 @@ label::before {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
 }
 .conf-card:hover img,
 .conf-card.hover img {
@@ -617,7 +663,7 @@ label::before {
   transition-delay: 0.3s;
 }
 .conf-img {
-  width: 200px;
+  width: 100%;
   height: 136px;
   /* background-color: #ffffff; */
 }
@@ -628,8 +674,8 @@ label::before {
   border-radius: 5px;
 }
 .card-col {
-  column-count: 4;
-  width: 1080px;
+  /* column-count: 4; */
+  width: 1024px;
 }
 .card-box {
   width: 240px;
@@ -646,7 +692,17 @@ label::before {
   height: 20px;
   font-size: 12px;
 }
-/* .nav-btn {
-  width: 100px;
-} */
+.lock-img {
+  position: absolute;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0.5rem;
+}
+.limit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0.5rem;
+}
 </style>

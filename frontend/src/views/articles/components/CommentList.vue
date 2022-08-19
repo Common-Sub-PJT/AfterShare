@@ -1,15 +1,18 @@
 <template>
   <router-view :key="this.commentList">
-    <ul class='list-group list-group-flush' v-for="comment in this.commentList" :key="comment.comment_id">
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <p v-if="this.editNum!=comment.comment_id">{{ comment.comment_content }}</p>
-        <input v-else type="text" id="comment" v-model="content" required>
-        <!-- <div> -->
+  <p>댓글 - {{ this.commentList.length }}</p>
+    <ul class='ul-style list-group list-group-flush' v-for="comment in this.commentList" :key="comment.comment_id">
+      <li class="list-group-item li-style">
+        <div>
+          <p class="comment-username">{{ comment.user.name }}</p>
+          <p class="comment-style" v-if="this.editNum!=comment.comment_id">{{ comment.comment_content }}</p>
+          <input v-else type="text" id="comment" v-model="content" required>
+        </div>
         <div v-show="this.currentUser.name===comment.user.name">
-          <button v-if="this.editNum!=comment.comment_id" @click="commentEditSetup(comment)">수정</button>
-          <button v-else @click="commentEdit(comment.comment_id)">적용</button>
-          <button v-if="this.editNum!=comment.comment_id" @click="commentDelete(comment.comment_id)">삭제</button>
-          <button v-else @click="initEditNum">취소</button>
+          <button v-if="this.editNum!=comment.comment_id" @click="commentEditSetup(comment)" class="edit-button"><img class = "edit-img" src="@/assets/edit.png"></button>
+          <button v-else @click="commentEdit(comment.comment_id)" class="btn-style">적용</button>
+          <button v-if="this.editNum!=comment.comment_id" @click="commentDelete(comment.comment_id)"><img class = "edit-img" src="@/assets/x.png"></button>
+          <button v-else @click="initEditNum" class="btn-style">취소</button>
         </div>
       </li>
     </ul>
@@ -82,4 +85,30 @@ export default {
 </script>
 
 <style>
+.comment-username {
+  font-size: 12px;
+  margin: 0;
+}
+.li-style {
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FAFAFA;
+}
+.comment-style {
+  margin: 0;
+}
+.btn-style {
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-left: 10px;
+  padding: 0;
+  width: 96px;
+  height: 32px;
+  border: 0;
+  color: #FFFFFF;
+  background-color: #1B3C33;
+}
 </style>

@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.CommunityRegistPostReq;
+import com.ssafy.api.response.CommentRes;
 import com.ssafy.api.response.CommunityRes;
 import com.ssafy.db.entity.Comment;
 import com.ssafy.db.entity.Community;
@@ -35,7 +36,7 @@ public interface CommunityService {
 
     List<CommunityRes> getListByUserId(String userId);
 
-    List<String> getCommentListByUserId(String userId);
+    List<CommentRes> getCommentListByUserId(String userId);
 
     List<CommunityRes> getPopularList();
 

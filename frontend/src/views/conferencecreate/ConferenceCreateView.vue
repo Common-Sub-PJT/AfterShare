@@ -112,6 +112,7 @@ import { Calendar, DatePicker } from 'v-calendar'
 import { useAccounts } from "@/stores/accounts";
 import { mapState } from 'pinia'
 import router from '@/router'
+import Swal from 'sweetalert2'
 
 
 export default defineComponent ({
@@ -125,7 +126,7 @@ export default defineComponent ({
   },
   data() {
     return {
-      getDate: new Date(),
+      getDate: "",
       date:"",
       calVisible: false,
       sidoVisible: false,
@@ -390,11 +391,26 @@ export default defineComponent ({
           this.createRoom(this.createInfo)
         }else{
           if(this.nameText.length > 0){
-            alert('비밀번호를 입력해주세요.')
+            Swal.fire({
+              title: '비밀번호를 입력해주세요.',
+              confirmButtonColor: '#1b3c33',
+              confirmButtonText: 'Close',
+              showCloseButton: true,
+            })
           }else if(this.passwordGet.length > 0){
-            alert('제목을 입력해주세요.')
+            Swal.fire({
+              title: '제목을 입력해주세요.',
+              confirmButtonColor: '#1b3c33',
+              confirmButtonText: 'Close',
+              showCloseButton: true,
+            })
           }else{
-            alert('제목과 비밀번호를 입력해주세요.')
+            Swal.fire({
+              title: '제목과 비밀번호를 입력해주세요.',
+              confirmButtonColor: '#1b3c33',
+              confirmButtonText: 'Close',
+              showCloseButton: true,
+            })
           }
         }
       }else{
@@ -406,7 +422,6 @@ export default defineComponent ({
           alert('제목을 입력해주세요.')
         }
       }
-      // this.$emit('createClose')
     }
     return {
       // current,

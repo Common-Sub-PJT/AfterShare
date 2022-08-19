@@ -8,12 +8,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 회원 본인 정보 조회 API ([GET] /api/users/me) 요청에 대한 응답값 정의.
+ * 회원 본인 정보 조회 API ([GET] /api/users/profile) 요청에 대한 응답값 정의.
  */
 @Getter
 @Setter
 @ApiModel("UserResponse")
 public class UserRes{
+	@ApiModelProperty(name="user_serial")
+	long user_serial;
+	@ApiModelProperty(name="is_ban")
+	boolean is_ban;
+	@ApiModelProperty(name="is_staff")
+	boolean is_staff;
 	@ApiModelProperty(name="User ID")
 	String userId;
 	@ApiModelProperty(name="name")
@@ -28,10 +34,16 @@ public class UserRes{
 	int follower_cnt;
 	@ApiModelProperty(name="aboutme")
 	String about_me;
+	@ApiModelProperty(name="social_login")
+	int social_login;
 
 
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
+		res.setUser_serial(user.getId());
+		res.set_ban(user.is_ban());
+		System.out.println("==="+user.is_ban());
+		res.set_staff(user.is_staff());
 		res.setUserId(user.getUserId());
 		res.setName(user.getName());
 		res.setEmail(user.getEmail());

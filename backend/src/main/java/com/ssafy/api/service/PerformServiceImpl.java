@@ -47,7 +47,7 @@ public class PerformServiceImpl implements PerformService{
         List<String> startEndDate = getDataPeriod();
 
         //나중에 다른 곳에 빼두기~
-        String serviceKey = "0706bcb651424a1aacad7bb9f3564895";
+        String serviceKey = "";
 
         try{
             //원래의 주소
@@ -100,7 +100,7 @@ public class PerformServiceImpl implements PerformService{
 
         PerformInfoRes res = null;
         //나중에 다른 곳에 빼두기~
-        String serviceKey = "0706bcb651424a1aacad7bb9f3564895";
+        String serviceKey = "";
 
         //공연상세정보 (API 호출 및 xml 파싱)
         res = getPerformDetail(res, serviceKey, mt20id);
