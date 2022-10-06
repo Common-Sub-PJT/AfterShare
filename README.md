@@ -29,7 +29,7 @@
 |Name|김지수|유강현|이성훈|전지수|조다연|차송희|
 |---|:----:|:----:|:----:|:----:|:----:|:----:|
 |**Profile**|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/97648027?v=4"/>|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/97591826?v=4"/>|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/71359353?v=4"/>|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/97648037?v=4"/>|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/97671781?v=4"/>|<img height="100px" width="100px" src="https://avatars.githubusercontent.com/u/44563011?v=4"/>|
-|**Position**|Frontend<br>Reader|Frontend<br>Team Reader<br>Infra|Backend<br>UCC|Frontend<br>Git Assignee|Backend<br>Reader<br>Doc Manager|Backend<br>Git Manager<br>Infra|
+|**Position**|Frontend<br>Leader|Frontend<br>Team Leader<br>Infra|Backend<br>UCC|Frontend<br>Git Assignee|Backend<br>Leader<br>Doc Manager|Backend<br>Git Manager<br>Infra|
 |**Git**|<a href="https://github.com/jijisusu3">@jijisusu3</a>|<a href="https://github.com/kanyu97">@kanyu97</a>|<a href="https://github.com/Lee-sung-hoon">@Lee-sung-hoon</a>|<a href="https://github.com/zyyyyyysoo">@zyyyyyysoo</a>|<a href="https://github.com/dus6982">@dus6982</a>|<a href="https://github.com/chasonghui">@chasonghui</a>|   
 * * *
 <br>
